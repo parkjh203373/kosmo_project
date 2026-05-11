@@ -1,4 +1,6 @@
-src/main/resources/application-dev.properties
+### Custom ###
+application-dev.properties
+
 
 HELP.md
 .gradle
