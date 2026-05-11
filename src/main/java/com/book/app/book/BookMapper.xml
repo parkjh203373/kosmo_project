@@ -42,7 +42,8 @@
 	    <result column="BOOK_PUBLISHER" property="bookPublisher"/>
 	    <result column="BOOK_DATE" property="bookDate"/>
 	    <result column="BOOK_STATUS" property="bookStatus"/>
-	    <result column="BOOK_IMAGE" property="bookImage"/> 
+	    <result column="BOOK_IMAGE" property="bookImage"/>
+	    <result column="BOOK_CONTENTS" property="bookContents"/>
 	
 	    <association property="rentDTO" javaType="RentDTO">
 	        <result column="RENT_DATE" property="rentDate"/>
@@ -51,7 +52,7 @@
 	</resultMap>
 	
 	<insert id="create" parameterType="BookDTO" useGeneratedKeys="true" keyProperty="bookNum">
-        INSERT INTO TB_BOOK (
+        INSERT INTO "TB_BOOK" (
             "BOOK_TITLE",
             "BOOK_AUTHOR",
             "BOOK_PUBLISHER",
