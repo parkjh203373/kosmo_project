@@ -9,7 +9,7 @@ import com.book.app.pager.Pager;
 @Mapper
 public interface BookMapper {
 	
-	public Long getCount() throws Exception;
+	public Long getCount(Pager pager) throws Exception;
 	
 	public List<BookDTO> list(Pager pager) throws Exception;
 	

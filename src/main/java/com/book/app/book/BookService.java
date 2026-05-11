@@ -14,7 +14,7 @@ public class BookService {
 	private BookMapper bookMapper;
 	
 	public List<BookDTO> list(Pager pager) throws Exception {
-		pager.makePageNum(bookMapper.getCount());
+		pager.makePageNum(bookMapper.getCount(pager));
 		pager.makeStartNum();
 		return bookMapper.list(pager);
 	}
