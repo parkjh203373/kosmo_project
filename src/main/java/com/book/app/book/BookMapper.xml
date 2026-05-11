@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.book.app.book.BookMapper">
+	<select id="getCount">
+		SELECT COUNT("BOOK_NUM") FROM "TB_BOOK"
+		<include refid="search_sql"></include>
+	</select>
+
+	<sql id="search_sql">
+		WHERE
+			<choose>
+				<when test="kind=='v2'">"BOOK_AUTHOR"</when>
+				<otherwise>"BOOK_TITLE"</otherwise>
+			</choose>
+		LIKE CONCAT('%', #{search}, '%')
+	</sql>
+	
+	<select id="list" parameterType="Pager">
+		SELECT * FROM "TB_BOOK"
+	    <include refid="search_sql"></include>
+	    ORDER BY "BOOK_NUM" DESC
+	    LIMIT #{perPage} OFFSET #{startNum}
+	</select>
+	
+	<select id="detail" parameterType="BookDTO" resultMap="detailResult">
+	    SELECT B.*, R."RENT_DATE", R."DUE_DATE"
+	    FROM "TB_BOOK" B
+	    LEFT JOIN "TB_RENT" R ON B."BOOK_NUM" = R."BOOK_NUM"
+	    WHERE B."BOOK_NUM" = #{bookNum}
+	    ORDER BY R."RENT_DATE" DESC
+	    LIMIT 1
+	</select>
+	
+	<resultMap type="BookDTO" id="detailResult">
+	    <id column="BOOK_NUM" property="bookNum"/>
+	    <result column="BOOK_TITLE" property="bookTitle"/>
+	    <result column="BOOK_AUTHOR" property="bookAuthor"/>
+	    <result column="BOOK_PUBLISHER" property="bookPublisher"/>
+	    <result column="BOOK_DATE" property="bookDate"/>
+	    <result column="BOOK_STATUS" property="bookStatus"/>
+	    <result column="BOOK_IMAGE" property="bookImage"/> 
+	
+	    <association property="rentDTO" javaType="RentDTO">
+	        <result column="RENT_DATE" property="rentDate"/>
+	        <result column="DUE_DATE" property="dueDate"/>
+	    </association>
+	</resultMap>
+	
+	<insert id="create" parameterType="BookDTO" useGeneratedKeys="true" keyProperty="bookNum">
+        INSERT INTO TB_BOOK (
+            "BOOK_TITLE",
+            "BOOK_AUTHOR",
+            "BOOK_PUBLISHER",
+            "BOOK_DATE",
+            "BOOK_STATUS",
+            "BOOK_IMAGE",
+            "BOOK_CONTENTS"
+        ) VALUES (
+            #{bookTitle},
+            #{bookAuthor},
+            #{bookPublisher},
+            TO_DATE(#{bookDate}, 'YYYYMMDD'),
+            '대출가능',
+            #{bookImage},
+            #{bookContents}
+        )
+    </insert>
+    
+    <update id="update" parameterType="BookDTO">
+		UPDATE "TB_BOOK"
+		SET
+			"BOOK_TITLE" = #{bookTitle},
+			"BOOK_AUTHOR" = #{bookAuthor},
+			"BOOK_PUBLISHER" = #{bookPublisher},
+			"BOOK_DATE" = TO_DATE(#{bookDate}, 'YYYYMMDD'),
+			"BOOK_STATUS" = #{bookStatus},
+			"BOOK_IMAGE" = #{bookImage},
+			"BOOK_CONTENTS" = #{bookContents}
+		WHERE "BOOK_NUM" = #{bookNum}
+	</update>
+	
+	<update id="updateStatus" parameterType="BookDTO">
+	    UPDATE "TB_BOOK"
+	    SET
+	        "BOOK_STATUS" = #{bookStatus}
+	    WHERE "BOOK_NUM" = #{bookNum}
+	</update>
+	
+	<delete id="delete" parameterType="BookDTO">
+		DELETE FROM "TB_BOOK"
+		WHERE "BOOK_NUM" = #{bookNum}
+	</delete>
+
+</mapper>
