@@ -5,20 +5,36 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.book.app.member.MemberMapper">
-	<select id="detail" parameterType="MemberDTO">
-		SELECT * FROM "TB_MEMBER"
+	<select id="detail" parameterType="MemberDTO" resultMap="detailResult">
+		SELECT * 
+		FROM "TB_MEMBER" M
+			LEFT JOIN "TB_PROFILE" F
+			USING("MEMBER_NUM")
 		WHERE "USERNAME"=#{username}
 	</select>
 	
-	<insert id="create" parameterType="MemberDTO" >
+	<insert id="create" parameterType="MemberDTO" useGeneratedKeys="true" keyProperty="memberNum">
 		INSERT INTO "TB_MEMBER"
 		VALUES (default, #{username}, #{password}, #{memberName}, #{memberBirth}, #{memberEmail})
 	</insert>
 
-	<insert id="addPorfile" parameterType="ProfileDTO">
+	<insert id="addProfile" parameterType="ProfileDTO">
 		INSERT INTO "TB_PROFILE"
-		VALUES (default, #{profileName}, #{profileOriname}, #{memberNum})
+		VALUES (default, #{fileName}, #{oriName}, #{memberNum})
 	</insert>
-
+	
+	<resultMap type="MemberDTO" id="detailResult">
+		<id column="MEMBER_NUM" property="memberNum"/>
+		<result column="USERNAME" property="username"/>
+		<result column="PASSWORD" property="password"/>
+		<result column="MEMBER_NAME" property="memberName"/>
+		<result column="MEMBER_BIRTH" property="memberBirth"/>
+		<result column="MEMBER_EMAIL" property="memberEmail"/>
+		<association property="profileDTO" javaType="com.book.app.member.ProfileDTO">
+			<id column="MEMBER_NUM" property="memberNum"/>
+			<result column="FILE_NAME" property="fileName"/>
+			<result column="ORI_NAME" property="oriName"/>
+		</association>
+	</resultMap>
 
 </mapper>

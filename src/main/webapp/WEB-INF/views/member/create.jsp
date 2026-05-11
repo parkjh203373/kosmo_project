@@ -3,15 +3,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <title>회원가입 페이지</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 <body>
-	<div>
-		<h2>회원가입 홈페이지</h2>
-	</div>
 
-	<form method="post">
+	<form action="/member/create" method="post" enctype="multipart/form-data">
 		
 		<div class="form-group">
 			<label for="username">아이디</label> 
@@ -39,7 +39,7 @@
 
 		<div class="form-group">
 			<label for="porfileName">프로필사진</label> 
-			<input type="file" class="form-control-file" name="porfileName" id="porfileName">
+			<input type="file" class="form-control-file" name="attach" id="porfileName">
 		</div>
 
 		<button type="submit" class="btn btn-primary">Submit</button>

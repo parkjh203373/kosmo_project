@@ -17,4 +17,6 @@ public class MemberDTO {
 	private String memberName;
 	private LocalDate memberBirth;
 	private String memberEmail;
+	
+	private ProfileDTO profileDTO;
 }

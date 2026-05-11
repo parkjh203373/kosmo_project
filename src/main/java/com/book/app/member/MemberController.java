@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -20,8 +22,8 @@ public class MemberController {
 	public void create() throws Exception{}
 	
 	@PostMapping("create")
-	public String create(MemberDTO memberDTO) throws Exception {
-	    int result = memberService.create(memberDTO);
+	public String create(MemberDTO memberDTO, @RequestParam("attach") MultipartFile attach) throws Exception {
+	    int result = memberService.create(memberDTO, attach);
 
         return "redirect:/"; 
 	}
@@ -30,12 +32,13 @@ public class MemberController {
 	public void login() throws Exception{}
 	
 	@PostMapping("login")
-	public String login(MemberDTO memberDTO, HttpSession session) throws Exception{
-		MemberDTO checkId = memberService.detail(memberDTO);
+	public String login(MemberDTO memberDTO, Model model, HttpSession session) throws Exception{
+		MemberDTO checkLogin = memberService.detail(memberDTO);
 				
-		if(checkId != null
-				&& checkId.getPassword().equals(memberDTO.getPassword())) {
+		if(checkLogin != null
+				&& checkLogin.getPassword().equals(memberDTO.getPassword())) {
 			System.out.println("로그인 성공");
+			session.setAttribute("member", checkLogin);
 			return "redirect:/";
 		}
 		else {
@@ -45,4 +48,25 @@ public class MemberController {
 				
 	}
 	
+	@GetMapping("mypage")
+	public String mypage(HttpSession session, Model model) throws Exception {
+	    
+	    MemberDTO loginMember = (MemberDTO) session.getAttribute("member");
+
+	    System.out.println("세션에서 가져온 회원 정보: " + loginMember);
+	    if (loginMember == null) {
+	        return "redirect:/member/login";
+	    }
+
+	    MemberDTO memberDTO = memberService.detail(loginMember);
+	    System.out.println(memberDTO.getProfileDTO().getFileName());
+	    model.addAttribute("member", memberDTO);
+	    return "member/mypage";
+	}
+	
+	@GetMapping("logout")
+	public String logout(HttpSession session) throws Exception{
+		session.invalidate();
+	    return "redirect:/";
+	}
 }
