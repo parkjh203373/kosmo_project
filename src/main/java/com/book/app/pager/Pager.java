@@ -18,6 +18,7 @@ public class Pager {
 	private Long end;
 	private boolean pre = true;
 	private boolean next = true;
+	private String username;
 	
 	public Long getPage() {
 		if(page==null || page<1) {

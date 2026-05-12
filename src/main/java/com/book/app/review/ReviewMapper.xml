@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.book.app.review.ReviewMapper">
+  	
+	<insert id="create" parameterType="ReviewDTO">
+	    INSERT INTO "TB_REVIEW" (
+	        "REVIEW_NUM", 
+	        "REVIEW_CONTENTS", 
+	        "REVIEW_RATING", 
+	        "REVIEW_DATE", 
+	        "BOOK_NUM", 
+	        "USERNAME"
+	    ) VALUES (
+	        DEFAULT,
+	        #{reviewContents},
+	        #{reviewRating},
+	        NOW(),
+	        #{bookNum},
+	        #{username}
+	    )
+	</insert>
+	
+	<select id="list" parameterType="ReviewDTO" resultType="ReviewDTO">
+	    SELECT 
+	        R.*, 
+	        M."USERNAME"
+	    FROM "TB_REVIEW" R
+	    INNER JOIN "TB_MEMBER" M ON R."USERNAME" = M."USERNAME"
+	    WHERE R."BOOK_NUM" = #{bookNum}
+	    ORDER BY R."REVIEW_NUM" DESC
+	</select>
+	
+	<update id="update" parameterType="ReviewDTO">
+	    UPDATE "TB_REVIEW"
+	    SET 
+	        "REVIEW_CONTENTS" = #{reviewContents},
+	        "REVIEW_RATING" = #{reviewRating},
+	        "REVIEW_DATE" = now()
+	    WHERE "REVIEW_NUM" = #{reviewNum} 
+	    AND "USERNAME" = #{username}
+	</update>
+	
+	<delete id="delete" parameterType="ReviewDTO">
+    	DELETE FROM "TB_REVIEW"
+    	WHERE "REVIEW_NUM" = #{reviewNum}
+	</delete>
+
+
+</mapper>

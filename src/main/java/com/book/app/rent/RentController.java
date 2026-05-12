@@ -24,7 +24,7 @@ public class RentController {
 	        return "redirect:/member/login"; 
 	    }
 		
-		rentDTO.setMemberNum(memberDTO.getMemberNum());
+		rentDTO.setUsername(memberDTO.getUsername());
 		
 		int result = rentService.create(rentDTO);
 		

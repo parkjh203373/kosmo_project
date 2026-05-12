@@ -1,0 +1,135 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Book</title>
+<c:import url="/WEB-INF/views/temp/head_css.jsp"></c:import>
+</head>
+<body id="page-top">
+<div id="wrapper">
+		<c:import url="/WEB-INF/views/temp/sidebar.jsp"></c:import>
+		<div id="content-wrapper" class="d-flex flex-column">
+			<div id="content">
+				<c:import url="/WEB-INF/views/temp/topbar.jsp"></c:import>
+				<div class="container-fluid">
+				<h1 class="h3 mb-4 text-gray-800">찜 목록</h1>
+                    <div class="row justify-content-center">
+	           	    	<div class="col-6">
+	           	        	<!-- 검색 폼 -->
+	                 	  	<div class="d-sm-flex align-items-center justify-content-between mb-4">
+							    <h1 class="h3 mb-0 text-gray-800">찜 목록</h1>
+							</div>
+							
+							<div class="card shadow mb-4">
+							    <div class="card-body">
+							        <form action="./wishlist/list" method="get" class="form-inline justify-content-center">
+							            <select name="kind" class="custom-select mr-2">
+							                <option ${pager.kind eq 'v1'?'selected':''} value="v1">제목</option>
+							                <option ${pager.kind eq 'v2'?'selected':''} value="v2">저자</option>
+							            </select>
+							            <input type="text" name="search" value="${pager.search}" class="form-control mr-2 w-50" placeholder="검색어를 입력하세요">
+							            <button class="btn btn-primary" type="submit">검색</button>
+							        </form>
+							    </div>
+							</div>
+	                    
+	                    	<table class="table table-hover shadow-sm bg-white rounded">
+							    <thead class="thead-dark">
+							        <tr>
+							            <th class="text-center">표지</th>
+							            <th>도서 정보</th>
+							            <th class="text-center">출판일</th>
+							            <th class="text-center">대출 여부</th>
+							            <th class="text-center" style="width: 15%;">더 보기</th>
+							        </tr>
+							    </thead>
+							    <tbody>
+							        <c:forEach items="${list}" var="d">
+							            <tr>
+							                <td class="text-center" style="width: 120px;">
+							                    <c:choose>
+											        <c:when test="${not empty d.bookDTO.bookImage}">
+											            <img src="${d.bookDTO.bookImage}" class="img-fluid rounded shadow-sm" style="max-height: 120px;" alt="도서 표지">
+											        </c:when>
+											        <c:otherwise>
+											            <%-- 이미지가 없을 때 보여줄 기본 UI --%>
+											            <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height: 120px; color: #ccc;">No Image</div>
+											        </c:otherwise>
+											    </c:choose>
+							                </td>
+							                <td class="align-middle">
+							                    <div class="font-weight-bold mb-1" style="font-size: 1.1rem;">
+							                        <a href="./detail?bookNum=${d.bookDTO.bookNum}&page=${pager.page}&kind=${pager.kind}&search=${pager.search}" class="text-decoration-none text-dark">${d.bookDTO.bookTitle}</a>
+							                    </div>
+							                    <div class="small text-muted">
+							                        저자: ${d.bookDTO.bookAuthor}</div>
+							                </td>
+							                <td class="align-middle text-center">
+							                    <span class="badge badge-dark">${d.bookDTO.bookDate}</span> </td>
+							                <td class="align-middle text-center">
+							                	<c:choose>
+												    <c:when test="${d.bookDTO.bookStatus eq '대출가능'}">
+												    	<span class="badge badge-pill badge-success px-3 py-2">
+												            <i class="fas fa-check-circle mr-1"></i> 대출 가능
+												        </span>
+												    </c:when>
+											        <c:when test="${d.bookDTO.bookStatus eq '대출중'}">
+											            <span class="badge badge-pill badge-danger px-3 py-2">
+											                <i class="fas fa-minus-circle mr-1"></i> 대출 중
+											            </span>
+											        </c:when>
+											        <c:otherwise>
+											            <span class="badge badge-pill badge-secondary px-3 py-2">
+											                <i class="fas fa-exclamation-triangle mr-1"></i> ${d.bookDTO.bookStatus}
+											            </span>
+											        </c:otherwise>
+											    </c:choose>
+							                </td>
+							                <td class="align-middle text-center">
+							                    <a href="/book/detail?bookNum=${d.bookDTO.bookNum}&page=${pager.page}&kind=${pager.kind}&search=${pager.search}&from=wishlist" class="btn btn-sm btn-outline-primary">상세보기</a>
+							                </td>
+							            </tr>
+							        </c:forEach>
+							    </tbody>
+							</table>
+	                    	
+	                    	<div class="d-flex justify-content-center mt-4">
+							    <nav aria-label="Page navigation">
+							        <ul class="pagination shadow-sm">
+							            <li class="page-item ${pager.pre ? '' : 'disabled'}">
+							                <a class="page-link" href="./list?page=${pager.start-1}&search=${pager.search}&kind=${pager.kind}">이전</a>
+							            </li>
+							            
+							            <c:forEach begin="${pager.start}" end="${pager.end}" var="i">
+							                <li class="page-item ${pager.page == i ? 'active' : ''}">
+							                    <a class="page-link" href="./list?page=${i}&search=${pager.search}&kind=${pager.kind}">${i}</a>
+							                </li>
+							            </c:forEach>
+							            
+							            <li class="page-item ${pager.next ? '' : 'disabled'}">
+							                <a class="page-link" href="./list?page=${pager.end+1}&search=${pager.search}&kind=${pager.kind}">다음</a>
+							            </li>
+							        </ul>
+							    </nav>
+							</div>
+	                    	
+	                    </div>
+                    </div>
+                    </div>
+                <!-- end container-fluid -->
+			</div>
+			<!-- end content -->
+			<c:import url="/WEB-INF/views/temp/footer.jsp"></c:import>
+		</div>
+		<!-- end content-wrapper -->
+	</div>
+	<!-- end wrapper -->
+	<c:import url="/WEB-INF/views/temp/footer_script.jsp"></c:import>
+                    
+                    
+                    
+</body>
+</html>

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -115,20 +116,38 @@
 										</c:choose>
 									</form>
 
-									<a
-										href="./list?page=${pager.page}&kind=${pager.kind}&search=${pager.search}"
-										class="btn btn-primary"> 목록으로 </a>
+									<c:choose>
+							            <c:when test="${param.from eq 'wishlist'}">
+							                <a href="/wishlist/list?page=${pager.page}&kind=${pager.kind}&search=${pager.search}"
+							                   class="btn btn-primary"> 목록으로 </a>
+							            </c:when>
+							            <c:otherwise>
+							                <a href="./list?page=${pager.page}&kind=${pager.kind}&search=${pager.search}"
+							                   class="btn btn-primary"> 목록으로 </a>
+							            </c:otherwise>
+							        </c:choose>
 
 								</div>
 								<div class="d-flex">
-									<a class="btn btn-info mr-2"
-										href="./update?bookNum=${d.bookNum}&page=${pager.page}&kind=${pager.kind}&search=${pager.search}">수정</a>
+									<c:if test="${param.from ne 'wishlist'}">
+								        <a class="btn btn-info mr-2" href="./update?bookNum=${d.bookNum}&page=${pager.page}&kind=${pager.kind}&search=${pager.search}">수정</a>
+								    </c:if>
 
-									<form action="./delete" method="post" class="mb-0"
-										onsubmit="return confirm('정말 삭제하시겠습니까?');">
-										<input type="hidden" name="bookNum" value="${d.bookNum}">
-										<button type="submit" class="btn btn-danger">삭제</button>
-									</form>
+									<c:choose>
+								        <c:when test="${param.from eq 'wishlist'}">
+								            <form action="/wishlist/delete" method="post" class="mb-0" onsubmit="return confirm('찜 목록에서 삭제하시겠습니까?');">
+								                <input type="hidden" name="bookNum" value="${d.bookNum}">
+								                <button type="submit" class="btn btn-warning mr-3">찜 취소</button>
+								            </form>
+								        </c:when>
+								        <c:otherwise>
+								            <form action="./delete" method="post" class="mb-0" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+								                <input type="hidden" name="bookNum" value="${d.bookNum}">
+								                <button type="submit" class="btn btn-danger mr-2">삭제</button>
+								            </form>
+								            <button class="btn btn-info mr-3" id="create" data-pn="${d.bookNum}">찜 하기</button>
+								        </c:otherwise>
+								    </c:choose>
 								</div>
 							</div>
 						</div>
@@ -136,11 +155,11 @@
 					<hr class="my-5">
 					<div class="row justify-content-center">
 						<!-- 중앙 정렬 -->
-						<div class="col-lg-8">
+						<div class="col-lg-6">
 							<!-- 가로 너비를 적당히 제한 (전체 12 중 10 사용) -->
 							<div class="card shadow mb-4">
 								<div class="card-header py-3">
-									<h6 class="m-0 font-weight-bold text-primary">상품 후기 (댓글)</h6>
+									<h6 class="m-0 font-weight-bold text-primary">도서 후기(리뷰)</h6>
 								</div>
 								<div class="card-body">
 									<!-- 댓글 리스트 영역 -->
@@ -152,12 +171,10 @@
 									<div class="border-top pt-3">
 										<div class="form-row align-items-center mb-2">
 											<div class="col-auto">
-												<label for="review_star"
-													class="mb-0 font-weight-bold text-small">평점</label>
+												<label for="review_rating" class="mb-0 font-weight-bold text-small">별점</label>
 											</div>
 											<div class="col-md-2 col-4">
-												<select class="form-control form-control-sm"
-													id="review_star">
+												<select class="form-control form-control-sm" id="review_rating">
 													<option value="5">★★★★★</option>
 													<option value="4">★★★★☆</option>
 													<option value="3">★★★☆☆</option>
@@ -171,11 +188,11 @@
 										<!-- 입력창과 버튼의 가로 배치를 최적화 -->
 										<div class="form-group mb-0">
 											<textarea id="review_contents" class="form-control" rows="3"
-												placeholder="따뜻한 댓글 한 줄을 남겨주세요."></textarea>
+												placeholder="리뷰를 남겨주세요."></textarea>
 											<div class="text-right mt-2">
 												<!-- 버튼을 오른쪽 아래로 배치하여 가로 부담 감소 -->
 												<button class="btn btn-primary btn-sm px-4" type="button"
-													id="review_add">댓글 등록</button>
+													id="review_add">리뷰 등록</button>
 											</div>
 										</div>
 									</div>
@@ -201,8 +218,8 @@
 			        </button>
 			      </div>
 			      <div class="modal-body">
-			        <label for="review_star" class="mb-0 mr-2 font-weight-bold">평점 : </label>
-						<select class="form-control col-4" id="star_update">
+			        <label for="review_rating" class="mb-0 mr-2 font-weight-bold">평점 : </label>
+						<select class="form-control col-4" id="rating_update">
 							<option value="5">★★★★★</option>
 							<option value="4">★★★★☆</option>
 							<option value="3">★★★☆☆</option>
@@ -221,5 +238,7 @@
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/temp/footer_script.jsp"></c:import>
+		
+		<script src="/js/book/review.js"></script>
 </body>
 </html>

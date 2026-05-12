@@ -6,18 +6,18 @@
 <mapper namespace="com.book.app.rent.RentMapper">
 	
 	<insert id="create" parameterType="RentDTO">
-        INSERT INTO "TB_RENT" (
+        INSERT INTO "TB_BOOKRENT" (
             "RENT_NUM", 
             "RENT_DATE", 
             "DUE_DATE", 
             "BOOK_NUM", 
-            "MEMBER_NUM"
+            "USERNAME"
         ) VALUES (
             DEFAULT,
             CURRENT_TIMESTAMP,
-            CURRENT_TIMESTAMP + INTERVAL '7 days',
+            CURRENT_TIMESTAMP + INTERVAL '10 days',
             #{bookNum},
-            #{memberNum}
+            #{username}
         )
     </insert>
 

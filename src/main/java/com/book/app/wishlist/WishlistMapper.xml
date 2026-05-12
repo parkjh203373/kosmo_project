@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.book.app.wishlist.WishlistMapper">
+
+	<sql id="search_sql">
+	    <choose>
+	        <when test="pager.kind == 'v2'">"BOOK_AUTHOR"</when>
+	        <otherwise>"BOOK_TITLE"</otherwise>
+	    </choose>
+	    LIKE CONCAT('%', #{pager.search}, '%')
+	</sql>
+	
+	<!-- 찜 목록 개수 조회 (검색 조건 포함) -->
+	<select id="getCount" parameterType="Pager" resultType="Long">
+	    SELECT COUNT(W."BOOK_NUM") 
+	    FROM "TB_WISHLIST" W
+	    INNER JOIN "TB_BOOK" B ON W."BOOK_NUM" = B."BOOK_NUM"
+	    WHERE W."USERNAME" = #{username}
+	    <!-- getCount는 Pager 자체가 파라미터이므로 search_sql 내용을 직접 적거나 별도로 관리해야 함 -->
+	    AND (
+	        <choose>
+	            <when test="kind == 'v2'">"BOOK_AUTHOR"</when>
+	            <otherwise>"BOOK_TITLE"</otherwise>
+	        </choose>
+	        LIKE CONCAT('%', #{search}, '%')
+	    )
+	</select>
+
+	<delete id="delete" parameterType="WishlistDTO">
+		DELETE FROM "TB_WISHLIST"
+		WHERE "USERNAME" = #{username} AND "BOOK_NUM" = #{bookNum}
+	</delete>
+  	
+	<insert id="create" parameterType="WishlistDTO">
+		INSERT INTO "TB_WISHLIST" VALUES (#{username}, #{bookNum})
+	</insert>
+	
+	<select id="list" resultMap="WishlistResult">
+	    SELECT W.*, B.*
+	    FROM "TB_WISHLIST" W
+	    INNER JOIN "TB_BOOK" B ON W."BOOK_NUM" = B."BOOK_NUM"
+	    WHERE W."USERNAME" = #{wish.username}
+	    AND (<include refid="search_sql" />)
+	    ORDER BY W."BOOK_NUM" DESC
+	    LIMIT #{pager.perPage} OFFSET #{pager.startNum}
+	</select>
+	
+	<resultMap type="WishlistDTO" id="WishlistResult">
+        <result column="USERNAME" property="username"/>
+        <result column="BOOK_NUM" property="bookNum"/>
+        <association property="bookDTO" javaType="BookDTO">
+            <id column="BOOK_NUM" property="bookNum"/>
+            <result column="BOOK_TITLE" property="bookTitle"/>
+            <result column="BOOK_AUTHOR" property="bookAuthor"/>
+            <result column="BOOK_PUBLISHER" property="bookPublisher"/>
+            <result column="BOOK_DATE" property="bookDate"/>
+            <result column="BOOK_IMAGE" property="bookImage"/>
+            <result column="BOOK_STATUS" property="bookStatus"/>
+            <result column="BOOK_CONTENTS" property="bookContents"/>
+        </association>
+    </resultMap>
+
+</mapper>

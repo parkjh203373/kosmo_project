@@ -51,8 +51,17 @@
 							</div>
 						</div>
 					</form>
-				</div></li>
-	
+				</div>
+			</li>
+			<li class="nav-item dropdown no-arrow mx-1">
+			    <a class="nav-link" href="/wishlist/list" id="wishlistLink" role="button" title="찜 목록">
+			        <i class="fas fa-heart fa-fw text-danger"></i>
+			        <!-- 찜 개수 표시가 필요하다면 아래 badge 사용 -->
+			        <c:if test="${not empty wishCount and wishCount > 0}">
+			            <span class="badge badge-danger badge-counter">${wishCount}</span>
+			        </c:if>
+			    </a>
+			</li>
 			<!-- Nav Item - Alerts -->
 			<li class="nav-item dropdown no-arrow mx-1"><a
 				class="nav-link dropdown-toggle" href="#" id="alertsDropdown"
@@ -163,14 +172,18 @@
 			<div class="topbar-divider d-none d-sm-block"></div>
 	
 			<!-- Nav Item - User Information -->
-			<li class="nav-item dropdown no-arrow"><a
-				class="nav-link dropdown-toggle" href="#" id="userDropdown"
-				role="button" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="false"> <span
-					class="mr-2 d-none d-lg-inline text-gray-600 small">${member.name}
-					</span> <img class="img-profile rounded-circle"
-					src="/files/member/${member.memberFileDTO.fileName}">
-			</a> <!-- Dropdown - User Information -->
+			<li class="nav-item dropdown no-arrow">
+			    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown">
+			        <span class="mr-2 d-none d-lg-inline text-gray-600 small">${member.username}</span>
+			        <c:choose>
+			            <c:when test="${not empty member.profileDTO.fileName}">
+			                <img class="img-profile rounded-circle" src="/files/member/${member.profileDTO.fileName}">
+			            </c:when>
+			            <c:otherwise>
+			                <img class="img-profile rounded-circle" src="/img/undraw_profile.svg"> <!-- 기본 프로필 이미지 -->
+			            </c:otherwise>
+			        </c:choose>
+			    </a> <!-- Dropdown - User Information -->
 				<div
 					class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
 					aria-labelledby="userDropdown">
@@ -194,7 +207,7 @@
 		
 		<c:if test="${empty member}">
 			<li class="nav-item mx-3">
-				<a href="/member/join"><i class="fas fa-user-plus"></i></a>
+				<a href="/member/create"><i class="fas fa-user-plus"></i></a>
 			</li>
 			<li class="nav-item mx-3">
 				<a href="/member/login"><i class="fas fa-sign-in-alt"></i></a>
