@@ -37,7 +37,13 @@
 	</delete>
   	
 	<insert id="create" parameterType="WishlistDTO">
-		INSERT INTO "TB_WISHLIST" VALUES (#{username}, #{bookNum})
+	    INSERT INTO "TB_WISHLIST" (
+	        "USERNAME", 
+	        "BOOK_NUM"
+	    ) VALUES (
+	        #{username}, 
+	        #{bookNum}
+	    )
 	</insert>
 	
 	<select id="list" resultMap="WishlistResult">
