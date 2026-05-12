@@ -15,6 +15,19 @@ class MemberServiceTest {
 	private MemberMapper memberMapper;
 
 //	@Test
+//	void testDeleteId() throws Exception{
+//		MemberDTO memberDTO = new MemberDTO();
+//		ProfileDTO profileDTO = new ProfileDTO();
+//				
+//		memberDTO.setMemberNum(9L);
+//		profileDTO.setMemberNum(memberDTO.getMemberNum());
+//				
+//		memberMapper.deleteProfile(profileDTO);
+//		memberMapper.deleteId(memberDTO);
+//		
+//	}
+	
+//	@Test
 //	void testDetail() throws Exception{
 //		MemberDTO memberDTO = new MemberDTO();
 //	    memberDTO.setMemberNum(2L); // 조회하고 싶은 번호 세팅

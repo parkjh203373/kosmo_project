@@ -43,7 +43,8 @@ public class MemberController {
 		}
 		else {
 			System.out.println("로그인 실패");
-			return "./login";
+			System.out.println(model.getAttribute("memberDTO"));
+			return "/member/login";
 		}
 				
 	}
@@ -68,5 +69,11 @@ public class MemberController {
 	public String logout(HttpSession session) throws Exception{
 		session.invalidate();
 	    return "redirect:/";
+	}
+	
+	@GetMapping("delete")
+	public String deleteId(MemberDTO memberDTO) throws Exception {
+		int result = memberService.deleteId(memberDTO);
+		return "redirect:/";
 	}
 }

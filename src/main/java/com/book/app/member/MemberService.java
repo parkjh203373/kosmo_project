@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.book.app.file.FileDTO;
 import com.book.app.file.FileManager;
 
 
@@ -41,5 +42,37 @@ public class MemberService {
 		}
 		
 		return result;
+	}
+	
+	public int deleteId(MemberDTO memberDTO) throws Exception {
+	    System.out.println("Service 진입 - 삭제 요청 번호: " + memberDTO.getMemberNum());
+
+	    if (memberDTO.getMemberNum() == null || memberDTO.getMemberNum() == 0) {
+	        System.out.println("탈퇴 실패: 회원 번호가 넘어오지 않았습니다.");
+	        return 0;
+	    }
+	    
+	    MemberDTO detail = memberMapper.detail(memberDTO); 
+
+	   if (detail.getProfileDTO() != null && detail.getProfileDTO().getFileName() != null) {
+		   String fileName = detail.getProfileDTO().getFileName();
+	            
+	       FileDTO fileDTO = new FileDTO();
+	       fileDTO.setFileName(fileName);
+	       
+	       boolean isDeleted = fileManager.fileDelete(name, fileDTO);
+	            
+	    }
+	    
+	    ProfileDTO profileDTO = new ProfileDTO();
+	    profileDTO.setMemberNum(memberDTO.getMemberNum());
+	    
+	    int result = memberMapper.deleteProfile(profileDTO);
+	    
+	    if(result > 0) {
+	        result = memberMapper.deleteId(memberDTO);
+	    }
+
+	    return result;
 	}
 }

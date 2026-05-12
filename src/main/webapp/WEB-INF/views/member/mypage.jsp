@@ -45,7 +45,7 @@
 		</div>
 		
 		<a href="./update" class="btn btn-success">정보 수정</a>
-		<a href="./delete" class="btn btn-danger">회원 탈퇴</a>
+		<a href="./delete?memberNum=${member.memberNum}" class="btn btn-danger">회원 탈퇴</a>
 		<a href="./logout" class="btn btn-info">로그아웃</a>
 	</div>
 	
