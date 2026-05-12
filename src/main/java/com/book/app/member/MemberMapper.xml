@@ -10,7 +10,14 @@
 		FROM "TB_MEMBER" M
 			LEFT JOIN "TB_PROFILE" F
 			USING("MEMBER_NUM")
-		WHERE "USERNAME"=#{username}
+		<where>
+        <if test="memberNum != null and memberNum != 0">
+            AND "MEMBER_NUM" = #{memberNum}
+        </if>
+        <if test="username != null and username != ''">
+            AND "USERNAME" = #{username}
+        </if>
+    </where>
 	</select>
 	
 	<insert id="create" parameterType="MemberDTO" useGeneratedKeys="true" keyProperty="memberNum">
@@ -22,6 +29,16 @@
 		INSERT INTO "TB_PROFILE"
 		VALUES (default, #{fileName}, #{oriName}, #{memberNum})
 	</insert>
+		
+	<delete id="deleteProfile" parameterType="ProfileDTO">
+		DELETE FROM "TB_PROFILE"
+		WHERE "MEMBER_NUM" = #{memberNum}
+	</delete>
+	
+	<delete id="deleteId" parameterType="MemberDTO">
+		DELETE FROM "TB_MEMBER"
+		WHERE "MEMBER_NUM" = #{memberNum}
+	</delete>
 	
 	<resultMap type="MemberDTO" id="detailResult">
 		<id column="MEMBER_NUM" property="memberNum"/>
