@@ -11,5 +11,5 @@ import lombok.ToString;
 @ToString
 public class ProfileDTO extends FileDTO{
 
-	private Long memberNum;
+	private String username;
 }
