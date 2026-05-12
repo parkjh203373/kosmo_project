@@ -7,12 +7,11 @@
 <mapper namespace="com.book.app.dealboard.DealboardMapper">
 
 	<select id="detail" parameterType="DealboardDTO" resultMap="dealboardResult">
-		SELECT * 
-	    FROM "TB_DEALBOARD" D
-	    LEFT JOIN "TB_OLDBOOK" O ON D."OLDBOOK_NUM" = O."OLDBOOK_NUM"
-	    LEFT JOIN "TB_OLDBOOKFILE" F ON O."OLDBOOK_NUM" = F."OLDBOOK_NUM"
-	    WHERE D."USERNAME" = #{username}
-	</select>
+		SELECT * FROM "TB_DEALBOARD" D
+		LEFT JOIN "TB_OLDBOOK" O ON D."OLDBOOK_NUM" = O."OLDBOOK_NUM"
+		LEFT JOIN "TB_OLDBOOKFILE" F ON O."OLDBOOK_NUM" = F."OLDBOOK_NUM"
+		WHERE D."DEALBOARD_NUM" = #{dealboardNum} 
+    </select>
 
 	<select id="getTotalCount" parameterType="Pager" resultType="Long">
 	SELECT COUNT(*) FROM "TB_DEALBOARD"
@@ -51,9 +50,12 @@
         <result column="OLDBOOK_PRICE" property="oldbookPrice"/>
         <result column="OLDBOOK_TITLE" property="oldbookTitle"/>
         <result column="OLDBOOK_AUTHOR" property="oldbookAuthor"/>
-        <!-- 필요 시 OldbookFileDTO도 동일하게 association 가능 -->
+        <result column="OLDBOOK_PUBLISHER" property="oldbookPublisher"/>
+        <result column="OLDBOOK_DATE" property="oldbookDate"/>
+        
         <association property="oldbookFileDTO" javaType="OldbookFileDTO">
             <result column="FILE_NAME" property="fileName"/>
+            <result column="ORI_NAME" property="oriName"/>
         </association>
     </association>
 </resultMap>

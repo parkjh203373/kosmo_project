@@ -36,8 +36,9 @@ public class DealboardController {
 	
 	@GetMapping("detail")
 	public String detail(DealboardDTO dealboardDTO, Model model) throws Exception {
+		System.out.println("전달받은 번호: " + dealboardDTO.getDealboardNum());
 		dealboardDTO = dealboardService.detail(dealboardDTO);
-		
+		System.out.println(dealboardDTO);
 		model.addAttribute("dealboardDTO", dealboardDTO);
 		return "dealboard/detail";
 	}
