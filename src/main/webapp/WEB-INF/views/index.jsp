@@ -23,6 +23,7 @@
 				                    <h1 class="display-4 font-weight-bold text-primary mb-4">환영합니다, ${member.username}님!</h1>
 				                    <hr class="my-4">
 				                    <a href="/book/list" class="btn btn-success btn-lg shadow">도서 목록 보기</a>
+				                    <a href="/dealboard/list" class="btn btn-success btn-lg shadow">중고 도서 거래</a>
 				                </div>
 				            </c:when>
 				
