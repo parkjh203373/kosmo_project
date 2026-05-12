@@ -29,6 +29,23 @@
 		INSERT INTO "TB_PROFILE"
 		VALUES (default, #{fileName}, #{oriName}, #{memberNum})
 	</insert>
+	
+	<update id="updateId" parameterType="MemberDTO">
+		UPDATE "TB_MEMBER"
+			SET "USERNAME"     = #{username},
+				"PASSWORD"     = #{password},
+				"MEMBER_NAME"  = #{memberName},
+				"MEMBER_BIRTH" = #{memberBirth},
+				"MEMBER_EMAIL" = #{memberEmail}
+		WHERE "MEMBER_NUM"   = #{memberNum}
+	</update>
+	
+	<update id="updateProfile" parameterType="ProfileDTO">
+		UPDATE "TB_PROFILE"
+			SET "FILE_NAME"     = #{fileName},
+				"ORI_NAME"     = #{oriName}
+		WHERE "MEMBER_NUM"   = #{memberNum}
+	</update>
 		
 	<delete id="deleteProfile" parameterType="ProfileDTO">
 		DELETE FROM "TB_PROFILE"

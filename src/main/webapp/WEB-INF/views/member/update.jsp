@@ -20,6 +20,8 @@
 	<div>
 		<img src="/files/member/${member.profileDTO.fileName}" class="rounded mx-auto d-block" alt="프로필 이미지">
 		
+		<form action="/member/update" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="memberNum" value="${member.memberNum}">
 		<div class="form-group">
 			<label for="username">아이디</label> 
 			<input type="text" class="form-control" name="username" id="username" value="${member.username}"> 
@@ -27,7 +29,7 @@
 		
 		<div class="form-group">
 			<label for="password">비밀번호</label> 
-			<input type="hidden" class="form-control" name="password" id="password">
+			<input type="password" class="form-control" name="password" id="password" value="${member.password}">
 		</div>
 		
 		<div class="form-group">
@@ -44,9 +46,15 @@
 			<input type="email" class="form-control" name="memberEmail" id="memberEmail" value="${member.memberEmail}"> 
 		</div>
 		
-		<a href="./update" class="btn btn-success">정보 수정</a>
-		<a href="./delete?memberNum=${member.memberNum}" class="btn btn-danger">회원 탈퇴</a>
-		<a href="./logout" class="btn btn-info">로그아웃</a>
+		<div class="form-group">
+			<label for="porfileName">프로필사진</label> 
+			<input type="file" class="form-control-file" name="attach" id="porfileName" value="${member.profileDTO.fileName}">
+		</div>
+		
+		
+		<button type="submit" class="btn btn-success">정보 수정</button>
+		<a href="/" class="btn btn-danger">취소</a>
+		</form>
 	</div>
 	
 </body>

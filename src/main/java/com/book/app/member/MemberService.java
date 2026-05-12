@@ -75,4 +75,32 @@ public class MemberService {
 
 	    return result;
 	}
+	
+	public int updateId(MemberDTO memberDTO, MultipartFile attach) throws Exception {
+	    if (memberDTO.getMemberNum() == null || memberDTO.getMemberNum() == 0) {
+	        return 0;
+	    }
+
+	    int result = memberMapper.updateId(memberDTO);
+
+	    if (attach != null && !attach.isEmpty()) {
+	        MemberDTO detail = memberMapper.detail(memberDTO);
+	        if (detail.getProfileDTO() != null) {
+	            FileDTO oldFile = new FileDTO();
+	            oldFile.setFileName(detail.getProfileDTO().getFileName());
+	            fileManager.fileDelete(name, oldFile); 
+	        }
+
+	        String newFileName = fileManager.fileSave(name, attach);
+
+	        ProfileDTO profileDTO = new ProfileDTO();
+	        profileDTO.setMemberNum(memberDTO.getMemberNum());
+	        profileDTO.setFileName(newFileName);
+	        profileDTO.setOriName(attach.getOriginalFilename());
+
+	        result = memberMapper.updateProfile(profileDTO);
+	    }
+	    
+	    return result;
+	}
 }
