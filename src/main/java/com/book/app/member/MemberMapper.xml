@@ -9,20 +9,17 @@
 		SELECT * 
 		FROM "TB_MEMBER" M
 			LEFT JOIN "TB_PROFILE" F
-			USING("MEMBER_NUM")
+			USING("USERNAME")
 		<where>
-        <if test="memberNum != null and memberNum != 0">
-            AND "MEMBER_NUM" = #{memberNum}
-        </if>
         <if test="username != null and username != ''">
             AND "USERNAME" = #{username}
         </if>
     </where>
 	</select>
 	
-	<insert id="create" parameterType="MemberDTO" useGeneratedKeys="true" keyProperty="memberNum">
+	<insert id="create" parameterType="MemberDTO">
 		INSERT INTO "TB_MEMBER"
-		VALUES (default, #{username}, #{password}, #{memberName}, #{memberBirth}, #{memberEmail})
+		VALUES (#{username}, #{password}, #{memberName}, #{memberBirth}, #{memberEmail})
 	</insert>
 
 	<insert id="addProfile" parameterType="ProfileDTO">
@@ -37,35 +34,34 @@
 				"MEMBER_NAME"  = #{memberName},
 				"MEMBER_BIRTH" = #{memberBirth},
 				"MEMBER_EMAIL" = #{memberEmail}
-		WHERE "MEMBER_NUM"   = #{memberNum}
+		WHERE "USERNAME"   = #{username}
 	</update>
 	
 	<update id="updateProfile" parameterType="ProfileDTO">
 		UPDATE "TB_PROFILE"
 			SET "FILE_NAME"     = #{fileName},
 				"ORI_NAME"     = #{oriName}
-		WHERE "MEMBER_NUM"   = #{memberNum}
+		WHERE "USERNAME" = #{username}
 	</update>
 		
 	<delete id="deleteProfile" parameterType="ProfileDTO">
 		DELETE FROM "TB_PROFILE"
-		WHERE "MEMBER_NUM" = #{memberNum}
+		WHERE "USERNAME" = #{username}
 	</delete>
 	
 	<delete id="deleteId" parameterType="MemberDTO">
 		DELETE FROM "TB_MEMBER"
-		WHERE "MEMBER_NUM" = #{memberNum}
+		WHERE "USERNAME" = #{username}
 	</delete>
 	
 	<resultMap type="MemberDTO" id="detailResult">
-		<id column="MEMBER_NUM" property="memberNum"/>
-		<result column="USERNAME" property="username"/>
+		<id column="USERNAME" property="username"/>
 		<result column="PASSWORD" property="password"/>
 		<result column="MEMBER_NAME" property="memberName"/>
 		<result column="MEMBER_BIRTH" property="memberBirth"/>
 		<result column="MEMBER_EMAIL" property="memberEmail"/>
 		<association property="profileDTO" javaType="com.book.app.member.ProfileDTO">
-			<id column="MEMBER_NUM" property="memberNum"/>
+			<id column="USERNAME" property="username"/>
 			<result column="FILE_NAME" property="fileName"/>
 			<result column="ORI_NAME" property="oriName"/>
 		</association>

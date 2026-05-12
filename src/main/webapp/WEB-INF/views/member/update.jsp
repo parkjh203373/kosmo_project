@@ -21,7 +21,6 @@
 		<img src="/files/member/${member.profileDTO.fileName}" class="rounded mx-auto d-block" alt="프로필 이미지">
 		
 		<form action="/member/update" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="memberNum" value="${member.memberNum}">
 		<div class="form-group">
 			<label for="username">아이디</label> 
 			<input type="text" class="form-control" name="username" id="username" value="${member.username}"> 

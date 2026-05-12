@@ -56,13 +56,12 @@ public class MemberController {
 	    
 	    MemberDTO loginMember = (MemberDTO) session.getAttribute("member");
 
-	    System.out.println("세션에서 가져온 회원 정보: " + loginMember);
 	    if (loginMember == null) {
 	        return "redirect:/member/login";
 	    }
 
 	    MemberDTO memberDTO = memberService.detail(loginMember);
-	    System.out.println(memberDTO.getProfileDTO().getFileName());
+	    
 	    model.addAttribute("member", memberDTO);
 	    return "member/mypage";
 	}
