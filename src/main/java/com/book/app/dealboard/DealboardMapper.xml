@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.book.app.dealboard.DealboardMapper">
+
+	<select id="detail" parameterType="DealboardDTO" resultMap="dealboardResult">
+		SELECT * 
+	    FROM "TB_DEALBOARD" D
+	    LEFT JOIN "TB_OLDBOOK" O ON D."OLDBOOK_NUM" = O."OLDBOOK_NUM"
+	    LEFT JOIN "TB_OLDBOOKFILE" F ON O."OLDBOOK_NUM" = F."OLDBOOK_NUM"
+	    WHERE D."USERNAME" = #{username}
+	</select>
+
+	<select id="getTotalCount" parameterType="Pager" resultType="Long">
+	SELECT COUNT(*) FROM "TB_DEALBOARD"
+	<where>
+		<if test="search != null and search != ''">
+			AND "DEALBOARD_TITLE" LIKE '%' || #{search} || '%'
+		</if>
+	</where>
+	</select>
+
+	<!-- 페이징 처리된 리스트 조회 -->
+	<select id="list" parameterType="Pager" resultMap="dealboardResult">
+	    SELECT * 
+	    FROM "TB_DEALBOARD" D
+	    LEFT JOIN "TB_OLDBOOK" O ON D."OLDBOOK_NUM" = O."OLDBOOK_NUM"
+	    LEFT JOIN "TB_OLDBOOKFILE" F ON O."OLDBOOK_NUM" = F."OLDBOOK_NUM"
+	    <where>
+	        <if test="search != null and search != ''">
+	            AND D."DEALBOARD_TITLE" LIKE '%' || #{search} || '%'
+	        </if>
+	    </where>
+	    ORDER BY D."DEALBOARD_NUM" DESC
+	    LIMIT #{perPage} OFFSET #{startNum}
+	</select>
+	
+	<resultMap id="dealboardResult" type="DealboardDTO">
+    <id column="DEALBOARD_NUM" property="dealboardNum"/>
+    <result column="USERNAME" property="username"/>
+    <result column="OLDBOOK_NUM" property="oldbookNum"/>
+    <result column="DEALBOARD_TITLE" property="dealboardTitle"/>
+    <result column="DEALBOARD_CONTENTS" property="dealboardContents"/>
+    
+    <!-- 1:1 관계 매핑: DealboardDTO 안의 oldbookDTO 변수와 매핑 -->
+    <association property="oldbookDTO" javaType="OldbookDTO">
+        <id column="OLDBOOK_NUM" property="oldbookNum"/>
+        <result column="OLDBOOK_PRICE" property="oldbookPrice"/>
+        <result column="OLDBOOK_TITLE" property="oldbookTitle"/>
+        <result column="OLDBOOK_AUTHOR" property="oldbookAuthor"/>
+        <!-- 필요 시 OldbookFileDTO도 동일하게 association 가능 -->
+        <association property="oldbookFileDTO" javaType="OldbookFileDTO">
+            <result column="FILE_NAME" property="fileName"/>
+        </association>
+    </association>
+</resultMap>
+	
+	<insert id="createBoard" parameterType="DealboardDTO">
+		INSERT INTO "TB_DEALBOARD"
+		("DEALBOARD_NUM", "USERNAME", "OLDBOOK_NUM", "DEALBOARD_TITLE", "DEALBOARD_CONTENTS")
+	    VALUES
+        (default, #{username}, #{oldbookNum}, #{dealboardTitle}, #{dealboardContents})
+	</insert>
+	
+	<insert id="createOldbook" parameterType="OldbookDTO" useGeneratedKeys="true" keyProperty="oldbookNum">
+		INSERT INTO "TB_OLDBOOK"
+		("OLDBOOK_NUM", "OLDBOOK_PRICE", "OLDBOOK_TITLE", "OLDBOOK_AUTHOR",
+			"OLDBOOK_PUBLISHER", "OLDBOOK_DATE")
+		VALUES
+		(default, #{oldbookPrice}, #{oldbookTitle}, #{oldbookAuthor}, #{oldbookPublisher}, #{oldbookDate})
+	
+	</insert>
+	
+	<insert id="createOldbookFile" parameterType="OldbookFileDTO">
+		INSERT INTO "TB_OLDBOOKFILE"
+		("FILE_NUM", "FILE_NAME", "ORI_NAME", "OLDBOOK_NUM")
+	    VALUES
+        (default, #{fileName}, #{oriName}, #{oldbookNum})
+	</insert>
+	
+</mapper>

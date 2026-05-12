@@ -11,7 +11,6 @@ import lombok.ToString;
 @ToString
 public class MemberDTO {
 	
-	private Long memberNum;
 	private String username;
 	private String password;
 	private String memberName;

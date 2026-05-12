@@ -36,7 +36,7 @@ public class MemberService {
 		ProfileDTO profileDTO = new ProfileDTO();
 		profileDTO.setFileName(fileName);
 		profileDTO.setOriName(file.getOriginalFilename());
-		profileDTO.setMemberNum(memberDTO.getMemberNum());
+		profileDTO.setUsername(memberDTO.getUsername());
 		
 		result = memberMapper.addProfile(profileDTO);
 		}
@@ -45,9 +45,9 @@ public class MemberService {
 	}
 	
 	public int deleteId(MemberDTO memberDTO) throws Exception {
-	    System.out.println("Service 진입 - 삭제 요청 번호: " + memberDTO.getMemberNum());
+	    System.out.println("Service 진입 - 삭제 요청 번호: " + memberDTO.getUsername());
 
-	    if (memberDTO.getMemberNum() == null || memberDTO.getMemberNum() == 0) {
+	    if (memberDTO.getUsername() == null) {
 	        System.out.println("탈퇴 실패: 회원 번호가 넘어오지 않았습니다.");
 	        return 0;
 	    }
@@ -65,7 +65,7 @@ public class MemberService {
 	    }
 	    
 	    ProfileDTO profileDTO = new ProfileDTO();
-	    profileDTO.setMemberNum(memberDTO.getMemberNum());
+	    profileDTO.setUsername(memberDTO.getUsername());
 	    
 	    int result = memberMapper.deleteProfile(profileDTO);
 	    
@@ -77,7 +77,7 @@ public class MemberService {
 	}
 	
 	public int updateId(MemberDTO memberDTO, MultipartFile attach) throws Exception {
-	    if (memberDTO.getMemberNum() == null || memberDTO.getMemberNum() == 0) {
+	    if (memberDTO.getUsername() == null) {
 	        return 0;
 	    }
 
@@ -94,7 +94,7 @@ public class MemberService {
 	        String newFileName = fileManager.fileSave(name, attach);
 
 	        ProfileDTO profileDTO = new ProfileDTO();
-	        profileDTO.setMemberNum(memberDTO.getMemberNum());
+	        profileDTO.setUsername(memberDTO.getUsername());
 	        profileDTO.setFileName(newFileName);
 	        profileDTO.setOriName(attach.getOriginalFilename());
 
