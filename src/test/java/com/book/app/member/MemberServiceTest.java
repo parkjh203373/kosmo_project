@@ -15,6 +15,21 @@ class MemberServiceTest {
 	private MemberMapper memberMapper;
 
 //	@Test
+//	void testUpdateId() throws Exception{
+//		MemberDTO memberDTO = new MemberDTO();
+//		ProfileDTO profileDTO = new ProfileDTO();
+//				
+//		memberDTO.setMemberNum(17L);
+//		memberDTO.setUsername("user");
+//		memberDTO.setPassword("1234");
+//		memberDTO.setUsername("IU");
+//		memberDTO.setMemberEmail("IUIU@naver.com");
+//		profileDTO.setMemberNum(memberDTO.getMemberNum());
+//		
+//		memberMapper.updateId(memberDTO);
+//	}
+	
+//	@Test
 //	void testDeleteId() throws Exception{
 //		MemberDTO memberDTO = new MemberDTO();
 //		ProfileDTO profileDTO = new ProfileDTO();

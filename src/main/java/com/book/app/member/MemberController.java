@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 @RequestMapping("/member/*")
@@ -75,5 +77,28 @@ public class MemberController {
 	public String deleteId(MemberDTO memberDTO) throws Exception {
 		int result = memberService.deleteId(memberDTO);
 		return "redirect:/";
+	}
+	
+	@GetMapping("update")
+	public String update(HttpSession session, Model model) throws Exception{
+		MemberDTO loginMember = (MemberDTO) session.getAttribute("member");
+
+	    System.out.println("세션에서 가져온 회원 정보: " + loginMember);
+	    if (loginMember == null) {
+	        return "redirect:/member/login";
+	    }
+
+	    MemberDTO memberDTO = memberService.detail(loginMember);
+	    System.out.println(memberDTO.getProfileDTO().getFileName());
+	    model.addAttribute("member", memberDTO);
+	    return "member/update";
+	}
+	
+	@PostMapping("update")
+	public String update(MemberDTO memberDTO, @RequestParam("attach") MultipartFile attach, HttpSession session) throws Exception{
+		int result = memberService.updateId(memberDTO, attach);
+		
+		this.logout(session);
+		return "redirect:/member/login";
 	}
 }

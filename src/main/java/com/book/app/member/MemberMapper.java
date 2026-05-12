@@ -16,4 +16,8 @@ public interface MemberMapper {
 	
 	public int deleteProfile(ProfileDTO profileDTO) throws Exception;
 	
+	public int updateId(MemberDTO memberDTO) throws Exception;
+	
+	public int updateProfile(ProfileDTO profileDTO) throws Exception;
+	
 }
