@@ -20,7 +20,6 @@ public class RentController {
 	public String create(RentDTO rentDTO, HttpSession session) throws Exception {
 		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
 		
-		// 로그인 체크
 	    if(memberDTO == null) {
 	        return "redirect:/member/login"; 
 	    }

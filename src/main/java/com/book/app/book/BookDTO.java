@@ -1,5 +1,7 @@
 package com.book.app.book;
 
+import com.book.app.rent.RentDTO;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,6 +19,7 @@ public class BookDTO {
     private String bookStatus;
     private String bookImage;
     private String bookContents;
+    private RentDTO rentDTO;
     
         
 }

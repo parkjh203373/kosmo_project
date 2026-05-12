@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.book.app.pager.Pager;
+import com.book.app.file.FileManager;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -36,6 +38,12 @@ public class BookController {
 
     @Value("${naver.client.secret}")
     private String clientSecret;
+    
+    @Autowired
+	private FileManager fileManager;
+	
+    @Value("${app.book}")
+	private String name;
 
     @GetMapping("api/bookSearch")
     @ResponseBody
@@ -82,16 +90,16 @@ public class BookController {
 	}
 	
 	@GetMapping("detail")
-	public String detail(BookDTO bookDTO, Model model, HttpSession session) throws Exception {
+	public String detail(BookDTO bookDTO, Pager pager, Model model, HttpSession session) throws Exception {
 		Object member = session.getAttribute("member");
 		
-		if(member == null) {
-			return "redirect:/member/login?redirectUrl=/book/list";
-		}
+//		if(member == null) {
+//			return "redirect:/member/login?redirectUrl=/book/list";
+//		}
 		
 		bookDTO = bookService.detail(bookDTO);
 		model.addAttribute("d", bookDTO);
-//		model.addAttribute("pager", pager);
+		model.addAttribute("pager", pager);
 		
 		return "book/detail";
 	}
@@ -107,7 +115,7 @@ public class BookController {
 	}
 	
 	@GetMapping("update")
-	public String update(BookDTO bookDTO, Model model) throws Exception {
+	public String update(BookDTO bookDTO, Model model) throws Exception {		
 		bookDTO = bookService.detail(bookDTO);
 		model.addAttribute("d", bookDTO);
 		
@@ -115,10 +123,24 @@ public class BookController {
 	}
 	
 	@PostMapping("update")
-	public String update(BookDTO bookDTO) throws Exception {
+	public String update(BookDTO bookDTO, @RequestParam("attach") MultipartFile attach, Pager pager) throws Exception {
+		if(attach != null && !attach.isEmpty()) {
+	        // "book"이라는 하위 폴더에 저장하도록 설정
+	        String fileName = fileManager.fileSave("book", attach); 
+	        // DB에는 웹에서 접근 가능한 경로로 저장
+	        bookDTO.setBookImage("/files/book/" + fileName);
+	    }
+		
+		if(bookDTO.getBookDate() != null) {
+	        bookDTO.setBookDate(bookDTO.getBookDate().replace("-", ""));
+	    }
+		
 		int result = bookService.update(bookDTO);
 		
-		return "redirect:./detail?bookNum=" + bookDTO.getBookNum();
+		return "redirect:./detail?bookNum=" + bookDTO.getBookNum() 
+        + "&page=" + pager.getPage()
+        + "&kind=" + pager.getKind()
+        + "&search=" + pager.getSearch();
 	}
 	
 	@PostMapping("delete")

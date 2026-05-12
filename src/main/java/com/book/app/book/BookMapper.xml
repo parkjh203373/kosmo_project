@@ -29,7 +29,7 @@
 	<select id="detail" parameterType="BookDTO" resultMap="detailResult">
 	    SELECT B.*, R."RENT_DATE", R."DUE_DATE"
 	    FROM "TB_BOOK" B
-	    LEFT JOIN "TB_RENT" R ON B."BOOK_NUM" = R."BOOK_NUM"
+	    LEFT JOIN "TB_BOOKRENT" R ON B."BOOK_NUM" = R."BOOK_NUM"
 	    WHERE B."BOOK_NUM" = #{bookNum}
 	    ORDER BY R."RENT_DATE" DESC
 	    LIMIT 1
