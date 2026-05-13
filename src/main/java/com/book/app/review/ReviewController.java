@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.book.app.member.MemberDTO;
+import com.book.app.rent.RentDTO;
+import com.book.app.rent.RentService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -21,6 +23,9 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
 	
+	@Autowired
+	private RentService rentService;
+	
 	@PostMapping("add")
 	@ResponseBody
 	public int create(ReviewDTO reviewDTO, HttpSession session) throws Exception {
@@ -29,6 +34,14 @@ public class ReviewController {
 		if(memberDTO == null) {
 			return -1;
 		}
+		
+		RentDTO rentDTO = new RentDTO();
+	    rentDTO.setBookNum(reviewDTO.getBookNum());
+	    rentDTO.setUsername(memberDTO.getUsername());
+	    
+	    if(!rentService.rentHistory(rentDTO)) {
+	        return -2;
+	    }
 		
 		reviewDTO.setUsername(memberDTO.getUsername());
 		

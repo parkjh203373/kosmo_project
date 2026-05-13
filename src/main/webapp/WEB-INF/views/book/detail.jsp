@@ -109,7 +109,7 @@
 								        <c:when test="${d.bookStatus eq '대출중'}">
 								            <c:choose>
 								                <c:when test="${not empty member and d.rentDTO.username eq member.username}">
-								                    <button type="button" class="btn btn-warning font-weight-bold" id="returnBtn" data-bn="${d.bookNum}">반납하기</button>
+								                    <button type="button" class="btn btn-warning font-weight-bold return-btn" data-bn="${d.bookNum}">반납하기</button>
 								                </c:when>
 								                <c:otherwise>
 								                    <button type="button" class="btn btn-secondary" disabled>대출 중</button>
@@ -175,32 +175,44 @@
 
 									<!-- 댓글 입력 영역 -->
 									<div class="border-top pt-3">
-										<div class="form-row align-items-center mb-2">
-											<div class="col-auto">
-												<label for="review_rating" class="mb-0 font-weight-bold text-small">별점</label>
-											</div>
-											<div class="col-md-2 col-4">
-												<select class="form-control form-control-sm" id="review_rating">
-													<option value="5">★★★★★</option>
-													<option value="4">★★★★☆</option>
-													<option value="3">★★★☆☆</option>
-													<option value="2">★★☆☆☆</option>
-													<option value="1">★☆☆☆☆</option>
-													<option value="0">☆☆☆☆☆</option>
-												</select>
-											</div>
-										</div>
+										<c:choose>
+											<c:when test="${canReview}">
+												<div class="form-row align-items-center mb-2">
+													<div class="col-auto">
+														<label for="review_rating" class="mb-0 font-weight-bold text-small">별점</label>
+													</div>
+													<div class="col-md-2 col-4">
+														<select class="form-control form-control-sm" id="review_rating">
+															<option value="5">★★★★★</option>
+															<option value="4">★★★★☆</option>
+															<option value="3">★★★☆☆</option>
+															<option value="2">★★☆☆☆</option>
+															<option value="1">★☆☆☆☆</option>
+															<option value="0">☆☆☆☆☆</option>
+														</select>
+													</div>
+												</div>
 
-										<!-- 입력창과 버튼의 가로 배치를 최적화 -->
-										<div class="form-group mb-0">
-											<textarea id="review_contents" class="form-control" rows="3"
-												placeholder="리뷰를 남겨주세요."></textarea>
-											<div class="text-right mt-2">
-												<!-- 버튼을 오른쪽 아래로 배치하여 가로 부담 감소 -->
-												<button class="btn btn-primary btn-sm px-4" type="button"
-													id="review_add">리뷰 등록</button>
-											</div>
-										</div>
+												<div class="form-group mb-0">
+													<textarea id="review_contents" class="form-control" rows="3"
+														placeholder="리뷰를 남겨주세요."></textarea>
+													<div class="text-right mt-2">
+														<!-- 버튼을 오른쪽 아래로 배치하여 가로 부담 감소 -->
+														<button class="btn btn-primary btn-sm px-4" type="button"
+															id="review_add">리뷰 등록</button>
+													</div>
+												</div>
+											</c:when>
+											
+											<c:otherwise>
+												<div class="bg-light p-3 text-center rounded">
+									                <p class="mb-0 text-muted">
+									                    <i class="fas fa-info-circle"></i> 
+									                    이 도서를 대출했던 회원만 리뷰를 작성할 수 있습니다.
+									                </p>
+									            </div>
+											</c:otherwise>
+										</c:choose>
 									</div>
 								</div>
 							</div>

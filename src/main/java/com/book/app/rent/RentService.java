@@ -1,7 +1,7 @@
 package com.book.app.rent;
 
 import java.util.List;
-
+import com.book.app.config.FileMappingConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,11 +12,17 @@ import com.book.app.book.BookMapper;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class RentService {
+
+    private final FileMappingConfig fileMappingConfig;
 	
 	@Autowired
 	private RentMapper rentMapper;
 	@Autowired
 	private BookMapper bookMapper;
+
+    RentService(FileMappingConfig fileMappingConfig) {
+        this.fileMappingConfig = fileMappingConfig;
+    }
 	
 	public int create(RentDTO rentDTO) throws Exception {
 		Long count = rentMapper.countMyRent(rentDTO);
@@ -50,6 +56,10 @@ public class RentService {
 		}
 		
 		return result;
+	}
+	
+	public boolean rentHistory(RentDTO rentDTO) throws Exception {
+		return rentMapper.rentHistory(rentDTO) > 0;
 	}
 
 }

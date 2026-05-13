@@ -60,7 +60,7 @@
 														</c:choose></td>
 													<td class="align-middle text-center">
 														<button class="btn btn-sm btn-danger return-btn"
-															data-bn="${r.bookNum}" id="returnBtn">반납하기</button>
+															data-bn="${r.bookNum}">반납하기</button>
 													</td>
 												</tr>
 											</c:forEach>

@@ -14,5 +14,7 @@ public interface RentMapper {
 	public List<RentDTO> myRentList(RentDTO rentDTO) throws Exception;
 	
 	public int myRentDelete(RentDTO rentDTO) throws Exception;
+	
+	public Long rentHistory(RentDTO rentDTO) throws Exception;
 
 }

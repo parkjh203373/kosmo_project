@@ -27,7 +27,7 @@
 	</select>
 	
 	<select id="detail" parameterType="BookDTO" resultMap="detailResult">
-	    SELECT B.*, R."RENT_DATE", R."DUE_DATE"
+	    SELECT B.*, R.*
 	    FROM "TB_BOOK" B
 	    LEFT JOIN "TB_BOOKRENT" R ON B."BOOK_NUM" = R."BOOK_NUM"
 	    WHERE B."BOOK_NUM" = #{bookNum}
@@ -48,6 +48,7 @@
 	    <association property="rentDTO" javaType="RentDTO">
 	        <result column="RENT_DATE" property="rentDate"/>
 	        <result column="DUE_DATE" property="dueDate"/>
+	        <result column="USERNAME" property="username"/>
 	    </association>
 	</resultMap>
 	

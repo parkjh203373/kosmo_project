@@ -22,7 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.book.app.pager.Pager;
+import com.book.app.rent.RentDTO;
+import com.book.app.rent.RentService;
 import com.book.app.file.FileManager;
+import com.book.app.member.MemberDTO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -32,6 +35,9 @@ public class BookController {
 	
 	@Autowired
 	private BookService bookService;
+	
+	@Autowired
+	private RentService rentService;
 	
 	@Value("${naver.client.id}")
     private String clientId;
@@ -91,15 +97,24 @@ public class BookController {
 	
 	@GetMapping("detail")
 	public String detail(BookDTO bookDTO, Pager pager, Model model, HttpSession session) throws Exception {
-		Object member = session.getAttribute("member");
+		MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		
-//		if(member == null) {
-//			return "redirect:/member/login?redirectUrl=/book/list";
-//		}
+		if(memberDTO == null) {
+			return "redirect:/member/login?redirectUrl=/book/list";
+		}
 		
 		bookDTO = bookService.detail(bookDTO);
 		model.addAttribute("d", bookDTO);
 		model.addAttribute("pager", pager);
+		
+		RentDTO rentDTO = new RentDTO();
+	    rentDTO.setBookNum(bookDTO.getBookNum());
+	    rentDTO.setUsername(memberDTO.getUsername());
+	    
+	    boolean canReview = false;
+	    canReview = rentService.rentHistory(rentDTO);
+	    
+	    model.addAttribute("canReview", canReview);
 		
 		return "book/detail";
 	}

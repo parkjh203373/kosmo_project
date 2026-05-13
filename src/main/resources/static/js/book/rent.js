@@ -35,25 +35,31 @@ if (rentBtn) {
     });
 }
 
-const returnBtn = document.getElementById('returnBtn');
-if (returnBtn) {
-    returnBtn.addEventListener('click', function() {
+document.addEventListener('click', function(e) {
+    if (e.target && (e.target.id === 'returnBtn' || e.target.classList.contains('return-btn'))) {
         if (!confirm("정말 반납하시겠습니까?")) return;
-		
-		const bookNum = this.getAttribute('data-bn');
-
+        
+        const btn = e.target;
+        const bookNum = btn.getAttribute('data-bn');
         const p = new URLSearchParams();
         p.append('bookNum', bookNum);
+
+        const currentPath = window.location.pathname;
+        let redirectUrl = "/rent/list";
+
+        if (currentPath.includes("/book/detail")) {
+            redirectUrl = "/book/list";
+        }
 
         fetch('/rent/delete', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: p
         })
-            .then(r => r.json())
-            .then(data => {
-                handleResponse(data, "반납이 완료되었습니다.", "/rent/list");
-            })
-            .catch(error => console.error('Error:', error));
-    });
-}
+        .then(r => r.json())
+        .then(data => {
+            handleResponse(data, "반납이 완료되었습니다.", redirectUrl);
+        })
+        .catch(error => console.error('Error:', error));
+    }
+});

@@ -10,6 +10,7 @@
 	    FROM "TB_BOOKRENT" R
 	    JOIN "TB_BOOK" B ON R."BOOK_NUM" = B."BOOK_NUM"
 	    WHERE R."USERNAME" = #{username}
+	    AND R."RETURN_DATE" IS NULL
 	</select>
 	
 	<resultMap type="RentDTO" id="RentDetailResult">
@@ -31,13 +32,22 @@
 	<select id="countMyRent" parameterType="RentDTO" resultType="Long">
 	    SELECT COUNT(*) FROM "TB_BOOKRENT" 
 	    WHERE "USERNAME" = #{username}
+	    AND "RETURN_DATE" IS NULL
 	</select>
 	
-	<delete id="myRentDelete" parameterType="RentDTO">
-		DELETE FROM "TB_BOOKRENT"
+	<update id="myRentDelete" parameterType="RentDTO">
+		UPDATE "TB_BOOKRENT"
+		SET "RETURN_DATE" = CURRENT_TIMESTAMP
 		WHERE "USERNAME" = #{username}
 		AND "BOOK_NUM" = #{bookNum}
-	</delete>
+		AND "RETURN_DATE" IS NULL
+	</update>
+	
+	<select id="rentHistory" parameterType="RentDTO" resultType="Long">
+		SELECT COUNT(*) FROM "TB_BOOKRENT"
+		WHERE "USERNAME" = #{username}
+		AND "BOOK_NUM" = #{bookNum}
+	</select>
 	
 	<insert id="create" parameterType="RentDTO">
         INSERT INTO "TB_BOOKRENT" (
