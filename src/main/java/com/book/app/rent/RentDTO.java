@@ -1,5 +1,6 @@
 package com.book.app.rent;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,14 +15,17 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class RentDTO {
+public class RentDTO implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private Long rentNum;
 	private LocalDateTime rentDate;
 	private LocalDateTime dueDate;
 	private Long bookNum;
 	private String username;
 	private BookDTO bookDTO;
+	
+	public RentDTO() {}
 	
 	private static final DateTimeFormatter VIEW_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 

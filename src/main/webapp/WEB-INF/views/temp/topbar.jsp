@@ -82,17 +82,19 @@
 					<h6 class="dropdown-header">알림</h6>
 					<c:choose>
 						<c:when test="${not empty lateList}">
-							<c:forEach items="${lateList}" var="l"></c:forEach>
-							<a class="dropdown-item d-flex align-items-center" href="/rent/list">
-							<div class="mr-3">
-								<div class="icon-circle bg-primary">
-									<i class="fas fa-file-alt text-white"></i>
-								</div>
-							</div>
-							<div>
-								<div class="small text-gray-500">${l.dueDate} (반납기한 초과)</div>
-								<span class="font-weight-bold">[연체] '${l.bookDTO.bookTitle}' 도서가 연체되었습니다.</span>
-							</div>
+							<c:forEach items="${lateList}" var="l">
+								<a class="dropdown-item d-flex align-items-center" href="/rent/list">
+									<div class="mr-3">
+										<div class="icon-circle bg-primary">
+											<i class="fas fa-file-alt text-white"></i>
+										</div>
+									</div>
+									<div>
+										<div class="small text-gray-500">${l.lateStatus}</div>
+										<span class="font-weight-bold">[연체] '${l.bookDTO.bookTitle}' 도서가 연체되었습니다.</span>
+									</div>
+								</a>
+							</c:forEach>
 						</c:when>
 						<c:otherwise>
 							<a class="dropdown-item text-center small text-gray-500" href="#">새로운 알림이 없습니다.</a>

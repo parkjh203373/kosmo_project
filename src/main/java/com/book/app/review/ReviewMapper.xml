@@ -48,6 +48,7 @@
 	<delete id="delete" parameterType="ReviewDTO">
     	DELETE FROM "TB_REVIEW"
     	WHERE "REVIEW_NUM" = #{reviewNum}
+    	AND "USERNAME" = #{username}
 	</delete>
 
 

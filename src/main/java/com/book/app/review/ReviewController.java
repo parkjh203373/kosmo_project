@@ -49,15 +49,19 @@ public class ReviewController {
 	}
 	
 	@GetMapping("list")
-	public String getList(ReviewDTO reviewDTO, Model model) throws Exception {
+	public String getList(ReviewDTO reviewDTO, Model model, HttpSession session) throws Exception {
 	    List<ReviewDTO> list = reviewService.list(reviewDTO);
 	    model.addAttribute("list", list);
+	    
+	    MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
+	    model.addAttribute("member", memberDTO);
+	    
 	    return "review/list";
 	}
 	
 	@PostMapping("update")
 	@ResponseBody
-	public int update(ReviewDTO reviewDTO, HttpSession session, Model model) throws Exception {
+	public int update(ReviewDTO reviewDTO, HttpSession session) throws Exception {
 	    MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
 	    if(memberDTO == null) {
 	        return -1;
@@ -70,7 +74,7 @@ public class ReviewController {
 	
 	@PostMapping("delete")
 	@ResponseBody
-	public int delete(ReviewDTO reviewDTO, HttpSession session, Model model) throws Exception {
+	public int delete(ReviewDTO reviewDTO, HttpSession session) throws Exception {
 	    MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
 	    
 	    if(memberDTO == null) {
