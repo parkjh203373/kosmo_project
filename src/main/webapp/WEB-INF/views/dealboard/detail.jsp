@@ -68,7 +68,15 @@
         </div>
 
         <div class="d-grid gap-2">
-            <button type="button" class="btn btn-primary btn-lg">구매문의 하기</button>
+        <form action="./buy" method="post">
+      		<input type="hidden" id="dealboardNum" value="${dealboardDTO.dealboardNum}">
+			<div id="bookInfo">
+    			<h3>상품명: <span id="pName">${dealboardDTO.oldbookDTO.oldbookTitle}</span></h3>
+			    <p>가격: <span id="pPrice">${dealboardDTO.oldbookDTO.oldbookPrice}</span>원</p>
+			</div>
+			<button type="button" id="naverPayBtn" class="btn btn-success">결제</button>
+		</form>
+            
             <a href="./list" class="btn btn-outline-secondary">목록으로</a>
             
             <!-- 작성자 본인일 경우 수정/삭제 버튼을 보여주는 로직을 추가하면 좋습니다 -->
@@ -81,6 +89,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

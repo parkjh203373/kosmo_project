@@ -13,5 +13,4 @@ public class WebConfig implements WebMvcConfigurer{
         // 추가로 "/index" 경로도 연결하고 싶다면 아래와 같이 작성
         registry.addViewController("/index").setViewName("index");
     }
-
 }
