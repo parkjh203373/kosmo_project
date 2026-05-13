@@ -73,6 +73,11 @@ public class MemberController {
 	        List<RentDTO> rentList = rentService.myRentList(rentDTO);
 	        session.setAttribute("rentCount", rentList.size());
 	        
+	        List<RentDTO> lateList = rentService.lateRent(rentDTO);
+	        
+	        session.setAttribute("lateList", lateList);        // 연체 도서 리스트
+	        session.setAttribute("lateCount", lateList.size());
+	        
 
 	        WishlistDTO wishlistDTO = new WishlistDTO();
 	        wishlistDTO.setUsername(memberDTO.getUsername());

@@ -61,5 +61,9 @@ public class RentService {
 	public boolean rentHistory(RentDTO rentDTO) throws Exception {
 		return rentMapper.rentHistory(rentDTO) > 0;
 	}
+	
+	public List<RentDTO> lateRent(RentDTO rentDTO) throws Exception {
+		return rentMapper.lateRent(rentDTO);
+	}
 
 }
