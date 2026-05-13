@@ -1,5 +1,7 @@
 package com.book.app.member;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,7 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.book.app.pager.Pager;
+import com.book.app.rent.RentDTO;
+import com.book.app.rent.RentService;
+import com.book.app.wishlist.WishlistDTO;
+import com.book.app.wishlist.WishlistService;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +29,12 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@Autowired
+	private RentService rentService;
+	
+	@Autowired
+	private WishlistService wishlistService;
+	
 	@GetMapping("create")
 	public void create() throws Exception{}
 	
@@ -28,6 +43,18 @@ public class MemberController {
 	    int result = memberService.create(memberDTO, attach);
 
         return "redirect:/"; 
+	}
+	
+	@GetMapping("idCheck")
+	@ResponseBody // 데이터만 그대로 반환 (JSON/String)
+	public int idCheck(String username) throws Exception {
+	    // memberService.detail은 아이디가 없으면 null을 반환한다고 가정
+	    MemberDTO memberDTO = new MemberDTO();
+	    memberDTO.setUsername(username);
+	    
+	    MemberDTO result = memberService.detail(memberDTO);
+	    
+	    return result == null ? 0 : 1; // 0이면 사용 가능, 1이면 중복
 	}
 	
 	@GetMapping("login")
@@ -41,6 +68,18 @@ public class MemberController {
 				&& checkLogin.getPassword().equals(memberDTO.getPassword())) {
 			System.out.println("로그인 성공");
 			session.setAttribute("member", checkLogin);
+			
+			RentDTO rentDTO = new RentDTO();
+	        rentDTO.setUsername(memberDTO.getUsername());
+	        List<RentDTO> rentList = rentService.myRentList(rentDTO);
+	        session.setAttribute("rentCount", rentList.size());
+	        
+
+	        WishlistDTO wishlistDTO = new WishlistDTO();
+	        wishlistDTO.setUsername(memberDTO.getUsername());
+	        List<WishlistDTO> wishList = wishlistService.list(wishlistDTO, new Pager()); 
+	        session.setAttribute("wishCount", wishList.size());
+			
 			return "redirect:/";
 		}
 		else {

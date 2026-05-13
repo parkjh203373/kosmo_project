@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"> <title>회원가입 페이지</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="/resources/js/create.js"></script>
 
 </head>
 <body>
@@ -16,8 +18,10 @@
 		<div class="form-group">
 			<label for="username">아이디</label> 
 			<input type="text" class="form-control" name="username" id="username"> 
-		</div>
-		
+			<button type="button" id="btn-check" class="btn btn-primary">중복확인</button>
+			<div id="id-msg"></div>
+        </div>
+        
 		<div class="form-group">
 			<label for="password">비밀번호</label> 
 			<input type="password" class="form-control" name="password" id="password">
@@ -45,7 +49,5 @@
 		<button type="submit" class="btn btn-primary">Submit</button>
 		
 	</form>
-
-
 </body>
 </html>
