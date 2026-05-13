@@ -20,7 +20,11 @@ public class MemberService {
 	
 	@Autowired
 	private FileManager fileManager;
-		
+	
+	public int idCheck(MemberDTO memberDTO) throws Exception{
+		return memberMapper.idCheck(memberDTO);
+	}
+	
 	public MemberDTO detail(MemberDTO memberDTO) throws Exception {
 		
 		return memberMapper.detail(memberDTO);

@@ -47,14 +47,13 @@ public class MemberController {
 	
 	@GetMapping("idCheck")
 	@ResponseBody // 데이터만 그대로 반환 (JSON/String)
-	public int idCheck(String username) throws Exception {
+	public int idCheck(@RequestParam("username") String username) throws Exception {
 	    // memberService.detail은 아이디가 없으면 null을 반환한다고 가정
 	    MemberDTO memberDTO = new MemberDTO();
 	    memberDTO.setUsername(username);
 	    
-	    MemberDTO result = memberService.detail(memberDTO);
-	    
-	    return result == null ? 0 : 1; // 0이면 사용 가능, 1이면 중복
+	    int result = memberService.idCheck(memberDTO);
+	    return result; // 0이면 사용 가능, 1이면 중복
 	}
 	
 	@GetMapping("login")
@@ -112,8 +111,9 @@ public class MemberController {
 	}
 	
 	@GetMapping("delete")
-	public String deleteId(MemberDTO memberDTO) throws Exception {
+	public String deleteId(MemberDTO memberDTO, HttpSession session) throws Exception {
 		int result = memberService.deleteId(memberDTO);
+		this.logout(session);
 		return "redirect:/";
 	}
 	

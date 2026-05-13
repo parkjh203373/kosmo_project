@@ -7,13 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"> <title>회원가입 페이지</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-	<script src="/resources/js/create.js"></script>
-
+    
 </head>
 <body>
 
-	<form action="/member/create" method="post" enctype="multipart/form-data">
+	<form id="frm" action="/member/create" method="post" enctype="multipart/form-data">
 		
 		<div class="form-group">
 			<label for="username">아이디</label> 
@@ -49,5 +47,8 @@
 		<button type="submit" class="btn btn-primary">Submit</button>
 		
 	</form>
+	
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="/js/member/create.js"></script>
 </body>
 </html>
