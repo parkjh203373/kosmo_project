@@ -1,12 +1,16 @@
 package com.book.app.rent;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.book.app.book.BookDTO;
 import com.book.app.book.BookMapper;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class RentService {
 	
 	@Autowired
@@ -15,6 +19,10 @@ public class RentService {
 	private BookMapper bookMapper;
 	
 	public int create(RentDTO rentDTO) throws Exception {
+		Long count = rentMapper.countMyRent(rentDTO);
+		if(count >= 3) {
+			return -1;
+		}
 		int result = rentMapper.create(rentDTO);
 		
 		if(result > 0) {
@@ -23,6 +31,23 @@ public class RentService {
 	        bookDTO.setBookStatus("대출중");
 	        bookMapper.updateStatus(bookDTO);
 	    }
+		
+		return result;
+	}
+	
+	public List<RentDTO> myRentList(RentDTO rentDTO) throws Exception {
+		return rentMapper.myRentList(rentDTO);
+	}
+	
+	public int myRentDelete(RentDTO rentDTO) throws Exception {
+		int result = rentMapper.myRentDelete(rentDTO);
+		
+		if(result > 0) {
+			BookDTO bookDTO = new BookDTO();
+			bookDTO.setBookNum(rentDTO.getBookNum());
+			bookDTO.setBookStatus("대출가능");
+			bookMapper.updateStatus(bookDTO);
+		}
 		
 		return result;
 	}

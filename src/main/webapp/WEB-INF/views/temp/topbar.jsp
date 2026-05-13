@@ -54,9 +54,16 @@
 				</div>
 			</li>
 			<li class="nav-item dropdown no-arrow mx-1">
+			    <a class="nav-link" href="/rent/list" id="rentListLink" role="button" title="내 대출 현황">
+			        <i class="fas fa-book fa-fw text-primary"></i>
+			        <c:if test="${not empty rentCount and rentCount > 0}">
+			            <span class="badge badge-primary badge-counter">${rentCount}</span>
+			        </c:if>
+			    </a>
+			</li>
+			<li class="nav-item dropdown no-arrow mx-1">
 			    <a class="nav-link" href="/wishlist/list" id="wishlistLink" role="button" title="찜 목록">
 			        <i class="fas fa-heart fa-fw text-danger"></i>
-			        <!-- 찜 개수 표시가 필요하다면 아래 badge 사용 -->
 			        <c:if test="${not empty wishCount and wishCount > 0}">
 			            <span class="badge badge-danger badge-counter">${wishCount}</span>
 			        </c:if>

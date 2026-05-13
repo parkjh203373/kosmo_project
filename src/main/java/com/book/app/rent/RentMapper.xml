@@ -5,6 +5,40 @@
   
 <mapper namespace="com.book.app.rent.RentMapper">
 	
+	<select id="myRentList" parameterType="RentDTO" resultMap="RentDetailResult">
+	    SELECT R.*, B.*
+	    FROM "TB_BOOKRENT" R
+	    JOIN "TB_BOOK" B ON R."BOOK_NUM" = B."BOOK_NUM"
+	    WHERE R."USERNAME" = #{username}
+	</select>
+	
+	<resultMap type="RentDTO" id="RentDetailResult">
+	    <id column="RENT_NUM" property="rentNum"/>
+	    <result column="RENT_DATE" property="rentDate"/>
+	    <result column="DUE_DATE" property="dueDate"/>
+	    <result column="BOOK_NUM" property="bookNum"/>
+	    <result column="USERNAME" property="username"/>
+	    <association property="bookDTO" javaType="BookDTO">
+	        <result column="BOOK_TITLE" property="bookTitle"/>
+	        <result column="BOOK_IMAGE" property="bookImage"/>
+	        <result column="BOOK_AUTHOR" property="bookAuthor"/>
+	        <result column="BOOK_PUBLISHER" property="bookPublisher"/>
+	        <result column="BOOK_DATE" property="bookDate"/>
+	        <result column="BOOK_STATUS" property="bookStatus"/>
+	    </association>
+	</resultMap>
+	
+	<select id="countMyRent" parameterType="RentDTO" resultType="Long">
+	    SELECT COUNT(*) FROM "TB_BOOKRENT" 
+	    WHERE "USERNAME" = #{username}
+	</select>
+	
+	<delete id="myRentDelete" parameterType="RentDTO">
+		DELETE FROM "TB_BOOKRENT"
+		WHERE "USERNAME" = #{username}
+		AND "BOOK_NUM" = #{bookNum}
+	</delete>
+	
 	<insert id="create" parameterType="RentDTO">
         INSERT INTO "TB_BOOKRENT" (
             "RENT_NUM", 
