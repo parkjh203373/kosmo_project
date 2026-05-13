@@ -68,11 +68,11 @@
     <select id="lateRent" parameterType="RentDTO" resultMap="RentDetailResult">
     	SELECT R.*, B."BOOK_TITLE"
     	FROM "TB_BOOKRENT" R
-    	LEFTJOIN "TB_BOOK" B
-    		USING ("BOOK_NUM")
+    	INNER JOIN "TB_BOOK" B ON R."BOOK_NUM" = B."BOOK_NUM"
     	WHERE R."USERNAME" = #{username}
     	AND R."RETURN_DATE" IS NULL
     	AND R."DUE_DATE" <![CDATA[<]]> CURRENT_TIMESTAMP
+    	ORDER BY R."DUE_DATE" ASC
     </select>
 
 </mapper>
