@@ -20,4 +20,6 @@ public interface MemberMapper {
 	
 	public int updateProfile(ProfileDTO profileDTO) throws Exception;
 	
+	public int idCheck(MemberDTO memberDTO) throws Exception;
+	
 }
