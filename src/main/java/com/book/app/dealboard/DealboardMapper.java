@@ -21,5 +21,11 @@ public interface DealboardMapper {
 
 	public int createBoard(DealboardDTO dealboardDTO) throws Exception;
 	
+	public int delBoard(DealboardDTO dealboardDTO) throws Exception; 
+	
+	public int delOldbookDTO(OldbookDTO oldbookDTO) throws Exception;
+	
+	public int delOldbookFile(OldbookFileDTO oldbookFileDTO) throws Exception;
+	
 
 }

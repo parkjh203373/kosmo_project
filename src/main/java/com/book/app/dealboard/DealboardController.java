@@ -60,4 +60,29 @@ public class DealboardController {
 	    return "redirect:/dealboard/list";
 	}
 	
+	@GetMapping("delete")
+	public String delete(DealboardDTO dealboardDTO, OldbookFileDTO oldbookFileDTO,
+	        OldbookDTO oldbookDTO, HttpSession session) throws Exception {
+
+	    // 1. "member"라는 이름으로 저장된 객체를 꺼냄 (형변환 필요)
+	    MemberDTO loginMember = (MemberDTO) session.getAttribute("member");
+	    DealboardDTO boardData = dealboardService.detail(dealboardDTO);
+	    
+	    // 2. 객체가 null인지 확인 (로그인 여부)
+	    if (loginMember == null) {
+	        return "redirect:/member/login";
+	    }
+
+	    // 3. 객체에서 ID를 꺼냄
+	    String id = loginMember.getUsername();
+
+	    // 4. 작성자 본인 확인 및 삭제 로직
+	    if (id.equals(boardData.getUsername())) {
+	        dealboardService.deleteBoard(dealboardDTO, oldbookDTO, oldbookFileDTO);
+	        return "redirect:/";
+	    }
+	    
+	    return "redirect:/dealboard/list"; 
+	}
+	
 }

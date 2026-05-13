@@ -24,7 +24,7 @@
 
 	<insert id="addProfile" parameterType="ProfileDTO">
 		INSERT INTO "TB_PROFILE"
-		VALUES (default, #{fileName}, #{oriName}, #{memberNum})
+		VALUES (default, #{fileName}, #{oriName}, #{username})
 	</insert>
 	
 	<update id="updateId" parameterType="MemberDTO">

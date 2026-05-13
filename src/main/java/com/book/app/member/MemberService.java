@@ -67,12 +67,10 @@ public class MemberService {
 	    ProfileDTO profileDTO = new ProfileDTO();
 	    profileDTO.setUsername(memberDTO.getUsername());
 	    
-	    int result = memberMapper.deleteProfile(profileDTO);
+	    int profileRes = memberMapper.deleteProfile(profileDTO);
+	    int memberRes = memberMapper.deleteId(memberDTO);
 	    
-	    if(result > 0) {
-	        result = memberMapper.deleteId(memberDTO);
-	    }
-
+	    int result = profileRes * memberRes;
 	    return result;
 	}
 	

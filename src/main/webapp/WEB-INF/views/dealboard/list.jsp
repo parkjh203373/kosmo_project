@@ -20,6 +20,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>📗 중고책 거래 게시판</h2>
         <a href="./create" class="btn btn-primary shadow-sm">판매 글쓰기</a>
+        <a href="/member/login" class="btn btn-primary shadow-sm">로그인</a>
     </div>
 
     <!-- 검색 바 -->

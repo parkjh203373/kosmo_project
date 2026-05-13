@@ -5,7 +5,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.book.app.dealboard.DealboardMapper">
-
+	
 	<select id="detail" parameterType="DealboardDTO" resultMap="dealboardResult">
 		SELECT * FROM "TB_DEALBOARD" D
 		LEFT JOIN "TB_OLDBOOK" O ON D."OLDBOOK_NUM" = O."OLDBOOK_NUM"
@@ -14,27 +14,32 @@
     </select>
 
 	<select id="getTotalCount" parameterType="Pager" resultType="Long">
-	SELECT COUNT(*) FROM "TB_DEALBOARD"
-	<where>
-		<if test="search != null and search != ''">
-			AND "DEALBOARD_TITLE" LIKE '%' || #{search} || '%'
-		</if>
-	</where>
+		SELECT COUNT(*) FROM "TB_DEALBOARD"
+		<where>
+			<if test="search != null and search != ''">
+				AND "DEALBOARD_TITLE" LIKE '%' || #{search} || '%'
+			</if>
+		</where>
 	</select>
 
 	<!-- 페이징 처리된 리스트 조회 -->
 	<select id="list" parameterType="Pager" resultMap="dealboardResult">
-	    SELECT * 
-	    FROM "TB_DEALBOARD" D
-	    LEFT JOIN "TB_OLDBOOK" O ON D."OLDBOOK_NUM" = O."OLDBOOK_NUM"
-	    LEFT JOIN "TB_OLDBOOKFILE" F ON O."OLDBOOK_NUM" = F."OLDBOOK_NUM"
-	    <where>
-	        <if test="search != null and search != ''">
-	            AND D."DEALBOARD_TITLE" LIKE '%' || #{search} || '%'
-	        </if>
-	    </where>
-	    ORDER BY D."DEALBOARD_NUM" DESC
-	    LIMIT #{perPage} OFFSET #{startNum}
+		SELECT *
+		FROM "TB_DEALBOARD" D
+		LEFT JOIN "TB_OLDBOOK" O ON D."OLDBOOK_NUM" = O."OLDBOOK_NUM"
+		LEFT JOIN "TB_OLDBOOKFILE" F ON O."OLDBOOK_NUM" = F."OLDBOOK_NUM"
+			<where>
+				<if test="search != null and search != ''">
+					<!-- 괄호로 묶어서 제목 또는 저자 중 하나라도 일치하면 검색되도록 수정 -->
+					AND (
+					O."OLDBOOK_TITLE" LIKE '%' || #{search} || '%'
+					OR
+					O."OLDBOOK_AUTHOR" LIKE '%' || #{search} || '%'
+					)
+				</if>
+			</where>
+		ORDER BY D."DEALBOARD_NUM" DESC
+		LIMIT #{perPage} OFFSET #{startNum}
 	</select>
 	
 	<resultMap id="dealboardResult" type="DealboardDTO">
@@ -82,5 +87,20 @@
 	    VALUES
         (default, #{fileName}, #{oriName}, #{oldbookNum})
 	</insert>
+	
+	<delete id="delBoard" parameterType="DealboardDTO">
+		DELETE FROM "TB_DEALBOARD"
+		WHERE "DEALBOARD_NUM" = #{dealboardNum}
+	</delete>
+	
+	<delete id="delOldbookDTO" parameterType="OldbookDTO">
+		DELETE FROM "TB_OLDBOOK"
+		WHERE "OLDBOOK_NUM" = #{oldbookNum}
+	</delete>
+	
+	<delete id="delOldbookFile" parameterType="OldbookFileDTO">
+		DELETE FROM "TB_OLDBOOKFILE"
+		WHERE "OLDBOOK_NUM" = #{oldbookNum}
+	</delete>
 	
 </mapper>
