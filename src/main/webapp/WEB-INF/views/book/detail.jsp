@@ -101,20 +101,26 @@
 
 							<div class="d-flex justify-content-between mt-4">
 								<div class="d-flex">
-									<form action="/rent/create" method="post" class="mb-0 mr-2"
-										onsubmit="return confirm('해당 도서를 대출하시겠습니까?');">
-										<input type="hidden" name="bookNum" value="${d.bookNum}">
-										<c:choose>
-											<c:when test="${d.bookStatus eq '대출가능'}">
-												<button type="submit" class="btn btn-primary">대출하기</button>
-											</c:when>
-											<c:otherwise>
-												<button type="button" class="btn btn-secondary" disabled>
-													<c:out value="${d.bookStatus eq '대출중' ? '대출 중' : '대출 불가'}" />
-												</button>
-											</c:otherwise>
-										</c:choose>
-									</form>
+									<c:choose>
+								        <c:when test="${d.bookStatus eq '대출가능'}">
+								            <button type="button" class="btn btn-primary" id="rentBtn" data-bn="${d.bookNum}">대출하기</button>
+								        </c:when>
+
+								        <c:when test="${d.bookStatus eq '대출중'}">
+								            <c:choose>
+								                <c:when test="${not empty member and d.rentDTO.username eq member.username}">
+								                    <button type="button" class="btn btn-warning font-weight-bold" id="returnBtn" data-bn="${d.bookNum}">반납하기</button>
+								                </c:when>
+								                <c:otherwise>
+								                    <button type="button" class="btn btn-secondary" disabled>대출 중</button>
+								                </c:otherwise>
+								            </c:choose>
+								        </c:when>
+								        
+								        <c:otherwise>
+								            <button type="button" class="btn btn-secondary" disabled>대출 불가</button>
+								        </c:otherwise>
+								    </c:choose>
 
 									<c:choose>
 							            <c:when test="${param.from eq 'wishlist'}">
@@ -240,5 +246,6 @@
 		<c:import url="/WEB-INF/views/temp/footer_script.jsp"></c:import>
 		
 		<script src="/js/book/review.js"></script>
+		<script src="/js/book/rent.js"></script>
 </body>
 </html>

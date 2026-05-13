@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.book.app.member.MemberDTO;
 import com.book.app.pager.Pager;
+import com.book.app.rent.RentDTO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -41,6 +42,7 @@ public class WishlistController {
         
         model.addAttribute("list", list);
         model.addAttribute("pager", pager);
+        session.setAttribute("wishCount", list.size());
         
         return "wishlist/list";
     }
@@ -55,7 +57,12 @@ public class WishlistController {
         }
         
         wishlistDTO.setUsername(memberDTO.getUsername());
-        return wishlistService.create(wishlistDTO);
+        int result = wishlistService.create(wishlistDTO);
+        if(result == 1) {
+	        List<WishlistDTO> list = wishlistService.list(wishlistDTO, new Pager());
+	        session.setAttribute("wishCount", list.size());
+	    }
+        return result;
     }
     
     @PostMapping("delete")
@@ -64,7 +71,11 @@ public class WishlistController {
         
         if (memberDTO != null) {
         	wishlistDTO.setUsername(memberDTO.getUsername());
-            wishlistService.delete(wishlistDTO);
+        	int result = wishlistService.delete(wishlistDTO);
+        	if(result == 1) {
+    	        List<WishlistDTO> list = wishlistService.list(wishlistDTO, new Pager());
+    	        session.setAttribute("wishCount", list.size());
+    	    }
         }
         
         return "redirect:./list";

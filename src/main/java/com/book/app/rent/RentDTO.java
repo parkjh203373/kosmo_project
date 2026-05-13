@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
+import com.book.app.book.BookDTO;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,6 +21,7 @@ public class RentDTO {
 	private LocalDateTime dueDate;
 	private Long bookNum;
 	private String username;
+	private BookDTO bookDTO;
 	
 	private static final DateTimeFormatter VIEW_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
