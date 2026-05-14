@@ -68,13 +68,13 @@
         </div>
 
         <div class="d-grid gap-2">
-        <form action="./buy" method="post">
+        <form action="/pay/ready" method="post">
       		<input type="hidden" id="dealboardNum" value="${dealboardDTO.dealboardNum}">
 			<div id="bookInfo">
     			<h3>상품명: <span id="pName">${dealboardDTO.oldbookDTO.oldbookTitle}</span></h3>
 			    <p>가격: <span id="pPrice">${dealboardDTO.oldbookDTO.oldbookPrice}</span>원</p>
 			</div>
-			<button type="button" id="naverPayBtn" class="btn btn-success">결제</button>
+			<button type="button" id="btn-pay-ready" class="btn btn-success">카카오페이 결제</button>
 		</form>
             
             <a href="./list" class="btn btn-outline-secondary">목록으로</a>
@@ -89,5 +89,8 @@
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="/js/pay/pay.js"></script>
 </body>
 </html>
