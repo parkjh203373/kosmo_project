@@ -181,8 +181,7 @@
 											<a href="/wishlist/list" class="btn btn-light border ml-2">목록으로</a>
 										</c:when>
 										<c:otherwise>
-											<a
-												href="./list?page=${pager.page}&kind=${pager.kind}&search=${pager.search}"
+											<a href="./list?page=${pager.page}&kind=${pager.kind}&search=${pager.search}"
 												class="btn btn-light border ml-2">목록으로</a>
 										</c:otherwise>
 									</c:choose>
@@ -241,6 +240,7 @@
 									</div>
 
 									<!-- 리뷰 작성 폼 -->
+									<input type="hidden" id="book_num_data" value="${d.bookNum}">
 									<div class="border-top pt-4">
 										<c:choose>
 											<c:when test="${canReview}">

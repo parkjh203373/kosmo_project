@@ -3,6 +3,7 @@ package com.book.app.book;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.book.app.pager.Pager;
 
@@ -22,5 +23,9 @@ public interface BookMapper {
 	public int updateStatus(BookDTO bookDTO) throws Exception;
 	
 	public int delete(BookDTO bookDTO) throws Exception;
+	
+	public List<BookDTO> getBestSeller() throws Exception;
+	
+	public List<BookDTO> getBestSellerByAge(@Param("age") Integer ageGroup) throws Exception;
 
 }

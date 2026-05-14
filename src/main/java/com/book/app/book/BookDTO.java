@@ -24,6 +24,7 @@ public class BookDTO implements Serializable {
     private String bookImage;
     private String bookContents;
     private RentDTO rentDTO;
+    private Long rentCount;
     
     public BookDTO() {}
     

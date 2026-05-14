@@ -96,5 +96,33 @@
 		DELETE FROM "TB_BOOK"
 		WHERE "BOOK_NUM" = #{bookNum}
 	</delete>
+	
+	<select id="getBestSeller" resultType="BookDTO">
+	    SELECT 
+	        B.*, 
+	        COUNT(R."RENT_NUM") AS rentCount
+	    FROM "TB_BOOK" B
+	    INNER JOIN "TB_BOOKRENT" R ON B."BOOK_NUM" = R."BOOK_NUM"
+	    GROUP BY B."BOOK_NUM"
+	    ORDER BY rentCount DESC
+	    LIMIT 3
+	</select>
+	
+	<select id="getBestSellerByAge" resultType="BookDTO" parameterType="Integer">
+	    SELECT 
+	        B.*, COUNT(R."RENT_NUM") AS "rentCount"
+	    FROM "TB_BOOK" B
+	    INNER JOIN "TB_BOOKRENT" R ON B."BOOK_NUM" = R."BOOK_NUM"
+	    INNER JOIN "TB_MEMBER" M ON R."USERNAME" = M."USERNAME"
+	    WHERE 
+	        (EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM M."MEMBER_BIRTH") + 1) 
+	        <choose>
+	            <when test="age >= 40"> >= #{age} </when>
+	            <otherwise> BETWEEN #{age} AND #{age} + 9 </otherwise>
+	        </choose>
+	    GROUP BY B."BOOK_NUM"
+	    ORDER BY "rentCount" DESC
+	    LIMIT 3
+	</select>
 
 </mapper>

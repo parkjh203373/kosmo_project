@@ -62,7 +62,7 @@
 							                </td>
 							                <td class="align-middle">
 							                    <div class="font-weight-bold mb-1" style="font-size: 1.1rem;">
-							                        <a href="./detail?bookNum=${d.bookDTO.bookNum}&page=${pager.page}&kind=${pager.kind}&search=${pager.search}" class="text-decoration-none text-dark">${d.bookDTO.bookTitle}</a>
+							                        <a href="/book/detail?bookNum=${d.bookDTO.bookNum}&page=${pager.page}&kind=${pager.kind}&search=${pager.search}&from=wishlist" class="text-decoration-none text-dark">${d.bookDTO.bookTitle}</a>
 							                    </div>
 							                    <div class="small text-muted">
 							                        저자: ${d.bookDTO.bookAuthor}</div>

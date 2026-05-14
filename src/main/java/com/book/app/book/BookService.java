@@ -2,6 +2,7 @@ package com.book.app.book;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,14 @@ public class BookService {
 	
 	public int delete(BookDTO bookDTO) throws Exception {
 		return bookMapper.delete(bookDTO);
+	}
+	
+	public List<BookDTO> getBestSeller() throws Exception {
+		return bookMapper.getBestSeller();
+	}
+	
+	public List<BookDTO> getBestSellerByAge(@Param("age") Integer ageGroup) throws Exception {
+		return bookMapper.getBestSellerByAge(ageGroup);
 	}
 
 }

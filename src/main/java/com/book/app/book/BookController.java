@@ -1,6 +1,7 @@
 package com.book.app.book;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,37 +87,44 @@ public class BookController {
 
 	
 	@GetMapping("list")
-	public String list(Model model, Pager pager) throws Exception {
+	public String list(Model model, Pager pager, HttpSession session) throws Exception {
 		List<BookDTO> ar = bookService.list(pager);
+		List<BookDTO> bs = bookService.getBestSeller();
 		
+		model.addAttribute("bestSeller", bs);		
 		model.addAttribute("list", ar);
 		model.addAttribute("pager", pager);
 		
 		return "book/list";
 	}
 	
+	@GetMapping("ageBest")
+	@ResponseBody
+	public List<BookDTO> ageBest(@RequestParam(name="ageGroup", defaultValue="20") Integer ageGroup) throws Exception {
+	    return bookService.getBestSellerByAge(ageGroup);
+	}
+	
 	@GetMapping("detail")
 	public String detail(BookDTO bookDTO, Pager pager, Model model, HttpSession session) throws Exception {
-		MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
-		
-		if(memberDTO == null) {
-			return "redirect:/member/login?redirectUrl=/book/list";
-		}
-		
-		bookDTO = bookService.detail(bookDTO);
-		model.addAttribute("d", bookDTO);
-		model.addAttribute("pager", pager);
-		
-		RentDTO rentDTO = new RentDTO();
-	    rentDTO.setBookNum(bookDTO.getBookNum());
-	    rentDTO.setUsername(memberDTO.getUsername());
+	    MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+	    
+	    bookDTO = bookService.detail(bookDTO);
+	    model.addAttribute("d", bookDTO);
+	    model.addAttribute("pager", pager);
 	    
 	    boolean canReview = false;
-	    canReview = rentService.rentHistory(rentDTO);
+	    
+	    if(memberDTO != null) {
+	        RentDTO rentDTO = new RentDTO();
+	        rentDTO.setBookNum(bookDTO.getBookNum());
+	        rentDTO.setUsername(memberDTO.getUsername());
+	        
+	        canReview = rentService.rentHistory(rentDTO);
+	    }
 	    
 	    model.addAttribute("canReview", canReview);
-		
-		return "book/detail";
+	    
+	    return "book/detail";
 	}
 	
 	@GetMapping("create")

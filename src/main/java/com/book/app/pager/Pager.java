@@ -14,7 +14,7 @@ public class Pager {
 	private Long startNum;
 	private String search = "";
 	private String kind;
-	private Long start;;
+	private Long start;
 	private Long end;
 	private boolean pre = true;
 	private boolean next = true;

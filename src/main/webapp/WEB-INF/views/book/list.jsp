@@ -15,9 +15,64 @@
 			<div id="content">
 				<c:import url="/WEB-INF/views/temp/topbar.jsp"></c:import>
 				<div class="container-fluid">
-				<h1 class="h3 mb-4 text-gray-800">도서 대출</h1>
+				<div class="row mb-5">
+                    <div class="col-lg-6 border-right">
+					    <div class="d-flex align-items-center justify-content-between mb-3">
+					        <h1 class="h4 mb-0 text-gray-800 font-weight-bold">
+					            <i class="fas fa-crown text-warning mr-2"></i>전체 인기 TOP 3
+					        </h1>
+					    </div>
+					
+					    <div class="row">
+					        <c:forEach items="${bestSeller}" var="best" varStatus="vs">
+					            <div class="col-md-4 mb-3 text-center">
+					                <div class="position-relative d-inline-block">
+					                    <a href="./detail?bookNum=${best.bookNum}">
+					                        <!-- 높이를 220px로 통일 (기존 270px은 너무 커서 연령대와 맞추기 적당한 크기로 조정) -->
+					                        <img src="${best.bookImage}" class="shadow-sm rounded mb-2" 
+					                             style="height: 220px; width: 150px; object-fit: cover;" 
+					                             onerror="this.src='/img/no-image.png'">
+					                    </a>
+					                    <!-- 순위 배지 -->
+					                    <div class="position-absolute" style="top: 0; left: 0;">
+					                        <c:choose>
+					                            <c:when test="${vs.count eq 1}"><span class="badge badge-warning p-1 shadow-sm">1위</span></c:when>
+					                            <c:when test="${vs.count eq 2}"><span class="badge badge-secondary p-1 shadow-sm">2위</span></c:when>
+					                            <c:otherwise><span class="badge p-1 shadow-sm text-white" style="background-color: #cd7f32;">3위</span></c:otherwise>
+					                        </c:choose>
+					                    </div>
+					                </div>
+					                <div class="small font-weight-bold text-truncate px-2">${best.bookTitle}</div>
+					                <div class="text-xs text-danger"><i class="fas fa-fire"></i> ${best.rentCount}회</div>
+					            </div>
+					        </c:forEach>
+					    </div>
+					</div>
+				
+				    <div class="col-lg-6">
+			            <div class="d-flex align-items-center justify-content-between mb-3">
+			                <h1 class="h4 mb-0 text-gray-800 font-weight-bold">
+			                    <i class="fas fa-user-friends text-primary mr-2"></i>연령대별 TOP 3
+			                </h1>
+			                <select id="ageSelector" class="custom-select custom-select-sm w-25">
+			                    <option value="10">10대</option>
+			                    <option value="20" selected>20대</option>
+			                    <option value="30">30대</option>
+			                    <option value="40">40대 이상</option>
+			                </select>
+			            </div>
+			            <div id="ageBestResult" class="row">
+			                <div class="col-12 text-center py-5">
+			                    <div class="spinner-border text-primary" role="status"></div>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+				
+				    <hr class="mb-5">
+                    
                     <div class="row justify-content-center">
-	           	    	<div class="col-6">
+	           	    	<div class="col-8">
 	           	        	<!-- 검색 폼 -->
 	                 	  	<div class="d-sm-flex align-items-center justify-content-between mb-4">
 							    <h1 class="h3 mb-0 text-gray-800">도서 대출 현황</h1>
@@ -133,6 +188,6 @@
 	<c:import url="/WEB-INF/views/temp/footer_script.jsp"></c:import>
                     
                     
-                    
+    <script src="/js/book/bestseller.js"></script>
 </body>
 </html>
