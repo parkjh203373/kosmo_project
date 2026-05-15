@@ -28,12 +28,10 @@
 					            <div class="col-md-4 mb-3 text-center">
 					                <div class="position-relative d-inline-block">
 					                    <a href="./detail?bookNum=${best.bookNum}">
-					                        <!-- 높이를 220px로 통일 (기존 270px은 너무 커서 연령대와 맞추기 적당한 크기로 조정) -->
 					                        <img src="${best.bookImage}" class="shadow-sm rounded mb-2" 
 					                             style="height: 220px; width: 150px; object-fit: cover;" 
 					                             onerror="this.src='/img/no-image.png'">
 					                    </a>
-					                    <!-- 순위 배지 -->
 					                    <div class="position-absolute" style="top: 0; left: 0;">
 					                        <c:choose>
 					                            <c:when test="${vs.count eq 1}"><span class="badge badge-warning p-1 shadow-sm">1위</span></c:when>

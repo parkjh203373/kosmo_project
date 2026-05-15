@@ -12,17 +12,11 @@ import com.book.app.book.BookMapper;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class RentService {
-
-    private final FileMappingConfig fileMappingConfig;
 	
 	@Autowired
 	private RentMapper rentMapper;
 	@Autowired
 	private BookMapper bookMapper;
-
-    RentService(FileMappingConfig fileMappingConfig) {
-        this.fileMappingConfig = fileMappingConfig;
-    }
 	
 	public int create(RentDTO rentDTO) throws Exception {
 		Long count = rentMapper.countMyRent(rentDTO);
