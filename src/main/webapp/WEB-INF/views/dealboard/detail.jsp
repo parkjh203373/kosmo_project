@@ -46,7 +46,7 @@
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-start mb-2">
                                         <span class="badge px-3 py-2 text-primary font-weight-bold small shadow-sm" style="background:#e6fffa; border-radius:30px;">● 분양 진행중</span>
-                                        <span class="text-muted small">공유인 ID: <strong class="text-dark">${dealboardDTO.username}</strong></span>
+                                        <span class="text-muted small">판매자 ID: <strong class="text-dark">${dealboardDTO.username}</strong></span>
                                     </div>
                                     
                                     <h2 class="font-weight-bold text-gray-950 mb-3" style="font-size: 1.6rem;">${dealboardDTO.dealboardTitle}</h2>
@@ -59,8 +59,8 @@
                                         <span class="market-meta-value font-weight-bold">${dealboardDTO.oldbookDTO.oldbookTitle}</span>
                                     </div>
                                     <div class="market-divider d-flex">
-                                        <span class="market-meta-label">글쓴 저자</span>
-                                        <span class="market-meta-value">${dealbookDTO.oldbookDTO.oldbookAuthor}</span>
+                                        <span class="market-meta-label">저자</span>
+                                        <span class="market-meta-value">${dealboardDTO.oldbookDTO.oldbookAuthor}</span>
                                     </div>
                                     <div class="market-divider d-flex">
                                         <span class="market-meta-label">출판 정보</span>
@@ -80,14 +80,18 @@
 
                                     <div class="d-flex justify-content-between align-items-center mb-1">
                                         <div>
-                                            <span class="small text-muted d-block">안심 분양 가격</span>
+                                            <span class="small text-muted d-block">거래 희망 가격</span>
                                             <span class="h3 font-weight-bold text-gray-900 mb-0">
                                                 <fmt:formatNumber value="${dealboardDTO.oldbookDTO.oldbookPrice}" pattern="#,###"/>
                                             </span><span class="font-weight-bold text-dark ml-1">원</span>
                                         </div>
-                                        <button type="button" id="btn-pay-ready" class="btn font-weight-bold text-dark px-4 py-2 shadow-sm d-flex align-items-center" style="background:#fee500; border-radius:12px; height:46px;">
-                                            <i class="fas fa-comment mr-2" style="color:#3c1e1e;"></i> 카카오페이 결제
-                                        </button>
+                                        <c:if test="${member.username ne dealboardDTO.username}">
+	                                        <div>
+		                                        <button type="button" id="btn-pay-ready" class="btn font-weight-bold text-dark px-4 py-2 shadow-sm d-flex align-items-center" style="background:#fee500; border-radius:12px; height:46px;">
+		                                            <i class="fas fa-comment mr-2" style="color:#3c1e1e;"></i> 카카오페이 결제
+		                                        </button>
+	                                        </div>
+                                        </c:if>
                                     </div>
                                 </form>
                             </div>

@@ -46,13 +46,19 @@
                                     <span class="badge px-3 py-1 text-primary small font-weight-bold" style="background:#e6fffa; border-radius:20px;">일반 회원</span>
                                     
                                     <hr class="my-4" style="border-top-style: dashed;">
-                                    
-                                    <div class="d-flex flex-column gap-2">
-                                        <a href="./update" class="btn btn-primary font-weight-bold btn-block mb-2" style="border-radius:10px;">회원 정보 수정</a>
-                                        <a href="./logout" class="btn btn-light font-weight-bold btn-block text-danger border mb-2" style="border-radius:10px;">로그아웃</a>
-                                        <a href="./delete?username=${member.username}" class="btn btn-link text-danger small text-decoration-none mt-2" onclick="return confirm('정말 라이브러리를 탈퇴하시겠습니까? 데이터가 소멸됩니다.')">회원 탈퇴하기</a>
-                                    </div>
-                                </div>
+
+									<div class="d-flex flex-column gap-2 text-center">
+										<a href="./update" class="btn font-weight-bold mb-2 shadow-sm"
+											style="border-radius: 10px; padding: 12px 0; background-color: #2a5c43; color: white; border: none;">회원 정보 수정</a> 
+										<a href="./logout"
+											class="btn btn-outline-light font-weight-bold text-secondary mb-2"
+											style="border-radius: 10px; padding: 10px 0; border: 1px solid #dee2e6; background-color: #f8f9fa;">로그아웃</a> 
+										<a href="./delete?username=${member.username}"
+											class="text-danger mt-3 small"
+											style="text-decoration: underline; font-size: 0.85rem; opacity: 0.8;"
+											onclick="return confirm('정말 라이브러리를 탈퇴하시겠습니까? 데이터가 소멸됩니다.')">회원 탈퇴하기</a>
+									</div>
+								</div>
                             </div>
                         </div>
 

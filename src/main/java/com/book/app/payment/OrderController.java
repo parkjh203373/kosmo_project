@@ -83,7 +83,7 @@ public class OrderController {
 	    if (boardData != null && boardData.getOldbookDTO() != null) {
 	        OldbookDTO oldbookDTO = boardData.getOldbookDTO();
 	        OldbookFileDTO oldbookFileDTO = oldbookDTO.getOldbookFileDTO();
-	        dealboardService.deleteBoard(boardData, oldbookDTO, oldbookFileDTO);
+	        dealboardService.deleteBoard(boardData);
 	    }
 
 	    return "redirect:/order/pay/completed";

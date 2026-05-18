@@ -50,7 +50,7 @@ public class SecurityConfig {
 				.requestMatchers("/book/create", "/book/update", "/book/delete")
 							.hasAnyRole("ADMIN", "MANAGER")
 				.requestMatchers("/book/list", "/book/detail", 
-						"/dealboard/create", "/dealboard/detail", "/dealboard/list", 
+						"/dealboard/create", "/dealboard/detail", "/dealboard/list", "/dealboard/update",
 						"/order/completed", "/order/fail",
 						"/rent/list", "/review/list", "/wishlist/list")
 							.hasAnyRole("ADMIN", "MANAGER", "MEMBER")
