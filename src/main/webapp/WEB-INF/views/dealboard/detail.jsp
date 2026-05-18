@@ -1,96 +1,117 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>중고책 상세 정보</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>중고 장터 상세 - ${dealboardDTO.oldbookDTO.oldbookTitle}</title>
+    <c:import url="/WEB-INF/views/temp/head_css.jsp"></c:import>
     <style>
-        .form-container { max-width: 800px; margin: 50px auto; padding: 30px; background: #fff; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
-        .section-title { border-left: 5px solid #0d6efd; padding-left: 10px; margin-bottom: 20px; font-weight: bold; }
-        .img-container { text-align: center; margin-bottom: 20px; }
-        .img-container img { max-width: 100%; height: auto; border-radius: 5px; }
+        .market-meta-label { color: #718096; font-weight: 500; width: 120px; display: inline-block; }
+        .market-meta-value { color: #1a202c; font-weight: 400; }
+        .market-divider { border-bottom: 1px solid #edf2f7; padding: 14px 0; }
+        .payment-box { background: #fffdf2; border: 1px solid #fef3c7; border-radius: 16px; padding: 24px; }
+        /* JS 바인딩 전용 hidden 레이아웃 설정 */
+        .js-binding-hidden { display: none !important; }
     </style>
 </head>
-<body class="bg-light">
+<body id="page-top">
+    <div id="wrapper">
+        <c:import url="/WEB-INF/views/temp/sidebar.jsp"></c:import>
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <c:import url="/WEB-INF/views/temp/topbar.jsp"></c:import>
+                
+                <div class="container py-4">
+                    <div class="row">
+                        <div class="col-lg-5 text-center mb-4">
+                            <div class="card bg-white border-0 p-4 sticky-top shadow-sm" style="top: 100px;">
+                                <c:choose>
+                                    <c:when test="${not empty dealboardDTO.oldbookDTO.oldbookFileDTO.fileName}">
+                                        <img src="/files/dealboard/${dealboardDTO.oldbookDTO.oldbookFileDTO.fileName}" class="img-fluid rounded-lg shadow-md mx-auto" style="max-height: 450px; object-fit: cover;" alt="도서 이미지">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="bg-light d-flex align-items-center justify-content-center rounded-lg text-muted" style="height: 380px; border: 2px dashed #edf2f7;">
+                                            <div class="text-center"><i class="fas fa-image fa-3x opacity-25 mb-2"></i><div class="small">등록된 사진이 없습니다.</div></div>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
 
-<div class="container">
-    <div class="form-container shadow">
-        <h2 class="text-center mb-5">📖 중고책 상세 정보</h2>
+                        <div class="col-lg-7">
+                            <div class="card bg-white border-0 p-4 mb-4">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <span class="badge px-3 py-2 text-primary font-weight-bold small shadow-sm" style="background:#e6fffa; border-radius:30px;">● 분양 진행중</span>
+                                        <span class="text-muted small">공유인 ID: <strong class="text-dark">${dealboardDTO.username}</strong></span>
+                                    </div>
+                                    
+                                    <h2 class="font-weight-bold text-gray-950 mb-3" style="font-size: 1.6rem;">${dealboardDTO.dealboardTitle}</h2>
+                                    
+                                    <div class="bg-light p-3 rounded-lg text-secondary mb-4" style="white-space: pre-wrap; line-height: 1.7; font-size: 0.95rem; min-height: 120px;">${dealboardDTO.dealboardContents}</div>
+                                    
+                                    <h5 class="font-weight-bold text-dark mt-4 mb-2"><i class="fas fa-info-circle text-gray-400 mr-2"></i>도서 명세서 정보</h5>
+                                    <div class="market-divider d-flex">
+                                        <span class="market-meta-label">책 제목명</span>
+                                        <span class="market-meta-value font-weight-bold">${dealboardDTO.oldbookDTO.oldbookTitle}</span>
+                                    </div>
+                                    <div class="market-divider d-flex">
+                                        <span class="market-meta-label">글쓴 저자</span>
+                                        <span class="market-meta-value">${dealbookDTO.oldbookDTO.oldbookAuthor}</span>
+                                    </div>
+                                    <div class="market-divider d-flex">
+                                        <span class="market-meta-label">출판 정보</span>
+                                        <span class="market-meta-value">${dealboardDTO.oldbookDTO.oldbookPublisher} <span class="text-gray-300 mx-2">|</span> ${dealboardDTO.oldbookDTO.oldbookDate}</span>
+                                    </div>
+                                </div>
+                            </div>
 
-        <!-- 상세 정보는 보통 form보다는 div 구조로 보여주지만, 기존 스타일 유지를 위해 readonly input 사용 -->
-        <div class="mb-3">
-            <label class="form-label fw-bold">게시글 제목</label>
-            <input type="text" class="form-control bg-white" value="${dealboardDTO.dealboardTitle}" readonly>
-        </div>
-        
-        <div class="mb-4">
-            <label class="form-label fw-bold">상세 설명</label>
-            <!-- textarea는 value 속성 대신 태그 사이에 값을 넣습니다 -->
-            <textarea class="form-control bg-white" rows="5" readonly>${dealboardDTO.dealboardContents}</textarea>
-        </div>
+                            <div class="payment-box mb-4 shadow-sm">
+                                <form action="/pay/ready" method="post" id="payForm">
+                                    
+                                    <input type="hidden" id="dealboardNum" value="${dealboardDTO.dealboardNum}">
+                                    <div class="js-binding-hidden">
+                                        <span id="pName">${dealboardDTO.oldbookDTO.oldbookTitle}</span>
+                                        <span id="pPrice">${dealboardDTO.oldbookDTO.oldbookPrice}</span>
+                                    </div>
 
-        <div class="section-title">중고책 상세 정보</div>
-        
-        <!-- 이미지 출력 부분 -->
-        <div class="img-container">
-            <c:if test="${not empty dealboardDTO.oldbookDTO.oldbookFileDTO.fileName}">
-                <img src="/files/dealboard/${dealboardDTO.oldbookDTO.oldbookFileDTO.fileName}" alt="도서 이미지">
-            </c:if>
-        </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <div>
+                                            <span class="small text-muted d-block">안심 분양 가격</span>
+                                            <span class="h3 font-weight-bold text-gray-900 mb-0">
+                                                <fmt:formatNumber value="${dealboardDTO.oldbookDTO.oldbookPrice}" pattern="#,###"/>
+                                            </span><span class="font-weight-bold text-dark ml-1">원</span>
+                                        </div>
+                                        <button type="button" id="btn-pay-ready" class="btn font-weight-bold text-dark px-4 py-2 shadow-sm d-flex align-items-center" style="background:#fee500; border-radius:12px; height:46px;">
+                                            <i class="fas fa-comment mr-2" style="color:#3c1e1e;"></i> 카카오페이 결제
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
 
-        <div class="row">
-            <div class="col-md-8 mb-3">
-                <label class="form-label">도서명</label>
-                <input type="text" class="form-control bg-white" value="${dealboardDTO.oldbookDTO.oldbookTitle}" readonly>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label class="form-label">판매 가격</label>
-                <input type="text" class="form-control bg-white" value="${dealboardDTO.oldbookDTO.oldbookPrice} 원" readonly>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label class="form-label">저자</label>
-                <input type="text" class="form-control bg-white" value="${dealboardDTO.oldbookDTO.oldbookAuthor}" readonly>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label">출판사</label>
-                <input type="text" class="form-control bg-white" value="${dealboardDTO.oldbookDTO.oldbookPublisher}" readonly>
-            </div>
-        </div>
-
-        <div class="mb-5">
-            <label class="form-label">출판일</label>
-            <input type="text" class="form-control bg-white" value="${dealboardDTO.oldbookDTO.oldbookDate}" readonly>
-        </div>
-
-        <div class="d-grid gap-2">
-        <form action="/pay/ready" method="post">
-      		<input type="hidden" id="dealboardNum" value="${dealboardDTO.dealboardNum}">
-			<div id="bookInfo">
-    			<h3>상품명: <span id="pName">${dealboardDTO.oldbookDTO.oldbookTitle}</span></h3>
-			    <p>가격: <span id="pPrice">${dealboardDTO.oldbookDTO.oldbookPrice}</span>원</p>
-			</div>
-			<button type="button" id="btn-pay-ready" class="btn btn-success">카카오페이 결제</button>
-		</form>
-            
-            <a href="./list" class="btn btn-outline-secondary">목록으로</a>
-            
-            <!-- 작성자 본인일 경우 수정/삭제 버튼을 보여주는 로직을 추가하면 좋습니다 -->
-            <c:if test="${member.username eq dealboardDTO.username}">
-                <div class="mt-2 text-end">
-                    <a href="./update?dealboardNum=${dealboardDTO.dealboardNum}" class="btn btn-sm btn-warning">수정</a>
-                    <a href="./delete?dealboardNum=${dealboardDTO.dealboardNum}" class="btn btn-sm btn-danger">삭제</a>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="./list" class="btn btn-outline-secondary px-4 py-2 font-weight-bold" style="border-radius:10px;"><i class="fas fa-arrow-left mr-2"></i> 목록으로</a>
+                                
+                                <c:if test="${member.username eq dealboardDTO.username}">
+                                    <div>
+                                        <a href="./update?dealboardNum=${dealboardDTO.dealboardNum}" class="btn btn-sm btn-warning font-weight-bold px-3 py-2 mr-1" style="border-radius:8px;">수정</a>
+                                        <a href="./delete?dealboardNum=${dealboardDTO.dealboardNum}" class="btn btn-sm btn-danger font-weight-bold px-3 py-2" style="border-radius:8px;" onclick="return confirm('이 거래글을 장터에서 완전히 내릴까요?')">삭제</a>
+                                    </div>
+                                </c:if>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </c:if>
+            </div>
+            <c:import url="/WEB-INF/views/temp/footer.jsp"></c:import>
         </div>
     </div>
-</div>
 
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script src="/js/pay/pay.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="/js/pay/pay.js"></script>
+    <c:import url="/WEB-INF/views/temp/footer_script.jsp"></c:import>
 </body>
 </html>

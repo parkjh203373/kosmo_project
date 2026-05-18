@@ -1,53 +1,96 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>    
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-	<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"> <title>마이 페이지</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>마이 페이지 - Forest Library</title>
+    <c:import url="/WEB-INF/views/temp/head_css.jsp"></c:import>
+    <style>
+        .profile-avatar {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+        .info-label { color: #718096; font-weight: 600; font-size: 0.85rem; text-uppercase: true; display: block; margin-bottom: 4px;}
+        .info-value-box { background-color: #f8fafc; padding: 12px 16px; border-radius: 12px; font-weight: 500; color: #1a202c; font-size: 0.95rem; }
+    </style>
 </head>
-<body>
-	<div>
-		<h2>마이 페이지</h2>
-	</div>
-	
-	<div>
-		<img src="/files/member/${member.profileDTO.fileName}" class="rounded mx-auto d-block" alt="프로필 이미지">
-		
-		<div class="form-group">
-			<label for="username">아이디</label> 
-			<input type="text" class="form-control" name="username" id="username" value="${member.username}"> 
-		</div>
-		
-		<div class="form-group">
-			<label for="password">비밀번호</label> 
-			<input type="hidden" class="form-control" name="password" id="password">
-		</div>
-		
-		<div class="form-group">
-			<label for="memberName">이름</label> 
-			<input type="text" class="form-control" name="memberName" id="memberName" value="${member.memberName}"> 
-		</div>
+<body id="page-top">
+    <div id="wrapper">
+        <c:import url="/WEB-INF/views/temp/sidebar.jsp"></c:import>
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <c:import url="/WEB-INF/views/temp/topbar.jsp"></c:import>
+                
+                <div class="container py-4">
+                    <h1 class="h4 mb-4 text-gray-900 font-weight-bold">마이 페이지</h1>
+                    
+                    <div class="row">
+                        <div class="col-lg-4 mb-4">
+                            <div class="card border-0 bg-white text-center p-4 shadow-sm" style="border-radius: 16px;">
+                                <div class="card-body">
+                                    <c:choose>
+                                        <c:when test="${not empty member.profileDTO.fileName}">
+                                            <img src="/files/member/${member.profileDTO.fileName}" class="profile-avatar mb-3" alt="프로필">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="profile-avatar bg-light mx-auto mb-3 d-flex align-items-center justify-content-center text-muted"><i class="fas fa-user fa-2x"></i></div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <h5 class="font-weight-bold text-gray-900 mb-1">${member.memberName}</h5>
+                                    <span class="badge px-3 py-1 text-primary small font-weight-bold" style="background:#e6fffa; border-radius:20px;">일반 회원</span>
+                                    
+                                    <hr class="my-4" style="border-top-style: dashed;">
+                                    
+                                    <div class="d-flex flex-column gap-2">
+                                        <a href="./update" class="btn btn-primary font-weight-bold btn-block mb-2" style="border-radius:10px;">회원 정보 수정</a>
+                                        <a href="./logout" class="btn btn-light font-weight-bold btn-block text-danger border mb-2" style="border-radius:10px;">로그아웃</a>
+                                        <a href="./delete?username=${member.username}" class="btn btn-link text-danger small text-decoration-none mt-2" onclick="return confirm('정말 라이브러리를 탈퇴하시겠습니까? 데이터가 소멸됩니다.')">회원 탈퇴하기</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-		<div class="form-group">
-			<label for="memberBirth">생년월일</label> 
-			<input type="date" class="form-control" name="memberBirth" id="memberBirth" value="${member.memberBirth}">
-		</div>
-		<div class="form-group">
-			<label for="memberEmail">이메일 주소</label> 
-			<input type="email" class="form-control" name="memberEmail" id="memberEmail" value="${member.memberEmail}"> 
-		</div>
-		
-		<a href="./update" class="btn btn-success">정보 수정</a>
-		<a href="./delete?username=${member.username}" class="btn btn-danger">회원 탈퇴</a>
-		<a href="./logout" class="btn btn-info">로그아웃</a>
-	</div>
-	
+                        <div class="col-lg-8">
+                            <div class="card border-0 bg-white p-4 shadow-sm" style="border-radius: 16px;">
+                                <div class="card-body">
+                                    <h5 class="font-weight-bold text-dark mb-4"><i class="fas fa-id-card text-gray-400 mr-2"></i>회원 상세 정보</h5>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <span class="info-label">ID</span>
+                                            <div class="info-value-box">${member.username}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <span class="info-label">이름</span>
+                                            <div class="info-value-box">${member.memberName}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <span class="info-label">생년월일</span>
+                                            <div class="info-value-box">${member.memberBirth}</div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <span class="info-label">이메일 주소</span>
+                                            <div class="info-value-box">${member.memberEmail}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <c:import url="/WEB-INF/views/temp/footer.jsp"></c:import>
+        </div>
+    </div>
+    <c:import url="/WEB-INF/views/temp/footer_script.jsp"></c:import>
 </body>
 </html>

@@ -1,212 +1,87 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<!-- Topbar -->
-<nav
-	class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-	<!-- Sidebar Toggle (Topbar) -->
-	<button id="sidebarToggleTop"
-		class="btn btn-link d-md-none rounded-circle mr-3">
-		<i class="fa fa-bars"></i>
-	</button>
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-3 px-4 shadow-sm">
+    <div class="container">
+        <!-- 로고 디자인 (북카페 감성) -->
+        <a class="navbar-brand d-flex align-items-center" href="/" style="font-weight: 700; color: #2a5c43; font-size: 1.3rem;">
+            <i class="fas fa-book-open mr-2"></i> FOREST <span style="font-weight: 300; color: #718096; margin-left: 5px;">LIBRARY</span>
+        </a>
 
-	<!-- Topbar Search -->
-	<form
-		class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-		<div class="input-group">
-			<input type="text" class="form-control bg-light border-0 small"
-				placeholder="Search for..." aria-label="Search"
-				aria-describedby="basic-addon2">
-			<div class="input-group-append">
-				<button class="btn btn-primary" type="button">
-					<i class="fas fa-search fa-sm"></i>
-				</button>
-			</div>
-		</div>
-	</form>
-	
-	<!-- Topbar Navbar -->
-	<ul class="navbar-nav ml-auto">
-	
-		<c:if test="${not empty member}">
-			<!-- Nav Item - Search Dropdown (Visible Only XS) -->
-			<li class="nav-item dropdown no-arrow d-sm-none"><a
-				class="nav-link dropdown-toggle" href="#" id="searchDropdown"
-				role="button" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="false"> <i class="fas fa-search fa-fw"></i>
-			</a> <!-- Dropdown - Messages -->
-				<div
-					class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-					aria-labelledby="searchDropdown">
-					<form class="form-inline mr-auto w-100 navbar-search">
-						<div class="input-group">
-							<input type="text" class="form-control bg-light border-0 small"
-								placeholder="Search for..." aria-label="Search"
-								aria-describedby="basic-addon2">
-							<div class="input-group-append">
-								<button class="btn btn-primary" type="button">
-									<i class="fas fa-search fa-sm"></i>
-								</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</li>
-			<li class="nav-item dropdown no-arrow mx-1">
-			    <a class="nav-link" href="/rent/list" id="rentListLink" role="button" title="내 대출 현황">
-			        <i class="fas fa-book fa-fw text-primary"></i>
-			        <c:if test="${not empty rentCount and rentCount > 0}">
-			            <span class="badge badge-primary badge-counter">${rentCount}</span>
-			        </c:if>
-			    </a>
-			</li>
-			<li class="nav-item dropdown no-arrow mx-1">
-			    <a class="nav-link" href="/wishlist/list" id="wishlistLink" role="button" title="찜 목록">
-			        <i class="fas fa-heart fa-fw text-danger"></i>
-			        <c:if test="${not empty wishCount and wishCount > 0}">
-			            <span class="badge badge-danger badge-counter">${wishCount}</span>
-			        </c:if>
-			    </a>
-			</li>
-			<!-- Nav Item - Alerts -->
-			<li class="nav-item dropdown no-arrow mx-1">
-				<a class="nav-link dropdown-toggle" href="#" id="alertsDropdown"
-					role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<i class="fas fa-bell fa-fw"></i>
-					<c:if test="${not empty lateCount and lateCount > 0}">
-						<span class="badge badge-danger badge-counter">${lateCount}+</span>
-					</c:if>
-				</a>
-				<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-					<h6 class="dropdown-header">알림</h6>
-					<c:choose>
-						<c:when test="${not empty lateList}">
-							<c:forEach items="${lateList}" var="l">
-								<a class="dropdown-item d-flex align-items-center" href="/rent/list">
-									<div class="mr-3">
-										<div class="icon-circle bg-primary">
-											<i class="fas fa-file-alt text-white"></i>
-										</div>
-									</div>
-									<div>
-										<div class="small text-gray-500">${l.lateStatus}</div>
-										<span class="font-weight-bold">[연체] '${l.bookDTO.bookTitle}' 도서가 연체되었습니다.</span>
-									</div>
-								</a>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<a class="dropdown-item text-center small text-gray-500" href="#">새로운 알림이 없습니다.</a>
-						</c:otherwise>
-					</c:choose>
-				</div>
-			</li>
-	
-			<!-- Nav Item - Messages -->
-			<li class="nav-item dropdown no-arrow mx-1"><a
-				class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
-				role="button" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="false"> <i class="fas fa-envelope fa-fw"></i> <!-- Counter - Messages -->
-					<span class="badge badge-danger badge-counter">7</span>
-			</a> <!-- Dropdown - Messages -->
-				<div
-					class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-					aria-labelledby="messagesDropdown">
-					<h6 class="dropdown-header">Message Center</h6>
-					<a class="dropdown-item d-flex align-items-center" href="#">
-						<div class="dropdown-list-image mr-3">
-							<img class="rounded-circle" src="/img/undraw_profile_1.svg"
-								alt="...">
-							<div class="status-indicator bg-success"></div>
-						</div>
-						<div class="font-weight-bold">
-							<div class="text-truncate">Hi there! I am wondering if you
-								can help me with a problem I've been having.</div>
-							<div class="small text-gray-500">Emily Fowler · 58m</div>
-						</div>
-					</a> <a class="dropdown-item d-flex align-items-center" href="#">
-						<div class="dropdown-list-image mr-3">
-							<img class="rounded-circle" src="/img/undraw_profile_2.svg"
-								alt="...">
-							<div class="status-indicator"></div>
-						</div>
-						<div>
-							<div class="text-truncate">I have the photos that you
-								ordered last month, how would you like them sent to you?</div>
-							<div class="small text-gray-500">Jae Chun · 1d</div>
-						</div>
-					</a> <a class="dropdown-item d-flex align-items-center" href="#">
-						<div class="dropdown-list-image mr-3">
-							<img class="rounded-circle" src="/img/undraw_profile_3.svg"
-								alt="...">
-							<div class="status-indicator bg-warning"></div>
-						</div>
-						<div>
-							<div class="text-truncate">Last month's report looks great,
-								I am very happy with the progress so far, keep up the good work!</div>
-							<div class="small text-gray-500">Morgan Alvarez · 2d</div>
-						</div>
-					</a> <a class="dropdown-item d-flex align-items-center" href="#">
-						<div class="dropdown-list-image mr-3">
-							<img class="rounded-circle"
-								src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="...">
-							<div class="status-indicator bg-success"></div>
-						</div>
-						<div>
-							<div class="text-truncate">Am I a good boy? The reason I ask
-								is because someone told me that people say this to all dogs, even
-								if they aren't good...</div>
-							<div class="small text-gray-500">Chicken the Dog · 2w</div>
-						</div>
-					</a> <a class="dropdown-item text-center small text-gray-500" href="#">Read
-						More Messages</a>
-				</div></li>
-	
-			<div class="topbar-divider d-none d-sm-block"></div>
-	
-			<!-- Nav Item - User Information -->
-			<li class="nav-item dropdown no-arrow">
-			    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown">
-			        <span class="mr-2 d-none d-lg-inline text-gray-600 small">${member.username}</span>
-			        <c:choose>
-			            <c:when test="${not empty member.profileDTO.fileName}">
-			                <img class="img-profile rounded-circle" src="/files/member/${member.profileDTO.fileName}">
-			            </c:when>
-			            <c:otherwise>
-			                <img class="img-profile rounded-circle" src="/img/undraw_profile.svg"> <!-- 기본 프로필 이미지 -->
-			            </c:otherwise>
-			        </c:choose>
-			    </a> <!-- Dropdown - User Information -->
-				<div
-					class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-					aria-labelledby="userDropdown">
-					<a class="dropdown-item" href="/member/mypage"> <i
-						class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Profile
-					</a> <a class="dropdown-item" href="#"> <i
-						class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Settings
-					</a> <a class="dropdown-item" href="#"> <i
-						class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i> Activity
-						Log
-					</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="#" data-toggle="modal"
-						data-target="#logoutModal"> <i
-						class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-						Logout
-					</a>
-				</div></li>
-	
-		</c:if>
-		
-		<c:if test="${empty member}">
-			<li class="nav-item mx-3">
-				<a href="/member/create"><i class="fas fa-user-plus"></i></a>
-			</li>
-			<li class="nav-item mx-3">
-				<a href="/member/login"><i class="fas fa-sign-in-alt"></i></a>
-			</li>
-		</c:if>
-	</ul>
+        <!-- 토글 버튼 (모바일용) -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- 메인 메뉴 목록 -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="/book/list"><i class="fas fa-search mr-1"></i> 도서 검색·대출</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-custom" href="/dealboard/list"><i class="fas fa-handshake mr-1"></i> 중고 도서 거래</a></li>
+                <c:if test="${not empty member}">
+                    <li class="nav-item"><a class="nav-link nav-link-custom" href="/rent/list"><i class="fas fa-bookmark mr-1"></i> 내 대출 현황</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-custom" href="/wishlist/list"><i class="fas fa-heart mr-1"></i> 찜 목록</a></li>
+                </c:if>
+            </ul>
+
+            <!-- 우측 회원 정보 / 로그인·회원가입 메뉴 -->
+            <ul class="navbar-nav align-items-center">
+                <c:if test="${not empty member}">
+                    <!-- 연체 알림 아이콘 -->
+                    <li class="nav-item dropdown no-arrow mx-2">
+                        <a class="nav-link dropdown-toggle position-relative p-2" href="#" id="alertsDropdown" role="button" data-toggle="dropdown">
+                            <i class="fas fa-bell text-gray-600 font-size-lg"></i>
+                            <c:if test="${not empty lateCount and lateCount > 0}">
+                                <span class="position-absolute badge badge-danger rounded-circle" style="top:0; right:0; font-size:0.6rem;">${lateCount}</span>
+                            </c:if>
+                        </a>
+                        <!-- 알림 드롭다운 레이아웃 -->
+                        <div class="dropdown-menu dropdown-menu-right shadow-lg border-0 rounded-lg mt-3" style="width: 280px;">
+                            <h6 class="dropdown-header bg-light text-dark font-weight-bold py-3">새로운 알림</h6>
+                            <c:choose>
+                                <c:when test="${not empty lateList}">
+                                    <c:forEach items="${lateList}" var="l">
+                                        <a class="dropdown-item d-flex align-items-center py-2" href="/rent/list">
+                                            <div class="mr-3"><i class="fas fa-exclamation-circle text-danger"></i></div>
+                                            <div class="small text-truncate">[연체] '${l.bookDTO.bookTitle}'</div>
+                                        </a>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="dropdown-item text-center text-muted small py-3">새로운 알림이 없습니다.</div>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </li>
+
+                    <!-- 유저 프로필 -->
+                    <li class="nav-item dropdown no-arrow ml-3">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-toggle="dropdown">
+                            <span class="mr-2 text-gray-700 font-weight-medium small">${member.username}님</span>
+                            <c:choose>
+                                <c:when test="${not empty member.profileDTO.fileName}">
+                                    <img class="rounded-circle border" src="/files/member/${member.profileDTO.fileName}" width="32" height="32" style="object-fit: cover;">
+                                </c:when>
+                                <c:otherwise>
+                                    <img class="rounded-circle border" src="/img/undraw_profile.svg" width="32" height="32">
+                                </c:otherwise>
+                            </c:choose>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow-lg border-0 rounded-lg mt-2">
+                            <a class="dropdown-item py-2" href="/member/mypage"><i class="fas fa-user fa-sm mr-2 text-gray-400"></i> 마이페이지</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item py-2 text-danger" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <i class="fas fa-sign-out-alt fa-sm mr-2"></i> 로그아웃
+                            </a>
+                        </div>
+                    </li>
+                </c:if>
+
+                <c:if test="${empty member}">
+                    <li class="nav-item"><a href="/member/login" class="btn btn-link text-decoration-none text-gray-700 mr-2">로그인</a></li>
+                    <li class="nav-item"><a href="/member/create" class="btn btn-primary px-3 shadow-sm">회원가입</a></li>
+                </c:if>
+            </ul>
+        </div>
+    </div>
 </nav>
-<!-- End of Topbar -->

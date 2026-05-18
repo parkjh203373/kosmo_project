@@ -2,104 +2,110 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>중고책 거래 장터</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>중고책 거래 장터 - Forest Library</title>
+    <c:import url="/WEB-INF/views/temp/head_css.jsp"></c:import>
     <style>
-        .card-img-top { height: 250px; object-fit: cover; background-color: #f8f9fa; }
-        .book-condition { position: absolute; top: 10px; right: 10px; z-index: 10; }
-        .card { transition: transform 0.2s; }
-        .card:hover { transform: translateY(-5px); }
+        .market-card { transition: transform 0.25s ease, box-shadow 0.25s ease; border-radius: 16px !important; overflow: hidden; }
+        .market-card:hover { transform: translateY(-6px); box-shadow: 0 12px 20px rgba(0,0,0,0.08) !important; }
+        .market-img-top { height: 230px; object-fit: cover; background-color: #f8fafc; }
+        .fixed-action-input { height: calc(2.25rem + 10px); font-size: 0.95rem; }
     </style>
 </head>
-<body class="bg-light">
-
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>📗 중고책 거래 게시판</h2>
-        <a href="./create" class="btn btn-primary shadow-sm">판매 글쓰기</a>
-        <a href="/member/login" class="btn btn-primary shadow-sm">로그인</a>
-    </div>
-
-    <!-- 검색 바 -->
-    <div class="row mb-4">
-        <div class="col-md-6 mx-auto">
-            <form action="./list" method="get" class="input-group shadow-sm">
-                <input type="text" name="search" class="form-control" placeholder="도서명 또는 저자 검색" value="${param.search}">
-                <button class="btn btn-dark" type="submit">검색</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- 중고 도서 목록 시작 -->
-    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
-        
-        <c:forEach items="${list}" var="dto">
-            <div class="col">
-                <div class="card h-100 shadow-sm border-0 position-relative">
-                    
-                    <!-- [상태 표시] 필요 시 OldbookDTO에 상태 필드를 추가하여 연동하세요 -->
-                    <span class="badge bg-success book-condition">판매중</span>
-
-                    <!-- [이미지 처리] 파일이 있으면 해당 경로, 없으면 기본 이미지 -->
-                    <c:choose>
-                        <c:when test="${not empty dto.oldbookDTO.oldbookFileDTO.fileName}">
-                            <img src="/files/dealboard/${dto.oldbookDTO.oldbookFileDTO.fileName}" class="card-img-top" alt="도서 이미지">
-                        </c:when>
-                        <c:otherwise>
-                            <img src="/images/no_image.png" class="card-img-top" alt="이미지 없음">
-                        </c:otherwise>
-                    </c:choose>
-
-                    <div class="card-body">
-                        <!-- 게시글 제목보다는 책 제목을 메인으로 보여주는 것이 좋습니다 -->
-                        <h5 class="card-title text-truncate" title="${dto.oldbookDTO.oldbookTitle}">
-                            ${dto.oldbookDTO.oldbookTitle}
-                        </h5>
-                        <p class="card-text text-muted small mb-1">저자: ${dto.oldbookDTO.oldbookAuthor}</p>
-                        <p class="card-text text-muted small">판매자 아이디: ${dto.username}</p>
-                        
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <!-- 금액 포맷팅 (3자리 콤마) -->
-                            <strong class="text-primary fs-5">
-                                <fmt:formatNumber value="${dto.oldbookDTO.oldbookPrice}" pattern="#,###"/>원
-                            </strong>
+<body id="page-top">
+    <div id="wrapper">
+        <c:import url="/WEB-INF/views/temp/sidebar.jsp"></c:import>
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <c:import url="/WEB-INF/views/temp/topbar.jsp"></c:import>
+                
+                <div class="container py-4">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h4 mb-0 text-gray-900 font-weight-bold">중고 도서 공유 장터</h1>
+                        <div>
+                            <c:if test="${empty member}">
+                                <a href="/member/login" class="btn btn-light text-dark font-weight-medium border mr-2 btn-sm px-3 shadow-sm">로그인</a>
+                            </c:if>
+                            <a href="./create" class="btn btn-primary font-weight-bold btn-sm px-3 shadow-sm"><i class="fas fa-plus mr-1"></i> 판매 글쓰기</a>
                         </div>
                     </div>
 
-                    <div class="card-footer bg-transparent border-top-0 pb-3">
-                        <a href="./detail?dealboardNum=${dto.dealboardNum}" class="btn btn-sm btn-outline-secondary w-100">상세보기</a>
+                    <div class="row mb-5 justify-content-center">
+                        <div class="col-md-7">
+                            <form action="./list" method="get" class="input-group shadow-sm bg-white p-1" style="border-radius:12px;">
+                                <input type="text" name="search" class="form-control border-0 bg-transparent pl-3 fixed-action-input" placeholder="원하는 도서명이나 작가 키워드를 입력해 보세요." value="${param.search}">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary px-4 font-weight-bold" style="border-radius:10px; height: calc(2.25rem + 2px);" type="submit">검색</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <c:forEach items="${list}" var="dto">
+                            <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                                <div class="card h-100 border-0 bg-white shadow-sm market-card position-relative">
+                                    
+                                    <span class="badge position-absolute font-weight-bold px-2 py-1 text-success" style="top:12px; right:12px; background:rgba(230,255,250,0.9); z-index:10; border-radius:6px; font-size:0.75rem;">● 판매중</span>
+
+                                    <a href="./detail?dealboardNum=${dto.dealboardNum}">
+                                        <c:choose>
+                                            <c:when test="${not empty dto.oldbookDTO.oldbookFileDTO.fileName}">
+                                                <img src="/files/dealboard/${dto.oldbookDTO.oldbookFileDTO.fileName}" class="card-img-top market-img-top" alt="도서 스냅">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="market-img-top d-flex align-items-center justify-content-center text-muted small" style="border-bottom:1px solid #f1f5f9;">No Image</div>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </a>
+
+                                    <div class="card-body d-flex flex-column justify-content-between p-3">
+                                        <div>
+                                            <h5 class="font-weight-bold text-gray-900 text-truncate mb-1" style="font-size:1rem;" title="${dto.oldbookDTO.oldbookTitle}">
+                                                <a href="./detail?dealboardNum=${dto.dealboardNum}" class="text-decoration-none text-dark hover-primary">${dto.oldbookDTO.oldbookTitle}</a>
+                                            </h5>
+                                            <div class="text-muted small text-truncate mb-2">지은이: ${dto.oldbookDTO.oldbookAuthor}</div>
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-between align-items-center pt-2 border-top" style="border-top-style: dashed !important;">
+                                            <span class="text-xs text-secondary font-weight-medium">ID: ${dto.username}</span>
+                                            <strong class="text-primary" style="font-size:1.1rem;">
+                                                <fmt:formatNumber value="${dto.oldbookDTO.oldbookPrice}" pattern="#,###"/>원
+                                            </strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>		
+                        </c:forEach>
+                    </div>
+
+                    <div class="d-flex justify-content-center mt-5">
+                        <nav>
+                            <ul class="pagination pagination-sm border-0">
+                                <li class="page-item ${pager.pre ? '' : 'disabled'}">
+                                    <a class="page-link border-0 text-dark bg-light mx-1 rounded-circle text-center" style="width:34px; height:34px; line-height:20px;" href="./list?page=${pager.start - 1}&search=${pager.search}"><i class="fas fa-chevron-left small"></i></a>
+                                </li>
+
+                                <c:forEach begin="${pager.start}" end="${pager.end}" var="i">
+                                    <li class="page-item mx-1 ${pager.page == i ? 'active' : ''}">
+                                        <a class="page-link border-0 rounded-circle text-center font-weight-bold ${pager.page == i ? 'bg-primary text-white' : 'text-dark bg-white shadow-sm'}" style="width:34px; height:34px; line-height:18px;" href="./list?page=${i}&search=${pager.search}">${i}</a>
+                                    </li>
+                                </c:forEach>
+
+                                <li class="page-item ${pager.next ? '' : 'disabled'}">
+                                    <a class="page-link border-0 text-dark bg-light mx-1 rounded-circle text-center" style="width:34px; height:34px; line-height:20px;" href="./list?page=${pager.end + 1}&search=${pager.search}"><i class="fas fa-chevron-right small"></i></a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
-            </div>		
-		</c:forEach>
+            </div>
+            <c:import url="/WEB-INF/views/temp/footer.jsp"></c:import>
         </div>
-		<div class="d-flex justify-content-center mt-5">
-			<nav aria-label="Page navigation">
-				<ul class="pagination">
-					<!-- 이전 버튼 -->
-					<li class="page-item ${pager.pre ? '' : 'disabled'}"><a
-						class="page-link"
-						href="./list?page=${pager.start - 1}&search=${pager.search}">Previous</a>
-					</li>
-
-					<!-- 페이지 번호 -->
-					<c:forEach begin="${pager.start}" end="${pager.end}" var="i">
-						<li class="page-item ${pager.page == i ? 'active' : ''}"><a
-							class="page-link" href="./list?page=${i}&search=${pager.search}">${i}</a></li>
-					</c:forEach>
-
-					<!-- 다음 버튼 -->
-					<li class="page-item ${pager.next ? '' : 'disabled'}"><a
-						class="page-link"
-						href="./list?page=${pager.end + 1}&search=${pager.search}">Next</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</div>
-
+    </div>
+    <c:import url="/WEB-INF/views/temp/footer_script.jsp"></c:import>
 </body>
 </html>
