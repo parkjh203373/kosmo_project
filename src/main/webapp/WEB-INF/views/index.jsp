@@ -92,12 +92,12 @@
 				                                <i class="fas fa-book-reader text-primary fa-3x"></i>
 				                            </span>
 				                            <h2 class="font-weight-bold text-gray-900 mb-2">Forest Library</h2>
-				                            <p class="text-muted small">지식과 감성이 숨쉬는 공간, 도서 대출 및 중고 거래 시스템에 오신 것을 환영합니다.</p>
+				                            <p class="text-muted small">지식과 감성이 숨쉬는 공간<br>도서 대출 및 중고 거래 시스템에 오신 것을 환영합니다.</p>
 				                        </div>
 				                        
 				                        <div class="d-grid gap-3 mt-4">
 				                            <a href="/member/login" class="btn btn-primary btn-block py-3 font-weight-bold shadow-sm mb-3">
-				                                <i class="fas fa-sign-in-alt mr-2"></i> 서비스 로그인
+				                                <i class="fas fa-sign-in-alt mr-2"></i> 로그인
 				                            </a>
 				                            <a href="/member/create" class="btn btn-light btn-block py-3 font-weight-bold border text-secondary">
 				                                <i class="fas fa-user-plus mr-2"></i> 신규 회원가입
