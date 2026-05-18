@@ -110,7 +110,20 @@ public class MemberService implements UserDetailsService{
 	    if (memberDTO.getUsername() == null) {
 	        return 0;
 	    }
+	    
+	    // 1. 기존 회원 정보 조회 (DB에 저장된 암호화된 기존 비번을 가져오기 위함)
+	    MemberDTO currentMember = memberMapper.detail(memberDTO);
 
+	    // 2. 비밀번호 처리 로직
+	    if (memberDTO.getPassword() != null && !memberDTO.getPassword().trim().isEmpty()) {
+	        // 사용자가 새 비밀번호를 입력한 경우 -> 암호화해서 세팅
+	        String encodedPwd = passwordEncoder.encode(memberDTO.getPassword());
+	        memberDTO.setPassword(encodedPwd);
+	    } else {
+	        // 사용자가 비밀번호를 입력하지 않은 경우 -> DB에 있던 기존 암호화된 비번을 다시 세팅
+	        memberDTO.setPassword(currentMember.getPassword());
+	    }
+	    
 	    int result = memberMapper.updateId(memberDTO);
 
 	    if (attach != null && !attach.isEmpty()) {

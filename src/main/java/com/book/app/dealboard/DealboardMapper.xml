@@ -88,6 +88,30 @@
         (default, #{fileName}, #{oriName}, #{oldbookNum})
 	</insert>
 	
+	<update id="updateBoard" parameterType="DealboardDTO">
+	    UPDATE "TB_DEALBOARD"
+	    SET "DEALBOARD_TITLE" = #{dealboardTitle},
+	        "DEALBOARD_CONTENTS" = #{dealboardContents}
+	    WHERE "DEALBOARD_NUM" = #{dealboardNum}
+	</update>
+
+	<update id="updateOldbook" parameterType="OldbookDTO">
+	    UPDATE "TB_OLDBOOK"
+	    SET "OLDBOOK_PRICE" = #{oldbookPrice},
+	        "OLDBOOK_TITLE" = #{oldbookTitle},
+	        "OLDBOOK_AUTHOR" = #{oldbookAuthor},
+	        "OLDBOOK_PUBLISHER" = #{oldbookPublisher},
+	        "OLDBOOK_DATE" = #{oldbookDate}
+	    WHERE "OLDBOOK_NUM" = #{oldbookNum}
+	</update>
+	
+	<update id="updateOldbookFile" parameterType="OldbookFileDTO">
+	    UPDATE "TB_OLDBOOKFILE"
+	    SET "FILE_NAME" = #{fileName},
+	        "ORI_NAME" = #{oriName}
+	    WHERE "OLDBOOK_NUM" = #{oldbookNum}
+	</update>	
+	
 	<delete id="delBoard" parameterType="DealboardDTO">
 		DELETE FROM "TB_DEALBOARD"
 		WHERE "DEALBOARD_NUM" = #{dealboardNum}

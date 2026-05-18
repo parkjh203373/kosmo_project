@@ -61,45 +61,70 @@ public class DealboardService {
         return result;
     }
 	
-	public int deleteBoard(DealboardDTO dealboardDTO, OldbookDTO oldbookDTO,
-            OldbookFileDTO oldbookFileDTO) throws Exception {
-    
-    // 1. 부족한 정보 보충 (DB에서 실제 데이터 조회)
-    // 파라미터로 넘어온 dealboardDTO에는 번호(PK)만 있을 확률이 높으므로 전체 데이터를 가져옵니다.
-    DealboardDTO fullData = dealboardMapper.detail(dealboardDTO); 
-    
-    if (fullData == null) {
-        System.out.println("삭제할 데이터가 DB에 존재하지 않습니다.");
-        return 0;
-    }
+	private void removeExistingFile(DealboardDTO dealboardDTO) throws Exception {
+       
+		DealboardDTO fullData = dealboardMapper.detail(dealboardDTO);
 
-    // 2. 조회된 정보를 바탕으로 DTO들 세팅
-    oldbookDTO.setOldbookNum(fullData.getOldbookNum());
-    oldbookFileDTO.setOldbookNum(fullData.getOldbookNum());
-    
-    //안전한 파일명 추출 방식
-    if (fullData.getOldbookDTO() != null && 
-        fullData.getOldbookDTO().getOldbookFileDTO() != null) {
+	    if (fullData != null && fullData.getOldbookDTO() != null 
+	        && fullData.getOldbookDTO().getOldbookFileDTO() != null) {
+	        
+	        OldbookFileDTO fileDTO = fullData.getOldbookDTO().getOldbookFileDTO();
+	        
+	        // [중요] 삭제 기준이 될 번호가 확실히 있는지 확인
+	        // 만약 fileDTO에 oldbookNum이 없다면 직접 넣어줍니다.
+	        if(fileDTO.getOldbookNum() == null) {
+	            fileDTO.setOldbookNum(fullData.getOldbookNum());
+	        }
+
+	        // 2. 서버 실물 파일 삭제
+	        if (fileDTO.getFileName() != null) {
+	            fileManager.fileDelete(name, fileDTO);
+	        }
+	        
+	        // 3. DB 파일 레코드 삭제 (이 메서드가 호출되어야 DB에서 사라집니다)
+	        System.out.println("삭제 시도 번호 : " + fileDTO.getOldbookNum());
+	        int result = dealboardMapper.delOldbookFile(fileDTO);
+	        System.out.println("DB 파일 삭제 결과: " + result); // 로그를 찍어 1이 나오는지 확인해보세요.
+	    }
+    }
+	public int deleteBoard(DealboardDTO dealboardDTO) throws Exception {
+        // 1. 파일 삭제 프로세스 호출
+        this.removeExistingFile(dealboardDTO);
+
+        // 2. 삭제를 위해 필요한 번호들 조회
+        DealboardDTO fullData = dealboardMapper.detail(dealboardDTO);
+        if (fullData == null) return 0;
+
+        // 3. 도서 정보 삭제
+        OldbookDTO oldbookDTO = new OldbookDTO();
+        oldbookDTO.setOldbookNum(fullData.getOldbookNum());
+        dealboardMapper.delOldbookDTO(oldbookDTO);
+
+        // 4. 최종 게시판 글 삭제
+        return dealboardMapper.delBoard(dealboardDTO);
+    }
+	
+	public int update(DealboardDTO dealboardDTO, MultipartFile attach) throws Exception {
+        // 1. 게시글 및 도서 기본 정보 업데이트
+        int result = dealboardMapper.updateBoard(dealboardDTO);
+        dealboardMapper.updateOldbook(dealboardDTO.getOldbookDTO());
+
+        // 2. 새로운 첨부파일이 들어온 경우
+        if (attach != null && !attach.isEmpty()) {
+            // 💡 [재사용] 기존 파일을 깔끔하게 삭제
+            this.removeExistingFile(dealboardDTO);
+
+            // 3. 새 파일 저장 및 DB 등록 (Insert)
+            String fileName = fileManager.fileSave(name, attach);
+            
+            OldbookFileDTO newFile = new OldbookFileDTO();
+            newFile.setFileName(fileName);
+            newFile.setOriName(attach.getOriginalFilename());
+            newFile.setOldbookNum(dealboardDTO.getOldbookDTO().getOldbookNum());
+            
+            result = dealboardMapper.createOldbookFile(newFile);
+        }
         
-        String fileName = fullData.getOldbookDTO().getOldbookFileDTO().getFileName();
-        oldbookFileDTO.setFileName(fileName);
+        return result;
     }
-
-    // 3. 물리 파일 삭제
-    if (oldbookFileDTO.getFileName() != null && !oldbookFileDTO.getFileName().isEmpty()) {
-        fileManager.fileDelete("dealboard", oldbookFileDTO); 
-    }
-
-    // 4. DB 삭제 (자식 -> 부모 순서)
-    // 파일 정보 삭제
-    int fileRes = dealboardMapper.delOldbookFile(oldbookFileDTO);
-    
-    // 중고책 정보 삭제
-    int bookRes = dealboardMapper.delOldbookDTO(oldbookDTO);
-    
-    // 최종 게시판 글 삭제
-    int boardRes = dealboardMapper.delBoard(dealboardDTO);
-        
-    return boardRes;
-	}
 }
