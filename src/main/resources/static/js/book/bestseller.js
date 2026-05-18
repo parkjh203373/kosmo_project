@@ -29,15 +29,23 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (data && data.length > 0) {
                     data.forEach(book => {
                         html += `
-                        <div class="col-md-4 mb-3 text-center animate__animated animate__fadeIn">
-                            <a href="./detail?bookNum=${book.bookNum}">
-                                <img src="${book.bookImage}" class="shadow-sm rounded mb-2" 
-                                     style="height: 220px; width: 150px; object-fit: cover;" 
-                                     onerror="this.src='/img/no-image.png'">
-                            </a>
-                            <div class="small font-weight-bold text-truncate">${book.bookTitle}</div>
-                            <div class="text-xs text-muted">${book.bookAuthor}</div>
-                        </div>
+						<div class="col-4 mb-3 text-center d-flex flex-column align-items-center animate__animated animate__fadeIn">
+							<div class="position-relative mb-2 shadow rounded-lg overflow-hidden" style="height: 200px; width: 140px; min-width: 140px;">
+						    	<a href="./detail?bookNum=${book.bookNum}" class="d-block h-100 w-100">
+						        	<img src="${book.bookImage}" class="h-100 w-100" 
+						            	style="object-fit: cover;" 
+						                onerror="this.src='/img/no-image.png'" alt="도서 이미지">
+						        </a>
+						    </div>
+						    <div class="w-100 px-1 text-center" style="height: 42px;">
+						    	<div class="small font-weight-bold text-gray-800 text-truncate mb-0" title="${book.bookTitle}">
+						        	${book.bookTitle}
+						        </div>
+						        <div class="text-xs text-muted text-truncate mt-0.5">
+						            ${book.bookAuthor}
+						        </div>
+						    </div>
+						</div>
                     `;
                     });
                 } else {

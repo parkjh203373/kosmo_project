@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -75,20 +76,20 @@
 									<p class="text-muted mb-4" style="font-size: 1.05rem;">저자 ${d.bookAuthor}</p>
 									
 									<div class="meta-divider d-flex">
-										<span class="detail-meta-label">출판 정보</span>
+										<span class="detail-meta-label">출판사</span>
 										<span class="detail-meta-value">${d.bookPublisher}</span>
 									</div>
 									<div class="meta-divider d-flex">
-										<span class="detail-meta-label">인쇄 및 출간</span>
+										<span class="detail-meta-label">발행일</span>
 										<span class="detail-meta-value">${d.bookDate}</span>
 									</div>
 
 									<!-- 대출 현황 확장 알림 정보 블록 -->
 									<c:if test="${d.bookStatus eq '대출중' and not empty d.rentDTO}">
 										<div class="my-4 p-3 bg-light rounded-lg border-left-danger">
-											<div class="small font-weight-medium text-secondary">수령인 계정 : ${d.rentDTO.username}</div>
+											<div class="small font-weight-medium text-secondary">대출중인 회원 : ${d.rentDTO.username}</div>
 											<div class="font-weight-bold text-danger mt-1">
-												<i class="far fa-calendar-check mr-1"></i> 반납 지정 기일: ${d.rentDTO.dueDate}
+												<i class="far fa-calendar-check mr-1"></i> 반납 예정일: ${d.rentDTO.dueDate}
 												<span class="badge badge-danger ml-2 px-2 py-1">${d.rentDTO.lateStatus}</span>
 											</div>
 										</div>
@@ -107,12 +108,12 @@
 									<c:choose>
 										<c:when test="${d.bookStatus eq '대출가능'}">
 											<button type="button" class="btn btn-primary px-4 py-2 font-weight-bold shadow" id="rentBtn" data-bn="${d.bookNum}">
-												<i class="fas fa-bookmark mr-2"></i> 즉시 대출 신청
+												<i class="fas fa-bookmark mr-2"></i> 대출하기
 											</button>
 										</c:when>
 										<c:when test="${d.bookStatus eq '대출중' and not empty member and d.rentDTO.username eq member.username}">
 											<button type="button" class="btn btn-warning px-4 py-2 text-white font-weight-bold shadow-sm return-btn" data-bn="${d.bookNum}">
-												<i class="fas fa-undo mr-2"></i> 서적 반납 처리
+												<i class="fas fa-undo mr-2"></i> 반납하기
 											</button>
 										</c:when>
 										<c:otherwise>
@@ -130,16 +131,13 @@
 									</c:choose>
 								</div>
 
-								<div class="mt-2 mt-sm-0">
+								<div class="mt-2 mt-sm-0" id="wishBtnArea">
 									<c:choose>
-										<c:when test="${param.from eq 'wishlist'}">
-											<form action="/wishlist/delete" method="post" class="d-inline">
-												<input type="hidden" name="bookNum" value="${d.bookNum}">
-												<button type="submit" class="btn btn-link text-danger text-decoration-none small" onclick="return confirm('관심 도서목록에서 제외할까요?')">
-													<i class="fas fa-heart-broken mr-1"></i> 관심도서 해제
-												</button>
-											</form>
-										</c:when>
+										<c:when test="${isWish}">
+								            <button type="button" class="btn btn-link text-danger text-decoration-none small" id="deleteWishBtn" data-bn="${d.bookNum}">
+								                <i class="fas fa-heart-broken mr-1"></i> 관심도서 해제
+								            </button>
+								        </c:when>
 										<c:otherwise>
 											<button class="btn btn-light border btn-sm text-secondary px-3 py-2" id="create" data-pn="${d.bookNum}">
 												<i class="far fa-heart text-danger mr-1"></i> 찜하기
@@ -148,6 +146,7 @@
 									</c:choose>
 
 									<!-- 관리 제어 툴 -->
+									<sec:authorize access="hasAnyRole('ADMIN', 'MANAGER')">
 									<c:if test="${param.from ne 'wishlist'}">
 										<a href="./update?bookNum=${d.bookNum}" class="btn btn-link text-secondary text-decoration-none small ml-2">수정</a>
 										<form action="./delete" method="post" class="d-inline ml-1" onsubmit="return confirm('서적 정보를 시스템에서 영구 파기하시겠습니까?');">
@@ -155,6 +154,7 @@
 											<button type="submit" class="btn btn-link text-muted text-decoration-none small">삭제</button>
 										</form>
 									</c:if>
+									</sec:authorize>
 								</div>
 							</div>
 						</div>

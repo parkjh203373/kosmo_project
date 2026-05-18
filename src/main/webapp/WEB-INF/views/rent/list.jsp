@@ -58,7 +58,7 @@
                 
                 <div class="container-fluid py-4">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h4 mb-0 text-gray-900 font-weight-bold">나의 서재 관리</h1>
+                        <h1 class="h4 mb-0 text-gray-900 font-weight-bold">나의 대출 현황</h1>
                     </div>
                     
                     <div class="row justify-content-center">
@@ -66,7 +66,7 @@
                             <div class="card shadow-sm border-0 mb-4" style="border-radius: 16px;">
                                 <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center" style="border-radius: 16px 16px 0 0;">
                                     <h6 class="m-0 font-weight-bold text-dark">
-                                        <i class="fas fa-book-reader mr-2 text-primary"></i>현재 대출 중인 도서 명세 <span class="text-muted small ml-1">(최대 3권 가능)</span>
+                                        <i class="fas fa-book-reader mr-2 text-primary"></i>현재 대출 중인 도서<span class="text-muted small ml-1">(최대 3권 가능)</span>
                                     </h6>
                                 </div>
                                 <div class="card-body px-4 pb-4 pt-0">
@@ -75,11 +75,11 @@
                                             <thead class="text-center">
                                                 <tr>
                                                     <th style="width: 10%;">표지</th>
-                                                    <th style="width: 40%;" class="text-left">도서 및 아카이브 정보</th>
+                                                    <th style="width: 40%;" class="text-left">도서 제목/저자</th>
                                                     <th style="width: 12%;">대출 일자</th>
                                                     <th style="width: 12%;">반납 예정일</th>
-                                                    <th style="width: 12%;">계약 상태</th>
-                                                    <th style="width: 14%;">관리 제어</th>
+                                                    <th style="width: 12%;">대출 상태</th>
+                                                    <th style="width: 14%;">관리</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

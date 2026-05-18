@@ -36,7 +36,7 @@
                     <div class="row mb-5 justify-content-center">
                         <div class="col-md-7">
                             <form action="./list" method="get" class="input-group shadow-sm bg-white p-1" style="border-radius:12px;">
-                                <input type="text" name="search" class="form-control border-0 bg-transparent pl-3 fixed-action-input" placeholder="원하는 도서명이나 작가 키워드를 입력해 보세요." value="${param.search}">
+                                <input type="text" name="search" class="form-control border-0 bg-transparent pl-3 fixed-action-input" placeholder="원하는 도서 제목이나 저자 키워드를 입력해 보세요." value="${param.search}">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary px-4 font-weight-bold" style="border-radius:10px; height: calc(2.25rem + 2px);" type="submit">검색</button>
                                 </div>

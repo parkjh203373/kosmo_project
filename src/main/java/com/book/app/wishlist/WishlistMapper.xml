@@ -70,5 +70,11 @@
             <result column="BOOK_CONTENTS" property="bookContents"/>
         </association>
     </resultMap>
+    
+    <select id="wishCheck" parameterType="WishlistDTO" resultType="Long">
+		SELECT COUNT(*) FROM "TB_WISHLIST"
+		WHERE "USERNAME" = #{username}
+		AND "BOOK_NUM" = #{bookNum}
+	</select>
 
 </mapper>

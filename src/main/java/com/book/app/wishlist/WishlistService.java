@@ -26,5 +26,9 @@ public class WishlistService {
 	public int delete(WishlistDTO wishlistDTO) throws Exception {
 		return wishlistMapper.delete(wishlistDTO);
 	}
+	
+	public boolean wishCheck(WishlistDTO wishlistDTO) throws Exception {
+		return wishlistMapper.wishCheck(wishlistDTO) > 0;
+	}
 
 }

@@ -25,6 +25,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.book.app.pager.Pager;
 import com.book.app.rent.RentDTO;
 import com.book.app.rent.RentService;
+import com.book.app.wishlist.WishlistDTO;
+import com.book.app.wishlist.WishlistService;
 import com.book.app.file.FileManager;
 import com.book.app.member.MemberDTO;
 
@@ -39,6 +41,9 @@ public class BookController {
 	
 	@Autowired
 	private RentService rentService;
+	
+	@Autowired
+	private WishlistService wishlistService;
 	
 	@Value("${naver.client.id}")
     private String clientId;
@@ -113,16 +118,22 @@ public class BookController {
 	    model.addAttribute("pager", pager);
 	    
 	    boolean canReview = false;
+	    boolean isWish = false;
 	    
 	    if(memberDTO != null) {
 	        RentDTO rentDTO = new RentDTO();
 	        rentDTO.setBookNum(bookDTO.getBookNum());
 	        rentDTO.setUsername(memberDTO.getUsername());
-	        
 	        canReview = rentService.rentHistory(rentDTO);
+	        
+	        WishlistDTO wishlistDTO = new WishlistDTO();
+	        wishlistDTO.setUsername(memberDTO.getUsername());
+	        wishlistDTO.setBookNum(bookDTO.getBookNum()); 
+	        isWish = wishlistService.wishCheck(wishlistDTO);
 	    }
 	    
 	    model.addAttribute("canReview", canReview);
+	    model.addAttribute("isWish", isWish);
 	    
 	    return "book/detail";
 	}

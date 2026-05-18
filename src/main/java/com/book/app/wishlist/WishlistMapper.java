@@ -17,5 +17,7 @@ public interface WishlistMapper {
 	public int create(WishlistDTO wishlistDTO) throws Exception;
 	
 	public int delete(WishlistDTO wishlistDTO) throws Exception;
+	
+	public Long wishCheck(WishlistDTO wishlistDTO) throws Exception;
 
 }

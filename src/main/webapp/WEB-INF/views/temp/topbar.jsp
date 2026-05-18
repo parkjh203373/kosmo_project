@@ -16,13 +16,43 @@
         <!-- 메인 메뉴 목록 -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link nav-link-custom" href="/book/list"><i class="fas fa-search mr-1"></i> 도서 검색·대출</a></li>
-                <li class="nav-item"><a class="nav-link nav-link-custom" href="/dealboard/list"><i class="fas fa-handshake mr-1"></i> 중고 도서 거래</a></li>
-                <c:if test="${not empty member}">
-                    <li class="nav-item"><a class="nav-link nav-link-custom" href="/rent/list"><i class="fas fa-bookmark mr-1"></i> 내 대출 현황</a></li>
-                    <li class="nav-item"><a class="nav-link nav-link-custom" href="/wishlist/list"><i class="fas fa-heart mr-1"></i> 찜 목록</a></li>
-                </c:if>
-            </ul>
+		        <li class="nav-item">
+		            <a class="nav-link nav-link-custom" href="/book/list">
+		                <i class="fas fa-search mr-1"></i> 도서 검색·대출
+		            </a>
+		        </li>
+		        <li class="nav-item">
+		            <a class="nav-link nav-link-custom" href="/dealboard/list">
+		                <i class="fas fa-handshake mr-1"></i> 중고 도서 거래
+		            </a>
+		        </li>
+		        
+		        <c:if test="${not empty member}">
+		            <li class="nav-item">
+		                <a class="nav-link nav-link-custom position-relative" href="/rent/list" style="padding-right: 25px !important;">
+		                    <i class="fas fa-bookmark mr-1"></i> 나의 대출 현황
+		                    <c:if test="${not empty rentCount and rentCount > 0}">
+		                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" 
+		                              style="background-color: #2a5c43; color: #ffffff; font-size: 0.65rem; padding: 3px 6px; mt: 4px;">
+		                            ${rentCount}
+		                        </span>
+		                    </c:if>
+		                </a>
+		            </li>
+		            
+		            <li class="nav-item">
+		                <a class="nav-link nav-link-custom position-relative text-danger" href="/wishlist/list" style="padding-right: 25px !important; color: #e53e3e !important; font-weight: 500;">
+		                    <i class="fas fa-heart mr-1 text-danger" style="color: red;"></i> 관심 목록
+		                    <c:if test="${not empty wishCount and wishCount > 0}">
+		                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+		                              style="font-size: 0.65rem; padding: 3px 6px; mt: 4px; color: #ffffff !important; font-weight: 700;">
+		                            ${wishCount}
+		                        </span>
+		                    </c:if>
+		                </a>
+		            </li>
+		        </c:if>
+		    </ul>
 
             <!-- 우측 회원 정보 / 로그인·회원가입 메뉴 -->
             <ul class="navbar-nav align-items-center">
