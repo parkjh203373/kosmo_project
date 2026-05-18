@@ -14,7 +14,7 @@
 	<form method="post">
 		<div class="form-group">
 			<label for="username">아이디</label> 
-			<input type="text" name="username" class="form-control" id="username"> 
+			<input type="text" name="username" value="${cookie.rememberId.value}" class="form-control" id="username"/> 
 		</div>
 		
 		<div class="form-group">
@@ -22,6 +22,10 @@
 			<input type="password" name="password" class="form-control" id="password">
 		</div>
 		
+		<div class="form-group form-check">
+			<input type="checkbox" name="rememberId" value="1" class="form-check-input" id="exampleCheck1"> 
+			<label class="form-check-label"	for="exampleCheck1">ID 기억하기</label>
+		</div>
 		<button type="submit" class="btn btn-primary">Submit</button>
 	</form>
 

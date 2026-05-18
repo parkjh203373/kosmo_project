@@ -6,9 +6,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Mapper
 public interface MemberMapper {
 	
-	public MemberDTO detail(MemberDTO memberDTO) throws Exception;
+	public MemberDTO detail(MemberDTO memberDTO) throws RuntimeException;
 	
 	public int create(MemberDTO memberDTO) throws Exception;
+	
+	public int addMemberRole(MemberRoleDTO memberRoleDTO) throws Exception;
 	
 	public int addProfile(ProfileDTO profileDTO) throws Exception;
 	
