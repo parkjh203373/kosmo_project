@@ -45,7 +45,7 @@
                             <div class="card bg-white border-0 p-4 mb-4">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-start mb-2">
-                                        <span class="badge px-3 py-2 text-primary font-weight-bold small shadow-sm" style="background:#e6fffa; border-radius:30px;">● 분양 진행중</span>
+                                        <span class="badge px-3 py-2 text-primary font-weight-bold small shadow-sm" style="background:#e6fffa; border-radius:30px;">● 판매 진행중</span>
                                         <span class="text-muted small">판매자 ID: <strong class="text-dark">${dealboardDTO.username}</strong></span>
                                     </div>
                                     
@@ -53,9 +53,9 @@
                                     
                                     <div class="bg-light p-3 rounded-lg text-secondary mb-4" style="white-space: pre-wrap; line-height: 1.7; font-size: 0.95rem; min-height: 120px;">${dealboardDTO.dealboardContents}</div>
                                     
-                                    <h5 class="font-weight-bold text-dark mt-4 mb-2"><i class="fas fa-info-circle text-gray-400 mr-2"></i>도서 명세서 정보</h5>
+                                    <h5 class="font-weight-bold text-dark mt-4 mb-2"><i class="fas fa-info-circle text-gray-400 mr-2"></i>도서 상세 정보</h5>
                                     <div class="market-divider d-flex">
-                                        <span class="market-meta-label">책 제목명</span>
+                                        <span class="market-meta-label">도서 제목</span>
                                         <span class="market-meta-value font-weight-bold">${dealboardDTO.oldbookDTO.oldbookTitle}</span>
                                     </div>
                                     <div class="market-divider d-flex">
@@ -63,7 +63,7 @@
                                         <span class="market-meta-value">${dealboardDTO.oldbookDTO.oldbookAuthor}</span>
                                     </div>
                                     <div class="market-divider d-flex">
-                                        <span class="market-meta-label">출판 정보</span>
+                                        <span class="market-meta-label">출판사 / 발행일</span>
                                         <span class="market-meta-value">${dealboardDTO.oldbookDTO.oldbookPublisher} <span class="text-gray-300 mx-2">|</span> ${dealboardDTO.oldbookDTO.oldbookDate}</span>
                                     </div>
                                 </div>
