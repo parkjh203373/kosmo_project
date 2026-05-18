@@ -57,42 +57,42 @@ public class MemberController {
 	}
 	
 	@GetMapping("login")
-	public void login() throws Exception{}
+	public void login(MemberDTO memberDTO) throws Exception{}
 	
-	@PostMapping("login")
-	public String login(MemberDTO memberDTO, Model model, HttpSession session) throws Exception{
-		MemberDTO checkLogin = memberService.detail(memberDTO);
-				
-		if(checkLogin != null
-				&& checkLogin.getPassword().equals(memberDTO.getPassword())) {
-			System.out.println("로그인 성공");
-			session.setAttribute("member", checkLogin);
-			
-			RentDTO rentDTO = new RentDTO();
-	        rentDTO.setUsername(memberDTO.getUsername());
-	        List<RentDTO> rentList = rentService.myRentList(rentDTO);
-	        session.setAttribute("rentCount", rentList.size());
-	        
-	        List<RentDTO> lateList = rentService.lateRent(rentDTO);
-	        
-	        session.setAttribute("lateList", lateList);        // 연체 도서 리스트
-	        session.setAttribute("lateCount", lateList.size());
-	        
-
-	        WishlistDTO wishlistDTO = new WishlistDTO();
-	        wishlistDTO.setUsername(memberDTO.getUsername());
-	        List<WishlistDTO> wishList = wishlistService.list(wishlistDTO, new Pager()); 
-	        session.setAttribute("wishCount", wishList.size());
-			
-			return "redirect:/";
-		}
-		else {
-			System.out.println("로그인 실패");
-			System.out.println(model.getAttribute("memberDTO"));
-			return "/member/login";
-		}
-				
-	}
+//	@PostMapping("login")
+//	public String login(MemberDTO memberDTO, Model model, HttpSession session) throws Exception{
+//		MemberDTO checkLogin = memberService.detail(memberDTO);
+//				
+//		if(checkLogin != null
+//				&& checkLogin.getPassword().equals(memberDTO.getPassword())) {
+//			System.out.println("로그인 성공");
+//			session.setAttribute("member", checkLogin);
+//			
+//			RentDTO rentDTO = new RentDTO();
+//	        rentDTO.setUsername(memberDTO.getUsername());
+//	        List<RentDTO> rentList = rentService.myRentList(rentDTO);
+//	        session.setAttribute("rentCount", rentList.size());
+//	        
+//	        List<RentDTO> lateList = rentService.lateRent(rentDTO);
+//	        
+//	        session.setAttribute("lateList", lateList);        // 연체 도서 리스트
+//	        session.setAttribute("lateCount", lateList.size());
+//	        
+//
+//	        WishlistDTO wishlistDTO = new WishlistDTO();
+//	        wishlistDTO.setUsername(memberDTO.getUsername());
+//	        List<WishlistDTO> wishList = wishlistService.list(wishlistDTO, new Pager()); 
+//	        session.setAttribute("wishCount", wishList.size());
+//			
+//			return "redirect:/";
+//		}
+//		else {
+//			System.out.println("로그인 실패");
+//			System.out.println(model.getAttribute("memberDTO"));
+//			return "/member/login";
+//		}
+//				
+//	}
 	
 	@GetMapping("mypage")
 	public String mypage(HttpSession session, Model model) throws Exception {

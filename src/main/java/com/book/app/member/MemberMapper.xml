@@ -11,16 +11,24 @@
 	</select>
 
 	<select id="detail" parameterType="MemberDTO" resultMap="detailResult">
-		SELECT * 
+		SELECT *
 		FROM "TB_MEMBER" M
-			LEFT JOIN "TB_PROFILE" F
+			LEFT JOIN
+			"TB_PROFILE" F
 			USING("USERNAME")
-		<where>
-        <if test="username != null and username != ''">
-            AND "USERNAME" = #{username}
-        </if>
-    </where>
+			INNER JOIN
+			"TB_MEMBER_ROLE"
+			USING("USERNAME")
+			INNER JOIN
+			"TB_ROLE"
+			USING("ROLE_NUM")
+		WHERE "USERNAME"=#{username}
 	</select>
+	
+	<insert id="addMemberRole" parameterType="MemberRoleDTO">
+		INSERT INTO "TB_MEMBER_ROLE"
+		VALUES (#{roleNum}, #{username})
+	</insert>
 	
 	<insert id="create" parameterType="MemberDTO">
 		INSERT INTO "TB_MEMBER"
@@ -65,11 +73,19 @@
 		<result column="MEMBER_NAME" property="memberName"/>
 		<result column="MEMBER_BIRTH" property="memberBirth"/>
 		<result column="MEMBER_EMAIL" property="memberEmail"/>
+		<result column="ENABLED" property="enabled"/>
+		<result column="CREDENTIALS_NON_EXPIRED" property="credentialsNonExpired"/>
+		<result column="ACCOUNT_NON_LOCKED" property="accountNonLocked"/>
+		<result column="ACCOUNT_NON_EXPIRED" property="accountNonExpired"/>
 		<association property="profileDTO" javaType="com.book.app.member.ProfileDTO">
 			<id column="USERNAME" property="username"/>
 			<result column="FILE_NAME" property="fileName"/>
 			<result column="ORI_NAME" property="oriName"/>
 		</association>
+		<collection property="roles" javaType="java.util.List" ofType="RoleDTO">
+			<id column="ROLE_NUM" property="roleNum"/>
+			<result column="ROLE_NAME" property="roleName"/>
+		</collection>
 	</resultMap>
 
 </mapper>

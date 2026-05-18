@@ -2,15 +2,22 @@ package com.book.app.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.book.app.file.FileDTO;
 import com.book.app.file.FileManager;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 @Service
-public class MemberService {
+@Slf4j
+public class MemberService implements UserDetailsService{
 
 	@Value("${app.member}")
 	private String name;
@@ -19,7 +26,20 @@ public class MemberService {
 	private MemberMapper memberMapper;
 	
 	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
 	private FileManager fileManager;
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		System.out.println(username);
+		MemberDTO memberDTO = new MemberDTO();
+		memberDTO.setUsername(username);
+		memberDTO = memberMapper.detail(memberDTO);
+		log.info("{}", memberDTO);
+		return memberDTO;
+	}
 	
 	public int idCheck(MemberDTO memberDTO) throws Exception{
 		return memberMapper.idCheck(memberDTO);
@@ -32,7 +52,15 @@ public class MemberService {
 	
 	public int create(MemberDTO memberDTO, MultipartFile file) throws Exception {
 		
+		memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
+		
 		int result = memberMapper.create(memberDTO);
+		
+		MemberRoleDTO memberRoleDTO = new MemberRoleDTO();
+		memberRoleDTO.setRoleNum(3L);
+		memberRoleDTO.setUsername(memberDTO.getUsername());
+		
+		result = memberMapper.addMemberRole(memberRoleDTO);
 		
 		if(file != null && !file.isEmpty()) {
 			String fileName = fileManager.fileSave(name, file);
