@@ -36,10 +36,10 @@ if (rentBtn) {
 }
 
 document.addEventListener('click', function(e) {
-    if (e.target && (e.target.id === 'returnBtn' || e.target.classList.contains('return-btn'))) {
+	const btn = e.target.closest('#returnBtn') || e.target.closest('.return-btn');
+    if (btn) {
         if (!confirm("정말 반납하시겠습니까?")) return;
-        
-        const btn = e.target;
+
         const bookNum = btn.getAttribute('data-bn');
         const p = new URLSearchParams();
         p.append('bookNum', bookNum);

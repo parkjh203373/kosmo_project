@@ -69,7 +69,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         		
 		String s = request.getParameter("rememberId");
 		try {
-			if (s.equals("1")) {
+			if ("1".equals(s)) {
 				log.info("Login Success {}", authentication.getName());
 				Cookie cookie = new Cookie("rememberId", authentication.getName());
 				cookie.setMaxAge(600);
