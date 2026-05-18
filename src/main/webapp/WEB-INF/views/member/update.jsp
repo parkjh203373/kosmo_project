@@ -43,7 +43,7 @@
                                             
                                             <div class="form-group col-md-6 mb-3">
                                                 <label class="font-weight-bold small text-dark" for="password">비밀번호 변경</label> 
-                                                <input type="password" class="form-control border-0 bg-light px-3 fixed-height-input" name="password" id="password" value="${member.password}" placeholder="새 비밀번호 혹은 기존 비밀번호 확인" required>
+                                                <input type="password" class="form-control border-0 bg-light px-3 fixed-height-input" name="password" id="password" value="" placeholder="비밀번호를 변경하실 때에만 입력해 주세요.">
                                             </div>
                                         </div>
                                         

@@ -77,11 +77,27 @@ public class DealboardController {
 
 	    // 4. 작성자 본인 확인 및 삭제 로직
 	    if (id.equals(boardData.getUsername())) {
-	        dealboardService.deleteBoard(dealboardDTO, oldbookDTO, oldbookFileDTO);
+	        //dealboardService.deleteBoard(dealboardDTO, oldbookDTO, oldbookFileDTO);
+	    	dealboardService.deleteBoard(dealboardDTO);
 	        return "redirect:/";
 	    }
 	    
 	    return "redirect:/dealboard/list"; 
+	}
+	
+	@GetMapping("update")
+	public String update(DealboardDTO dealboardDTO, Model model) throws Exception {
+	    // 기존 데이터를 불러와서 수정 폼에 뿌려줘야 합니다.
+	    dealboardDTO = dealboardService.detail(dealboardDTO);
+	    model.addAttribute("dealboardDTO", dealboardDTO);
+	    return "dealboard/update";
+	}
+
+	@PostMapping("update")
+	public String update(DealboardDTO dealboardDTO, @RequestParam("attach") MultipartFile attach) throws Exception {
+	    int result = dealboardService.update(dealboardDTO, attach);
+	    // 수정 완료 후 상세 페이지로 이동
+	    return "redirect:./detail?dealboardNum=" + dealboardDTO.getDealboardNum();
 	}
 	
 }
