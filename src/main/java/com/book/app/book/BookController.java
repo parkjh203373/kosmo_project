@@ -183,5 +183,13 @@ public class BookController {
 		
 		return "redirect:./list";
 	}
+	
+	@PostMapping("deleteAll")
+	@ResponseBody
+	public String deleteAll() throws Exception {
+	    int result = bookService.deleteAll(); 
+	        
+	    return "book/deleteAll";
+	}
 
 }

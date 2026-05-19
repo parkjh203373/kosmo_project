@@ -27,5 +27,7 @@ public interface BookMapper {
 	public List<BookDTO> getBestSeller() throws Exception;
 	
 	public List<BookDTO> getBestSellerByAge(@Param("age") Integer ageGroup) throws Exception;
+	
+	public int deleteAll() throws Exception;
 
 }

@@ -124,5 +124,9 @@
 	    ORDER BY "rentCount" DESC
 	    LIMIT 3
 	</select>
+	
+	<delete id="deleteAll">
+		DELETE FROM "TB_BOOK"
+	</delete>
 
 </mapper>

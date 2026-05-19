@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const target = e.target.closest('.select-book');
         
         if (target) {
-            const d = target.dataset;
+			const d = target.dataset;
 
             bookTitleInput.value = d.title;
             bookAuthorInput.value = d.author;
@@ -103,7 +103,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             searchResultDiv.style.display = 'none';
             apiSearchInput.value = "";
+			return;
         }
+		
+		if (searchResultDiv.style.display === 'block') {
+		    if (!searchResultDiv.contains(e.target) && e.target !== apiSearchInput && !apiSearchBtn.contains(e.target)) {
+		        searchResultDiv.style.display = 'none';
+		    }
+		}
     });
 
     if (apiSearchInput) {

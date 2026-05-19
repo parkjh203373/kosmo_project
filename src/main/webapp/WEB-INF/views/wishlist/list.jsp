@@ -87,9 +87,23 @@
 	           	    	<div class="col-lg-10">
 							<div class="card bg-white border-0 shadow-sm rounded-lg overflow-hidden">
 								<div class="card-body p-0">
+									<div class="mb-3 d-flex justify-content-between align-items-center">
+									    <div>
+									        <button type="button" class="btn btn-danger btn-sm font-weight-bold mt-2 ml-1" id="deleteAllBtn">
+									            <i class="fas fa-dumpster mr-1"></i> 전체 삭제
+									        </button>
+									        <button type="button" class="btn btn-outline-danger btn-sm font-weight-bold mr-2 mt-2" id="deleteSelectedBtn">
+									            <i class="fas fa-trash-alt mr-1"></i> 선택 삭제
+									        </button>
+									    </div>
+									    <span class="text-muted small mr-2">총 <strong class="text-primary" id="totalCount">${list.size()}</strong>개</span>
+									</div>
 									<table class="table wish-table mb-0">
 									    <thead>
 									        <tr>
+									        	<th style="width: 50px;" class="text-center">
+									                <input type="checkbox" id="checkAll" class="form-check-input-custom">
+									            </th>
 									            <th class="text-center" style="width: 140px;">도서 표지</th>
 									            <th>도서 제목/저자</th>
 									            <th class="text-center" style="width: 150px;">출판일</th>
@@ -100,6 +114,9 @@
 									    <tbody>
 									        <c:forEach items="${list}" var="d">
 									            <tr>
+									            	<td class="text-center">
+									                    <input type="checkbox" class="form-check-input-custom wish-checkbox" value="${d.bookNum}">
+									                </td>
 									                <!-- 도서 표지 -->
 									                <td class="text-center">
 									                    <c:choose>
@@ -164,7 +181,7 @@
 									        <%-- 찜 목록이 텅 빌 경우의 안전 장치 예외 처리 --%>
 									        <c:if test="${empty list}">
 									        	<tr>
-									        		<td colspan="5" class="text-center py-5 text-muted small">
+									        		<td colspan="6" class="text-center py-5 text-muted small">
 									        			<i class="far fa-heart fa-3x mb-3 text-gray-300 d-block"></i>
 									        			아직 찜한 도서가 없습니다. 마음에 드는 책을 담아보세요.
 									        		</td>
@@ -207,5 +224,7 @@
 		</div>
 	</div>
 	<c:import url="/WEB-INF/views/temp/footer_script.jsp"></c:import>
+	
+	<script src="/js/book/wishlistcheckbox.js"></script>
 </body>
 </html>

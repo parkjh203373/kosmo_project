@@ -8,6 +8,11 @@
     <c:import url="/WEB-INF/views/temp/head_css.jsp"></c:import>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
     <style>
+    	.card.position-relative {
+	        position: relative !important;
+	        z-index: 10 !important;
+	    }
+	    
 	    #searchResult {
 	        position: absolute !important;
 	        z-index: 1050 !important;
@@ -40,7 +45,7 @@
                 <c:import url="/WEB-INF/views/temp/topbar.jsp"></c:import>
                 
                 <div class="container py-4">
-                    <h1 class="h4 mb-4 text-gray-900 font-weight-bold">새 도서 입고 시스템</h1>
+                    <h1 class="h4 mb-4 text-gray-900 font-weight-bold">신규 도서 입고 시스템</h1>
                     
                     <div class="row justify-content-center">
                         <div class="col-xl-10 col-lg-12">
@@ -50,10 +55,10 @@
                                 <div class="card-body">
                                     <label class="font-weight-bold text-primary mb-2"><i class="fas fa-network-wired mr-1"></i> 네이버 도서 데이터베이스 검색 매핑</label>
                                     <div class="input-group">
-                                        <input type="text" id="apiSearch" class="form-control border-0 bg-light pl-3" placeholder="매핑을 위한 정확한 원본 책 제목을 기입해주세요.">
+                                        <input type="text" id="apiSearch" class="form-control border-0 bg-light pl-3" placeholder="도서 제목 키워드를 기입해주세요.">
                                         <div class="input-group-append">
                                             <button class="btn btn-primary px-4" type="button" id="apiSearchBtn">
-                                                <i class="fas fa-search mr-1"></i> 색인 조회
+                                                <i class="fas fa-search mr-1"></i> 조회
                                             </button>
                                         </div>
                                     </div>
@@ -80,29 +85,29 @@
 							                <!-- 서적 상세 주입 필드 (읽기전용 매핑) -->
 							                <div class="col-md-8 pl-md-4">
 							                    <div class="form-group mb-3">
-							                        <label class="font-weight-bold small text-dark" for="bookTitle">연동된 도서 타이틀 명칭</label>
+							                        <label class="font-weight-bold small text-dark" for="bookTitle">연동된 도서 제목</label>
 							                        <input type="text" name="bookTitle" id="bookTitle" class="form-control bg-light border-0 font-weight-bold text-dark" readonly required placeholder="조회 매핑 시 자동 주입되는 영역입니다.">
 							                    </div>
 							                    <div class="row">
 							                        <div class="form-group col-md-6 mb-3">
-							                            <label class="font-weight-bold small text-dark" for="bookAuthor">저자명</label>
+							                            <label class="font-weight-bold small text-dark" for="bookAuthor">저자</label>
 							                            <input type="text" name="bookAuthor" id="bookAuthor" class="form-control bg-light border-0" readonly>
 							                        </div>
 							                        <div class="form-group col-md-6 mb-3">
-							                            <label class="font-weight-bold small text-dark" for="bookPublisher">발행처</label>
+							                            <label class="font-weight-bold small text-dark" for="bookPublisher">출판사</label>
 							                            <input type="text" name="bookPublisher" id="bookPublisher" class="form-control bg-light border-0" readonly>
 							                        </div>
 							                    </div>
 							                    <div class="row">
 							                        <div class="form-group col-md-6 mb-3">
-							                            <label class="font-weight-bold small text-dark" for="bookDate">출간 일자 정보</label>
+							                            <label class="font-weight-bold small text-dark" for="bookDate">발행일</label>
 							                            <input type="text" name="bookDate" id="bookDate" class="form-control bg-light border-0" readonly>
 							                        </div>
 							                        <div class="form-group col-md-6 mb-3">
-							                            <label class="font-weight-bold small text-dark" for="bookStatus">초기 배치 상태 설정</label>
-							                            <select name="bookStatus" class="form-control border-0 bg-light text-secondary font-weight-medium">
-							                                <option value="대출가능">🟢 즉시 대출 승인 상태</option>
-							                                <option value="대출중">🔴 초기 대출 잠금 홀딩상태</option>
+							                            <label class="font-weight-bold small text-dark" for="bookStatus">대출 상태</label>
+							                            <select name="bookStatus" class="form-control border-0 bg-light text-secondary font-weight-medium" style="padding-top: 0; padding-bottom: 0;">
+							                                <option value="대출가능">🟢 대출 가능 상태</option>
+							                                <option value="대출중">🔴 대출 중인 상태</option>
 							                            </select>
 							                        </div>
 							                    </div>
@@ -110,13 +115,13 @@
 							            </div>
 							
 							            <div class="form-group mt-4">
-							                <label class="font-weight-bold small text-dark" for="bookContents">서적 데이터 요약 설명 및 본문 소개</label>
+							                <label class="font-weight-bold small text-dark" for="bookContents">서적 요약 설명 및 본문 소개</label>
 							                <textarea name="bookContents" id="bookContents" class="form-control"></textarea>
 							            </div>
 							
 							            <div class="text-right mt-4 pt-2">
-							                <a href="./list" class="btn btn-link text-muted font-weight-bold text-decoration-none mr-2">취소하고 돌아가기</a>
-							                <button type="submit" class="btn btn-primary px-5 shadow-sm font-weight-bold" id="submitBtn">도서 신규 원장 등록</button>
+							                <a href="./list" class="btn btn-link text-muted font-weight-bold text-decoration-none mr-2">돌아가기</a>
+							                <button type="submit" class="btn btn-primary px-5 shadow-sm font-weight-bold" id="submitBtn">도서 신규 등록</button>
 							            </div>
 							        </form>
 							    </div>

@@ -55,10 +55,10 @@
 								<div class="mt-4">
 									<c:choose>
 										<c:when test="${d.bookStatus eq '대출가능'}">
-											<span class="badge px-4 py-2 font-weight-bold text-success" style="background:#e6fffa; font-size: 0.9rem; border-radius: 50px;">● 대출 활성화 상태</span>
+											<span class="badge px-4 py-2 font-weight-bold text-success" style="background:#e6fffa; font-size: 0.9rem; border-radius: 50px;">● 대출 가능</span>
 										</c:when>
 										<c:when test="${d.bookStatus eq '대출중'}">
-											<span class="badge px-4 py-2 font-weight-bold text-danger" style="background:#fff5f5; font-size: 0.9rem; border-radius: 50px;">● 대출 중 상태</span>
+											<span class="badge px-4 py-2 font-weight-bold text-danger" style="background:#fff5f5; font-size: 0.9rem; border-radius: 50px;">● 대출 중</span>
 										</c:when>
 										<c:otherwise>
 											<span class="badge px-4 py-2 font-weight-bold text-secondary" style="background:#f7fafc; font-size: 0.9rem; border-radius: 50px;">${d.bookStatus}</span>
@@ -139,7 +139,7 @@
 								            </button>
 								        </c:when>
 										<c:otherwise>
-											<button class="btn btn-light border btn-sm text-secondary px-3 py-2" id="create" data-pn="${d.bookNum}">
+											<button class="btn btn-light border btn-sm text-secondary px-3 py-2" id="create" data-pn="${d.bookNum}" onclick="return confirm('관심 목록에 추가하시겠습니까?');">
 												<i class="far fa-heart text-danger mr-1"></i> 찜하기
 											</button>
 										</c:otherwise>
@@ -149,7 +149,7 @@
 									<sec:authorize access="hasAnyRole('ADMIN', 'MANAGER')">
 									<c:if test="${param.from ne 'wishlist'}">
 										<a href="./update?bookNum=${d.bookNum}" class="btn btn-link text-secondary text-decoration-none small ml-2">수정</a>
-										<form action="./delete" method="post" class="d-inline ml-1" onsubmit="return confirm('서적 정보를 시스템에서 영구 파기하시겠습니까?');">
+										<form action="./delete" method="post" class="d-inline ml-1" onsubmit="return confirm('서적 정보를 시스템에서 삭제하시겠습니까?');">
 											<input type="hidden" name="bookNum" value="${d.bookNum}">
 											<button type="submit" class="btn btn-link text-muted text-decoration-none small">삭제</button>
 										</form>

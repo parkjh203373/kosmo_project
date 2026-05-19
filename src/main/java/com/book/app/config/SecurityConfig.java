@@ -47,7 +47,7 @@ public class SecurityConfig {
 			.csrf(csrf->{csrf.disable();})
 			.authorizeHttpRequests(auth->{ //인가에 대한 설정(권한설정)
 				auth
-				.requestMatchers("/book/create", "/book/update", "/book/delete")
+				.requestMatchers("/book/create", "/book/update", "/book/delete", "/book/deleteAll")
 							.hasAnyRole("ADMIN", "MANAGER")
 				.requestMatchers("/book/list", "/book/detail", 
 						"/dealboard/create", "/dealboard/detail", "/dealboard/list", "/dealboard/update",

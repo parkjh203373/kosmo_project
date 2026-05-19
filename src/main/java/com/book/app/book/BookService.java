@@ -43,5 +43,9 @@ public class BookService {
 	public List<BookDTO> getBestSellerByAge(@Param("age") Integer ageGroup) throws Exception {
 		return bookMapper.getBestSellerByAge(ageGroup);
 	}
+	
+	public int deleteAll() throws Exception{
+		return bookMapper.deleteAll();
+	}
 
 }

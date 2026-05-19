@@ -19,7 +19,7 @@ if (wishBtnArea) {
                 .then(r => r.text())
                 .then(r => {
                     if (r.trim() > 0) {
-                        if (confirm("찜 목록에 등록되었습니다. 이동하시겠습니까?")) {
+                        if (confirm("관심 목록에 등록되었습니다. 이동하시겠습니까?")) {
                             location.href = "/wishlist/list";
                         } else {
                             // 페이지 이동 안 하면 그 자리에서 바로 '관심도서 해제' 버튼으로 UI 전환
