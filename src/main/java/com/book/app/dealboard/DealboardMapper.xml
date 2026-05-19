@@ -37,6 +37,20 @@
 	    LIMIT #{perPage} OFFSET #{startNum}
 	</select>
 
+    <select id="myboardCount" parameterType="Pager" resultType="Long">
+	    SELECT COUNT (D."DEALBOARD_NUM") 
+	    FROM "TB_DEALBOARD" D
+	    LEFT JOIN "TB_OLDBOOK" O ON D."OLDBOOK_NUM" = O."OLDBOOK_NUM"
+	    WHERE D."USERNAME" = #{username}
+	    <if test="search != null and search != ''">
+	        AND (
+	            O."OLDBOOK_TITLE" LIKE '%' || #{search} || '%'
+	            OR
+	            O."OLDBOOK_AUTHOR" LIKE '%' || #{search} || '%'
+	        )
+	    </if>
+	</select>
+	
 	<select id="getTotalCount" parameterType="Pager" resultType="Long">
 		SELECT COUNT(*) 
 	    FROM "TB_DEALBOARD" D

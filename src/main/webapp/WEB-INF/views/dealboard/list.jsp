@@ -118,44 +118,63 @@
                     </div>
 
                     <div class="d-flex justify-content-center mt-5">
-                        <nav>
-                            <ul class="pagination pagination-sm border-0">
-                                <li class="page-item ${pager.pre ? '' : 'disabled'}">
-                                    <a class="page-link border-0 text-dark bg-light mx-1 rounded-circle text-center" style="width:34px; height:34px; line-height:20px;" href="./list?page=${pager.start - 1}&search=${pager.search}"><i class="fas fa-chevron-left small"></i></a>
-                                </li>
+                        <c:if test="${not empty list}">
+							<nav>
+								<ul class="pagination pagination-sm border-0">
+									<%-- 왼쪽 화살표 --%>
+									<c:if test="${pager.pre}">
+									    <li class="page-item">
+									        <a class="page-link border-0 text-dark bg-light mx-1 rounded-circle text-center"
+									           style="width: 34px; height: 34px; line-height: 20px;"
+									           href="./list?page=${pager.start - 1}&search=${pager.search}">
+									            <i class="fas fa-chevron-left small"></i>
+									        </a>
+									    </li>
+									</c:if>
 
+									<%-- 숫자 페이지 반복 --%>
+									<c:forEach begin="${pager.start}" end="${pager.end}" var="i">
+										<li class="page-item mx-1 ${pager.page == i ? 'active' : ''}">
+											<a
+											class="page-link border-0 rounded-circle text-center font-weight-bold ${pager.page == i ? 'bg-primary text-white' : 'text-dark bg-white shadow-sm'}"
+											style="width: 34px; height: 34px; line-height: 18px;"
+											href="./list?page=${i}&search=${pager.search}">${i}</a>
+										</li>
+									</c:forEach>
+
+									<%-- 오른쪽 화살표 --%>
+									<c:if test="${pager.next}">
+									    <li class="page-item">
+									        <a class="page-link border-0 text-dark bg-light mx-1 rounded-circle text-center"
+									           style="width: 34px; height: 34px; line-height: 20px;"
+									           href="./list?page=${pager.end + 1}&search=${pager.search}">
+									            <i class="fas fa-chevron-right small"></i>
+									        </a>
+									    </li>
+									</c:if>
+								</ul>
+							</nav>
+						</c:if>
+
+						<%-- 리스트가 비어있을 때만 안내 문구를 보여줍니다 --%>
+						<c:if test="${empty list}">
+							<div class="col-12 text-center py-5">
 								<c:choose>
-									<c:when test="${not empty list}">
-		                                <c:forEach begin="${pager.start}" end="${pager.end}" var="i">
-		                                    <li class="page-item mx-1 ${pager.page == i ? 'active' : ''}">
-		                                        <a class="page-link border-0 rounded-circle text-center font-weight-bold ${pager.page == i ? 'bg-primary text-white' : 'text-dark bg-white shadow-sm'}" style="width:34px; height:34px; line-height:18px;" href="./list?page=${i}&search=${pager.search}">${i}</a>
-		                                    </li>
-		                                </c:forEach>
-		                            </c:when>
-						      	  <c:otherwise>
-						      	  		<div class="col-12 text-center py-5">
-								        <c:choose>
-								            <%-- 검색어가 있을 때 결과가 없는 경우 --%>
-								            <c:when test="${not empty param.search}">
-								                <i class="fas fa-search fa-3x text-gray-300 mb-3"></i>
-								                <p class="text-gray-500">'${param.search}'에 대한 검색 결과가 없습니다.</p>
-								            </c:when>
-								            
-								            <%-- 검색어가 없는데도 결과가 없는 경우 (실제 DB가 비었을 때) --%>
-								            <c:otherwise>
-								                <i class="fas fa-book-open fa-3x text-gray-300 mb-3"></i>
-								                <p class="text-gray-500">현재 등록된 판매 도서가 없습니다.</p>
-								            </c:otherwise>
-								        </c:choose>
-								    </div>
-						      	  </c:otherwise>
-						 	   </c:choose>
+									<%-- 검색어가 있을 때 결과가 없는 경우 --%>
+									<c:when test="${not empty param.search}">
+										<i class="fas fa-search fa-3x text-gray-300 mb-3"></i>
+										<p class="text-gray-500">'${param.search}'에 대한 검색 결과가
+											없습니다.</p>
+									</c:when>
 
-                                <li class="page-item ${pager.next ? '' : 'disabled'}">
-                                    <a class="page-link border-0 text-dark bg-light mx-1 rounded-circle text-center" style="width:34px; height:34px; line-height:20px;" href="./list?page=${pager.end + 1}&search=${pager.search}"><i class="fas fa-chevron-right small"></i></a>
-                                </li>
-                            </ul>
-                        </nav>
+									<%-- 검색어가 없는데도 결과가 없는 경우 (실제 DB가 비었을 때) --%>
+									<c:otherwise>
+										<i class="fas fa-book-open fa-3x text-gray-300 mb-3"></i>
+										<p class="text-gray-500">현재 작성된 글이 없습니다.</p>
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</c:if>
                     </div>
                 </div>
             </div>

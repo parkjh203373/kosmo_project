@@ -40,7 +40,7 @@ public class DealboardService {
 	    pager.makeStartNum(); 
 	    
 	    // 2. 전체 데이터 개수 조회 및 페이징 블록 계산
-	    Long totalCount = dealboardMapper.getTotalCount(pager);
+	    Long totalCount = dealboardMapper.myboardCount(pager);
 	    pager.makePageNum(totalCount);
 	    
 	    // 3. 데이터 조회
