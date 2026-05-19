@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>중고책 판매 등록 - Forest Library</title>
     <c:import url="/WEB-INF/views/temp/head_css.jsp"></c:import>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         .form-control:focus, .form-select:focus {
             background-color: #fff !important;
@@ -25,6 +26,31 @@
             height: calc(2.25rem + 10px);
             font-size: 0.95rem;
         }
+        .modern-date-input {
+	        appearance: none;
+	        -webkit-appearance: none;
+	        color: #4a5568;
+	        border: 0 !important;
+	        background-color: #f8fafc !important; /* 다른 입력창과 배경 통일 */
+	        border-radius: 12px !important;
+	        padding: 10px 15px !important;
+	        cursor: pointer;
+	    }
+	
+	    /* 달력 아이콘 색상을 Forest Library 테마색(#2a5c43)으로 변경 */
+	    .modern-date-input::-webkit-calendar-picker-indicator {
+	        cursor: pointer;
+	        filter: invert(24%) sepia(15%) saturate(1633%) hue-rotate(101deg) brightness(92%) contrast(88%);
+	        opacity: 0.7;
+	    }
+	    .modern-date-input:focus {
+	        outline: none;
+	        box-shadow: 0 0 0 0.2rem rgba(42, 92, 67, 0.15) !important;
+	        background-color: #ffffff !important; /* 포커스 시 흰색으로 변경 */
+	    }
+	    .flatpickr-day.selected { background: #2a5c43 !important; border-color: #2a5c43 !important; }
+    	.flatpickr-calendar { border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+    	}
     </style>
 </head>
 <body id="page-top">
@@ -83,7 +109,7 @@
 
                                         <div class="form-group mb-4">
                                             <label for="oldbookDate" class="font-weight-bold small text-dark">인쇄/출간 시점</label>
-                                            <input type="date" class="form-control border-0 bg-light px-3 fixed-height-input" name="oldbookDate" id="oldbookDate">
+                                            <input type="text" class="form-control modern-date-input fixed-height-input" name="oldbookDate" id="oldbookDate">
                                         </div>
 
                                         <div class="market-section-title"><i class="fas fa-camera mr-1"></i> 상품 실물 증명 사진</div>
@@ -122,5 +148,16 @@
         </div>
     </div>
     <c:import url="/WEB-INF/views/temp/footer_script.jsp"></c:import>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
+	<script>
+	    flatpickr("#oldbookDate", {
+	        locale: "ko", // 한국어 설정
+	        dateFormat: "Y-m-d", // 서버로 전송될 형식
+	        altInput: true,
+	        altFormat: "Y년 m월 d일", // 화면에 보여질 예쁜 형식
+	        disableMobile: true // 모바일에서도 이 예쁜 달력을 그대로 사용
+	    });
+	</script>
 </body>
 </html>

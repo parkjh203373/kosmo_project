@@ -33,6 +33,28 @@ public class DealboardController {
 	    return "dealboard/list";
 	}
 	
+	@GetMapping("myboard")
+	public String myboard(Pager pager, Model model, HttpSession session) throws Exception {
+		// 1. 세션에서 로그인한 회원 정보 꺼내기
+	    MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+	    
+	    // 로그인이 안 되어 있다면 로그인 페이지로 리다이렉트
+	    if(memberDTO == null) {
+	        return "redirect:/member/login";
+	    }
+	    
+	    // 2. Pager 객체에 현재 로그인한 유저의 username 세팅
+	    pager.setUsername(memberDTO.getUsername());
+	    
+	    // 3. 서비스 호출
+	    List<DealboardDTO> ar = dealboardService.myboard(pager);
+	    
+	    model.addAttribute("list", ar);
+	    model.addAttribute("pager", pager); 
+	    
+	    return "dealboard/myboard";
+	}
+	
 	@GetMapping("detail")
 	public String detail(DealboardDTO dealboardDTO, Model model) throws Exception {
 		System.out.println("전달받은 번호: " + dealboardDTO.getDealboardNum());
