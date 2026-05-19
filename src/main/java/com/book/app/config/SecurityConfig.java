@@ -66,9 +66,7 @@ public class SecurityConfig {
 					.usernameParameter("username")
 					.passwordParameter("password")
 					.loginProcessingUrl("/member/login")
-					//.defaultSuccessUrl("/") // 로그인 성공시 이동하는 url
 					.successHandler(loginSuccessHandler) // 로그인을 성공한 뒤 추가 작업을 실행하고 싶을 때 사용
-					//.failureUrl("/") // 로그인 실패시 이동하는 url
 					.failureHandler(new LoginFailHandler())
 					;
 			})
@@ -78,8 +76,6 @@ public class SecurityConfig {
 				.invalidateHttpSession(true)
 				.deleteCookies("JSESSIONID")
 				.logoutSuccessUrl("/")
-//				.addLogoutHandler(new ADDLogout())
-//				.logoutSuccessHandler(new AddLogoutHandler())
 				;
 			})
 		; 

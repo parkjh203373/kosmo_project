@@ -49,8 +49,18 @@
                             <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
                                 <div class="card h-100 border-0 bg-white shadow-sm market-card position-relative">
                                     
-                                    <span class="badge position-absolute font-weight-bold px-2 py-1 text-success" style="top:12px; right:12px; background:rgba(230,255,250,0.9); z-index:10; border-radius:6px; font-size:0.75rem;">● 판매중</span>
-
+                                    <c:if test="${dto.dealboardState eq '판매중'}">
+	                                    <span class="badge position-absolute font-weight-bold px-2 py-1 text-success" 
+	                                    	  style="top:12px; right:12px; background:rgba(230,255,250,0.9); z-index:10; border-radius:6px; font-size:0.75rem;">
+	                                    	  ● 판매중</span>                                
+                                    </c:if>
+                                    
+									<c:if test="${dto.dealboardState ne '판매중'}">
+									    <span class="badge position-absolute font-weight-bold px-2 py-1 text-secondary" 
+									          style="top:12px; right:12px; background:rgba(241, 245, 249, 0.95); z-index:10; border-radius:6px; font-size:0.75rem; border: 1px solid #e2e8f0;">
+									          ● 판매완료</span>                                
+									</c:if>
+                                    
                                     <a href="./detail?dealboardNum=${dto.dealboardNum}">
                                         <c:choose>
                                             <c:when test="${not empty dto.oldbookDTO.oldbookFileDTO.fileName}">

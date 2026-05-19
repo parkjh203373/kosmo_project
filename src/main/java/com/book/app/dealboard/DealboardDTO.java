@@ -14,6 +14,8 @@ public class DealboardDTO {
 	private Long oldbookNum;
 	private String dealboardTitle;
 	private String dealboardContents;
+	private String memberEmail;
+	private String dealboardState;
 	
 	private OldbookDTO oldbookDTO;
 }

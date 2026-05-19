@@ -92,7 +92,22 @@
                                             <input type="file" class="form-control-file text-muted mt-2" name="attach" id="attach">
                                         </div>
 
-                                        <div class="text-right pt-2">
+										<div class="form-group mb-3">
+											<label class="font-weight-bold small text-dark d-block">도서	보존 상태</label>
+											<div class="d-flex gap-3 mt-2">
+												<div
+													class="custom-control custom-radio custom-control-inline">
+													<input type="radio" id="stateNew" name="oldbookState" class="custom-control-input" value="새상품" checked>
+													<label class="custom-control-label small font-weight-bold text-secondary" for="stateNew">새상품</label>
+												</div>
+												<div class="custom-control custom-radio custom-control-inline">
+													<input type="radio" id="stateUsed" name="oldbookState" class="custom-control-input" value="중고"> 
+													<label class="custom-control-label small font-weight-bold text-secondary" for="stateUsed">중고 (사용감 있음)</label>
+												</div>
+											</div>
+										</div>
+
+										<div class="text-right pt-2">
                                             <a href="./list" class="btn btn-link text-muted font-weight-bold text-decoration-none mr-2">취소하고 돌아가기</a>
                                             <button type="submit" class="btn btn-primary px-5 font-weight-bold shadow-sm fixed-height-input" style="border-radius:10px; line-height:22px;">글 작성 완료</button>
                                         </div>
