@@ -79,11 +79,9 @@ public class OrderController {
 	    log.info("게시판 번호" + dealboardNum);
 	    log.info("{}" + boardData);
 	    
-	    // 4. 안전하게 데이터 삭제 진행
+	    // 4. 판매 완료 상태로 변경
 	    if (boardData != null && boardData.getOldbookDTO() != null) {
-	        OldbookDTO oldbookDTO = boardData.getOldbookDTO();
-	        OldbookFileDTO oldbookFileDTO = oldbookDTO.getOldbookFileDTO();
-	        dealboardService.deleteBoard(boardData);
+	        dealboardService.soldout(boardData);
 	    }
 
 	    return "redirect:/order/pay/completed";

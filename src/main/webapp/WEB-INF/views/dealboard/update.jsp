@@ -99,6 +99,23 @@
                                                 <label class="form-label" for="oldbookDate">출판일</label>
                                                 <input type="date" class="form-control form-control-custom" id="oldbookDate" name="oldbookDTO.oldbookDate" value="${dealboardDTO.oldbookDTO.oldbookDate}" required>
                                             </div>
+                                            
+											<div class="form-group mb-0 mt-4">
+											    <label class="form-label">도서 보존 상태</label>
+											    <div class="d-flex align-items-center pt-1">
+											        <div class="custom-control custom-radio mr-4">
+											            <input type="radio" id="stateNew" name="oldbookDTO.oldbookState" class="custom-control-input" value="새상품" 
+											                <c:if test="${dealboardDTO.oldbookDTO.oldbookState eq '새상품' or empty dealboardDTO.oldbookDTO.oldbookState}">checked</c:if>>
+											            <label class="custom-control-label small font-weight-bold text-secondary" for="stateNew" style="cursor:pointer;">새상품</label>
+											        </div>
+											        
+											        <div class="custom-control custom-radio">
+											            <input type="radio" id="stateUsed" name="oldbookDTO.oldbookState" class="custom-control-input" value="중고"
+											                <c:if test="${dealboardDTO.oldbookDTO.oldbookState eq '중고'}">checked</c:if>>
+											            <label class="custom-control-label small font-weight-bold text-secondary" for="stateUsed" style="cursor:pointer;">중고 (사용감 있음)</label>
+											        </div>
+											    </div>
+											</div>
                                         </div>
 
                                         <div class="d-flex justify-content-end">

@@ -42,6 +42,14 @@
                             
                             <div class="card border-0 bg-white p-4 shadow-sm" style="border-radius: 16px;">
                                 <div class="card-body">
+                                
+	                                <c:if test="${not empty param.message}">
+								        <div class="alert alert-danger border-0 small font-weight-bold text-center mb-4" 
+								             style="border-radius: 10px; background-color: #fff5f5; color: #e53e3e;">
+								            <i class="fas fa-exclamation-circle mr-1"></i> ${param.message}
+								        </div>
+								    </c:if>
+                                
                                     <form method="post">
                                         <div class="form-group mb-3">
                                             <label class="font-weight-bold small text-dark" for="username">아이디</label> 

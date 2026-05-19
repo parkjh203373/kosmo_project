@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.book.app.file.FileManager;
+import com.book.app.member.MemberDTO;
 import com.book.app.pager.Pager;
 
 @Service
@@ -127,4 +128,15 @@ public class DealboardService {
         
         return result;
     }
+	
+	public int soldout(DealboardDTO dealboardDTO) throws Exception{
+		dealboardDTO.setDealboardState("판매 완료");
+		
+		int result = dealboardMapper.soldout(dealboardDTO);
+		return result;
+	}
+	
+	public List<DealboardDTO> getSoldList(MemberDTO memberDTO) throws Exception{
+		return dealboardMapper.getSoldList(memberDTO);
+	}
 }

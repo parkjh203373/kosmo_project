@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.book.app.member.MemberDTO;
 import com.book.app.pager.Pager;
 
 @Mapper
@@ -33,5 +34,8 @@ public interface DealboardMapper {
 	
 	public int delOldbookFile(OldbookFileDTO oldbookFileDTO) throws Exception;
 	
+	public int soldout(DealboardDTO dealboardDTO) throws Exception;
+	
+	public List<DealboardDTO> getSoldList(MemberDTO memberDTO) throws Exception;
 
 }

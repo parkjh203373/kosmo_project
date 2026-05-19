@@ -8,6 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import com.book.app.dealboard.DealboardDTO;
+import com.book.app.dealboard.DealboardService;
 import com.book.app.member.MemberDTO;
 import com.book.app.pager.Pager;
 import com.book.app.rent.RentDTO;
@@ -31,6 +33,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	
 	@Autowired
 	private WishlistService wishlistService;
+	
+	@Autowired
+	private DealboardService dealboardService;
 		
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -62,6 +67,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
             wishlistDTO.setUsername(loginMember.getUsername());
             List<WishlistDTO> wishList = wishlistService.list(wishlistDTO, new Pager()); 
             session.setAttribute("wishCount", wishList.size());
+            
+            List<DealboardDTO> soldList = dealboardService.getSoldList(loginMember);
+            session.setAttribute("soldList", soldList);
             
         } catch (Exception e) {
             e.printStackTrace();

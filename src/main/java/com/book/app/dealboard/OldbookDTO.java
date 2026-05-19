@@ -17,6 +17,7 @@ public class OldbookDTO {
 	private String oldbookAuthor;
 	private String oldbookPublisher;
 	private LocalDate oldbookDate;
+	private String oldbookState;
 	
 	private OldbookFileDTO oldbookFileDTO;
 }
