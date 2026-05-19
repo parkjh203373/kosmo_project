@@ -198,9 +198,8 @@
 											<th class="text-center border-0 py-3" style="width: 140px;">표지</th>
 											<th class="border-0 py-3">도서 정보</th>
 											<th class="text-center border-0 py-3" style="width: 150px;">발행일</th>
-											<th class="text-center border-0 py-3" style="width: 150px;">대출
-												상태</th>
-											<th class="text-center border-0 py-3" style="width: 120px;">정보</th>
+											<th class="text-center border-0 py-3" style="width: 150px;">대출 상태</th>
+											<th class="text-center border-0 py-3" style="width: 120px;">상세 정보</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -227,10 +226,8 @@
 														</c:otherwise>
 													</c:choose></td>
 												<td class="align-middle py-3">
-													<div class="font-weight-bold mb-1"
-														style="font-size: 1.05rem;">
-														<a
-															href="./detail?bookNum=${d.bookNum}&page=${pager.page}&kind=${pager.kind}&search=${pager.search}"
+													<div class="font-weight-bold mb-1" style="font-size: 1.05rem;">
+														<a href="./detail?bookNum=${d.bookNum}&page=${pager.page}&kind=${pager.kind}&search=${pager.search}"
 															class="text-decoration-none text-dark hover-primary">${d.bookTitle}</a>
 													</div>
 													<div class="text-muted small">저자 : ${d.bookAuthor} /
@@ -260,7 +257,7 @@
 													</c:choose></td>
 												<td class="align-middle text-center py-3"><a
 													href="./detail?bookNum=${d.bookNum}&page=${pager.page}&kind=${pager.kind}&search=${pager.search}"
-													class="btn btn-sm btn-light font-weight-medium text-dark border">조회</a>
+													class="btn btn-sm btn-light font-weight-medium text-dark border">보기</a>
 												</td>
 											</tr>
 										</c:forEach>
