@@ -45,7 +45,18 @@
                             <div class="card bg-white border-0 p-4 mb-4">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-start mb-2">
-                                        <span class="badge px-3 py-2 text-primary font-weight-bold small shadow-sm" style="background:#e6fffa; border-radius:30px;">● 판매 진행중</span>
+                                        
+                                        <c:if test="${dealboardDTO.dealboardState eq '판매중'}">
+		                                    <span class="badge position-absolute font-weight-bold px-2 py-1 text-success" 
+		                                    	  style="top:12px; right:12px; background:rgba(230,255,250,0.9); z-index:10; border-radius:6px; font-size:0.75rem;">
+		                                    	  ● 판매중</span>                                
+	                                    </c:if>
+	                                    
+										<c:if test="${dealboardDTO.dealboardState ne '판매중'}">
+										    <span class="badge position-absolute font-weight-bold px-2 py-1 text-secondary" 
+										          style="top:12px; right:12px; background:rgba(241, 245, 249, 0.95); z-index:10; border-radius:6px; font-size:0.75rem; border: 1px solid #e2e8f0;">
+										          ● 판매완료</span>                                
+										</c:if>
                                         <span class="text-muted small">판매자 ID: <strong class="text-dark">${dealboardDTO.username}</strong></span>
                                     </div>
                                     
@@ -66,6 +77,18 @@
                                         <span class="market-meta-label">출판사 / 발행일</span>
                                         <span class="market-meta-value">${dealboardDTO.oldbookDTO.oldbookPublisher} <span class="text-gray-300 mx-2">|</span> ${dealboardDTO.oldbookDTO.oldbookDate}</span>
                                     </div>
+                                    
+                                    <div class="market-divider d-flex">
+                                        <span class="market-meta-label">판매 도서 상태</span>
+                                        <span class="market-meta-value">${dealboardDTO.oldbookDTO.oldbookState} </span>
+                                    </div>
+                                    
+                                    <div class="market-divider">
+									    <div class="small font-weight-bold mb-1" style="color: #718096;">판매자 연락처 (E-mail)</div>
+									    <div class="market-meta-value py-1" style="font-size: 1.05rem;">
+									        <i class="far fa-envelope mr-2 text-gray-400"></i>${dealboardDTO.memberEmail}
+									    </div>
+									</div>
                                 </div>
                             </div>
 
@@ -85,7 +108,7 @@
                                                 <fmt:formatNumber value="${dealboardDTO.oldbookDTO.oldbookPrice}" pattern="#,###"/>
                                             </span><span class="font-weight-bold text-dark ml-1">원</span>
                                         </div>
-                                        <c:if test="${member.username ne dealboardDTO.username}">
+                                        <c:if test="${member.username ne dealboardDTO.username and dealboardDTO.dealboardState eq '판매중'}">
 	                                        <div>
 		                                        <button type="button" id="btn-pay-ready" class="btn font-weight-bold text-dark px-4 py-2 shadow-sm d-flex align-items-center" style="background:#fee500; border-radius:12px; height:46px;">
 		                                            <i class="fas fa-comment mr-2" style="color:#3c1e1e;"></i> 카카오페이 결제
@@ -101,7 +124,9 @@
                                 
                                 <c:if test="${member.username eq dealboardDTO.username}">
                                     <div>
-                                        <a href="./update?dealboardNum=${dealboardDTO.dealboardNum}" class="btn btn-sm btn-warning font-weight-bold px-3 py-2 mr-1" style="border-radius:8px;">수정</a>
+                                    	<c:if test="${dealboardDTO.dealboardState ne '판매 완료'}">
+                                        	<a href="./update?dealboardNum=${dealboardDTO.dealboardNum}" class="btn btn-sm btn-warning font-weight-bold px-3 py-2 mr-1" style="border-radius:8px;">수정</a>
+                                        </c:if>
                                         <a href="./delete?dealboardNum=${dealboardDTO.dealboardNum}" class="btn btn-sm btn-danger font-weight-bold px-3 py-2" style="border-radius:8px;" onclick="return confirm('이 거래글을 장터에서 완전히 내릴까요?')">삭제</a>
                                     </div>
                                 </c:if>

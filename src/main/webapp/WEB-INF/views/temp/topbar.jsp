@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-3 px-4 shadow-sm">
     <div class="container">
@@ -59,29 +60,64 @@
                 <c:if test="${not empty member}">
                     <!-- 연체 알림 아이콘 -->
                     <li class="nav-item dropdown no-arrow mx-2">
-                        <a class="nav-link dropdown-toggle position-relative p-2" href="#" id="alertsDropdown" role="button" data-toggle="dropdown">
+                        <%-- <a class="nav-link dropdown-toggle position-relative p-2" href="#" id="alertsDropdown" role="button" data-toggle="dropdown">
                             <i class="fas fa-bell text-gray-600 font-size-lg"></i>
                             <c:if test="${not empty lateCount and lateCount > 0}">
                                 <span class="position-absolute badge badge-danger rounded-circle" style="top:0; right:0; font-size:0.6rem;">${lateCount}</span>
                             </c:if>
-                        </a>
+                        </a> --%>
+                        
+                        <c:set var="totalAlertCount" value="${fn:length(lateList) + fn:length(soldList)}" />
+
+						<a class="dropdown-toggle position-relative p-2" href="#" id="alertsDropdown" role="button" data-toggle="dropdown">
+						    <i class="fas fa-bell text-gray-600 font-size-lg"></i>
+						    
+						    <%-- 전체 알림 개수가 0보다 클 때만 배지 표시 --%>
+						    <c:if test="${totalAlertCount > 0}">
+						        <span class="position-absolute badge badge-danger rounded-circle" 
+						              style="top:0; right:0; font-size:0.6rem; padding: 0.35em 0.5em;">
+						            ${totalAlertCount}
+						        </span>
+						    </c:if>
+						</a>
+                        
                         <!-- 알림 드롭다운 레이아웃 -->
-                        <div class="dropdown-menu dropdown-menu-right shadow-lg border-0 rounded-lg mt-3" style="width: 280px;">
+                        <div class="dropdown-menu dropdown-menu-right shadow-lg border-0 rounded-lg mt-3" 
+     								style="min-width: 320px; max-width: 450px; width: auto;">
                             <h6 class="dropdown-header bg-light text-dark font-weight-bold py-3">새로운 알림</h6>
-                            <c:choose>
-                                <c:when test="${not empty lateList}">
-                                    <c:forEach items="${lateList}" var="l">
-                                        <a class="dropdown-item d-flex align-items-center py-2" href="/rent/list">
-                                            <div class="mr-3"><i class="fas fa-exclamation-circle text-danger"></i></div>
-                                            <div class="small text-truncate">[연체] '${l.bookDTO.bookTitle}'</div>
-                                        </a>
-                                    </c:forEach>
-                                </c:when>
-                                <c:otherwise>
-                                    <div class="dropdown-item text-center text-muted small py-3">새로운 알림이 없습니다.</div>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
+						<%-- 알림이 하나도 없는 경우를 체크하기 위한 변수 --%>
+						    <c:set var="hasAlert" value="false" />
+						
+						    <%-- 1. 연체 알림 표시 --%>
+						    <c:if test="${not empty lateList}">
+						        <c:set var="hasAlert" value="true" />
+						        <c:forEach items="${lateList}" var="l">
+						            <a class="dropdown-item d-flex align-items-center py-2" href="/rent/list">
+						                <div class="mr-3"><i class="fas fa-exclamation-circle text-danger"></i></div>
+						                <div class="small text-truncate">[연체] '${l.bookDTO.bookTitle}'</div>
+						            </a>
+						        </c:forEach>
+						    </c:if>
+						
+						    <%-- 2. 판매 완료 알림 표시 (List를 순회하여 여러 건 표시) --%>
+							<c:if test="${not empty soldList}">
+							    <c:set var="hasAlert" value="true" />
+							    <c:forEach items="${soldList}" var="dto">
+							        <a class="dropdown-item d-flex align-items-center py-3 ${not status.last ? 'border-bottom' : ''}" href="/dealboard/detail?dealboardNum=${dto.dealboardNum}">
+							            <div class="mr-3"><i class="fas fa-check-circle text-success"></i></div>
+							            <div class="small text-wrap">
+							                <span class="font-weight-bold text-success">[판매 완료]</span><br>
+							                등록하신 '${dto.dealboardTitle}'게시물의 책이 판매 완료되었습니다.
+							            </div>
+							        </a>
+							    </c:forEach>
+							</c:if>
+						
+						    <%-- 3. 알림이 아예 없는 경우 --%>
+						    <c:if test="${not hasAlert}">
+						        <div class="dropdown-item text-center text-muted small py-3">새로운 알림이 없습니다.</div>
+						    </c:if>
+						</div>                            
                     </li>
 
                     <!-- 유저 프로필 -->

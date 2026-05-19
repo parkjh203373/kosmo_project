@@ -43,12 +43,12 @@ public class LoginFailHandler implements AuthenticationFailureHandler{
 		
 		if(exception instanceof BadCredentialsException) {
 			// 비밀번호가 틀린경우
-			message = "틀린 비밀번호";
+			message = "비밀번호를 확인해 주세요.";
 		}
 		
 		if(exception instanceof InternalAuthenticationServiceException) {
 			// 아이디가 틀린경우
-			message = "틀린 아이디";
+			message = "입력하신 아이디가 존재하지 않거나 다른 아이디를 입력하신 경우 확인해 주세요.";
 		}
 		
 		message = URLEncoder.encode(message, "UTF-8");

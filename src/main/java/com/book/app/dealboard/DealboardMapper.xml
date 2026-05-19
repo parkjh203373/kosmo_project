@@ -6,6 +6,14 @@
   
 <mapper namespace="com.book.app.dealboard.DealboardMapper">
 	
+	<select id="getSoldList" parameterType="MemberDTO" resultMap="dealboardResult">
+	    SELECT * FROM "TB_DEALBOARD" D
+	    LEFT JOIN "TB_OLDBOOK" O ON D."OLDBOOK_NUM" = O."OLDBOOK_NUM"
+	    LEFT JOIN "TB_OLDBOOKFILE" F ON O."OLDBOOK_NUM" = F."OLDBOOK_NUM"
+	    WHERE D."USERNAME" = #{username} 
+	      AND D."DEALBOARD_STATE" = '판매 완료'
+	</select>
+	
 	<select id="detail" parameterType="DealboardDTO" resultMap="dealboardResult">
 		SELECT * FROM "TB_DEALBOARD" D
 		LEFT JOIN "TB_OLDBOOK" O ON D."OLDBOOK_NUM" = O."OLDBOOK_NUM"
@@ -48,6 +56,8 @@
     <result column="OLDBOOK_NUM" property="oldbookNum"/>
     <result column="DEALBOARD_TITLE" property="dealboardTitle"/>
     <result column="DEALBOARD_CONTENTS" property="dealboardContents"/>
+    <result column="MEMBER_EMAIL" property="memberEmail"/>
+    <result column="DEALBOARD_STATE" property="dealboardState"/>
     
     <!-- 1:1 관계 매핑: DealboardDTO 안의 oldbookDTO 변수와 매핑 -->
     <association property="oldbookDTO" javaType="OldbookDTO">
@@ -57,6 +67,7 @@
         <result column="OLDBOOK_AUTHOR" property="oldbookAuthor"/>
         <result column="OLDBOOK_PUBLISHER" property="oldbookPublisher"/>
         <result column="OLDBOOK_DATE" property="oldbookDate"/>
+        <result column="OLDBOOK_STATE" property="oldbookState"/>
         
         <association property="oldbookFileDTO" javaType="OldbookFileDTO">
             <result column="FILE_NAME" property="fileName"/>
@@ -67,17 +78,17 @@
 	
 	<insert id="createBoard" parameterType="DealboardDTO">
 		INSERT INTO "TB_DEALBOARD"
-		("DEALBOARD_NUM", "USERNAME", "OLDBOOK_NUM", "DEALBOARD_TITLE", "DEALBOARD_CONTENTS")
+		("DEALBOARD_NUM", "USERNAME", "OLDBOOK_NUM", "DEALBOARD_TITLE", "DEALBOARD_CONTENTS", "MEMBER_EMAIL", "DEALBOARD_STATE")
 	    VALUES
-        (default, #{username}, #{oldbookNum}, #{dealboardTitle}, #{dealboardContents})
+        (default, #{username}, #{oldbookNum}, #{dealboardTitle}, #{dealboardContents}, #{memberEmail}, '판매중')
 	</insert>
 	
 	<insert id="createOldbook" parameterType="OldbookDTO" useGeneratedKeys="true" keyProperty="oldbookNum">
 		INSERT INTO "TB_OLDBOOK"
 		("OLDBOOK_NUM", "OLDBOOK_PRICE", "OLDBOOK_TITLE", "OLDBOOK_AUTHOR",
-			"OLDBOOK_PUBLISHER", "OLDBOOK_DATE")
+			"OLDBOOK_PUBLISHER", "OLDBOOK_DATE", "OLDBOOK_STATE")
 		VALUES
-		(default, #{oldbookPrice}, #{oldbookTitle}, #{oldbookAuthor}, #{oldbookPublisher}, #{oldbookDate})
+		(default, #{oldbookPrice}, #{oldbookTitle}, #{oldbookAuthor}, #{oldbookPublisher}, #{oldbookDate}, #{oldbookState})
 	
 	</insert>
 	
@@ -87,6 +98,12 @@
 	    VALUES
         (default, #{fileName}, #{oriName}, #{oldbookNum})
 	</insert>
+	
+	<update id="soldout" parameterType="DealboardDTO">
+		UPDATE "TB_DEALBOARD"
+	    SET "DEALBOARD_STATE" = #{dealboardState}
+	    WHERE "DEALBOARD_NUM" = #{dealboardNum}
+	</update>
 	
 	<update id="updateBoard" parameterType="DealboardDTO">
 	    UPDATE "TB_DEALBOARD"
@@ -101,7 +118,8 @@
 	        "OLDBOOK_TITLE" = #{oldbookTitle},
 	        "OLDBOOK_AUTHOR" = #{oldbookAuthor},
 	        "OLDBOOK_PUBLISHER" = #{oldbookPublisher},
-	        "OLDBOOK_DATE" = #{oldbookDate}
+	        "OLDBOOK_DATE" = #{oldbookDate},
+	        "OLDBOOK_STATE" = #{oldbookState}
 	    WHERE "OLDBOOK_NUM" = #{oldbookNum}
 	</update>
 	

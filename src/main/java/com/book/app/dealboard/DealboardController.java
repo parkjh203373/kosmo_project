@@ -53,6 +53,7 @@ public class DealboardController {
 	    if(memberDTO == null) return "redirect:/member/login";
 	    
 	    dealboardDTO.setUsername(memberDTO.getUsername());
+	    dealboardDTO.setMemberEmail(memberDTO.getMemberEmail());
 	    
 	    dealboardService.create(dealboardDTO, oldbookDTO, attach);
 	    
