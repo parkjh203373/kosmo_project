@@ -12,6 +12,8 @@ public interface DealboardMapper {
 
 	public Long getTotalCount(Pager pager) throws Exception;
 	
+	public Long myboardCount(Pager pager) throws Exception;
+	
 	public List<DealboardDTO> list(Pager pager) throws Exception;
 	
 	public DealboardDTO detail(DealboardDTO dealboardDTO) throws Exception;
