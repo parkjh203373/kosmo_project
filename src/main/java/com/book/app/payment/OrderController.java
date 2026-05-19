@@ -2,6 +2,7 @@ package com.book.app.payment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,12 +15,14 @@ import com.book.app.dealboard.DealboardService;
 import com.book.app.dealboard.OldbookDTO;
 import com.book.app.dealboard.OldbookFileDTO;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/order/pay/*")
 @Slf4j
+@CrossOrigin(origins = "*")
 public class OrderController {
 
 	@Autowired
@@ -33,7 +36,7 @@ public class OrderController {
 	
 	@PostMapping("ready")
     public @ResponseBody ReadyResponse payReady(@RequestBody OrderCreateForm orderCreateForm
-    		, DealboardDTO dealboardDTO, HttpSession session) {
+    		, DealboardDTO dealboardDTO,HttpServletRequest request, HttpSession session) {
 
 		// JS에서 보낸 번호를 확인 (Dumb 객체가 아닌 실제 번호를 세션에 저장)
 	    session.setAttribute("dealboardNum", orderCreateForm.getDealboardNum());
@@ -41,13 +44,15 @@ public class OrderController {
         String name = orderCreateForm.getName();
         int totalPrice = orderCreateForm.getTotalPrice();
         
+        String baseUrl = request.getRequestURL().toString().replace(request.getRequestURI(), "");
+        
         log.info("주문 상품 이름: " + name);
         log.info("주문 금액: " + totalPrice);
 
         // 카카오 결제 준비하기
-        ReadyResponse readyResponse = kakaoPayService.payReady(name, totalPrice, session);
+        ReadyResponse readyResponse = kakaoPayService.payReady(name, totalPrice, session, baseUrl);
         // 세션에 결제 고유번호(tid) 저장
-        SessionUtil.addAttribute("tid", readyResponse.getTid());
+        session.setAttribute("tid", readyResponse.getTid());
         log.info("결제 고유번호: " + readyResponse.getTid());
 
         return readyResponse;
@@ -62,9 +67,14 @@ public class OrderController {
 	        return "redirect:/order/fail"; 
 	    }
 	    
-	    String tid = SessionUtil.getStringAttributeValue("tid");
+	    String tid = (String) session.getAttribute("tid");
 	    log.info("결제승인 요청 토큰: " + pgToken);
 	    log.info("결제 고유번호: " + tid);
+	    
+	    if (tid == null || tid.isEmpty()) {
+	        log.error("세션에서 TID를 찾을 수 없습니다. (세션 유실 혹은 만료)");
+	        return "redirect:/order/pay/fail";
+	    }
 
 	    // 승인 요청 로직...
 	    kakaoPayService.payApprove(tid, pgToken, session);
@@ -83,6 +93,8 @@ public class OrderController {
 	    if (boardData != null && boardData.getOldbookDTO() != null) {
 	        dealboardService.soldout(boardData);
 	    }
+	    
+	    session.removeAttribute("tid");
 
 	    return "redirect:/order/pay/completed";
 	}

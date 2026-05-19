@@ -11,10 +11,12 @@ $(function() {
             dealboardNum: dealboardNum,
             totalPrice: pPrice
         };
+		
+		const currentOrigin = window.location.origin;
       
         $.ajax({
             type: 'POST',
-            url: '/order/pay/ready', 
+            url: currentOrigin + '/order/pay/ready', 
             data: JSON.stringify(data),
             contentType: 'application/json',
             // 인증 헤더(Secret Key)가 누락되면 여기서 다시 에러가 날 수 있습니다.
