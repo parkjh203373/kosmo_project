@@ -35,6 +35,18 @@ public class DealboardService {
 	    return dealboardMapper.list(pager);
 	}
 	
+	public List<DealboardDTO> myboard(Pager pager) throws Exception {
+	    // 1. DB에서 건너뛸 행(OFFSET) 계산
+	    pager.makeStartNum(); 
+	    
+	    // 2. 전체 데이터 개수 조회 및 페이징 블록 계산
+	    Long totalCount = dealboardMapper.getTotalCount(pager);
+	    pager.makePageNum(totalCount);
+	    
+	    // 3. 데이터 조회
+	    return dealboardMapper.myboard(pager);
+	}
+	
 	public DealboardDTO detail(DealboardDTO dealboardDTO) throws Exception{
 		return dealboardMapper.detail(dealboardDTO);
 	}

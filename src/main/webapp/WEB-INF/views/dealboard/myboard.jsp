@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>중고책 거래 게시판 - Forest Library</title>
+    <title>내가 쓴 글 - Forest Library</title>
     <c:import url="/WEB-INF/views/temp/head_css.jsp"></c:import>
     <style>
         .market-card { transition: transform 0.25s ease, box-shadow 0.25s ease; border-radius: 16px !important; overflow: hidden; }
@@ -38,7 +38,7 @@
                 
                 <div class="container py-4">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h4 mb-0 text-gray-900 font-weight-bold">중고 도서 거래 게시판</h1>
+                        <h1 class="h4 mb-0 text-gray-900 font-weight-bold">내가 작성한 거래 글 목록</h1>
                         <div>
                             <c:if test="${empty member}">
                                 <a href="/member/login" class="btn btn-light text-dark font-weight-medium border mr-2 btn-sm px-3 shadow-sm">로그인</a>
@@ -49,7 +49,7 @@
 
                     <div class="row mb-5 justify-content-center">
 					    <div class="col-md-7">
-					        <form action="./list" method="get" class="input-group bg-white shadow-sm d-flex align-items-center" 
+					        <form action="./myboard" method="get" class="input-group bg-white shadow-sm d-flex align-items-center" 
 					              style="border-radius: 14px; border: 1px solid #e2e8f0; padding: 5px;">
 					            
 					            <input type="text" name="search" 
@@ -121,14 +121,14 @@
                         <nav>
                             <ul class="pagination pagination-sm border-0">
                                 <li class="page-item ${pager.pre ? '' : 'disabled'}">
-                                    <a class="page-link border-0 text-dark bg-light mx-1 rounded-circle text-center" style="width:34px; height:34px; line-height:20px;" href="./list?page=${pager.start - 1}&search=${pager.search}"><i class="fas fa-chevron-left small"></i></a>
+                                    <a class="page-link border-0 text-dark bg-light mx-1 rounded-circle text-center" style="width:34px; height:34px; line-height:20px;" href="./myboard?page=${pager.start - 1}&search=${pager.search}"><i class="fas fa-chevron-left small"></i></a>
                                 </li>
 
 								<c:choose>
 									<c:when test="${not empty list}">
 		                                <c:forEach begin="${pager.start}" end="${pager.end}" var="i">
 		                                    <li class="page-item mx-1 ${pager.page == i ? 'active' : ''}">
-		                                        <a class="page-link border-0 rounded-circle text-center font-weight-bold ${pager.page == i ? 'bg-primary text-white' : 'text-dark bg-white shadow-sm'}" style="width:34px; height:34px; line-height:18px;" href="./list?page=${i}&search=${pager.search}">${i}</a>
+		                                        <a class="page-link border-0 rounded-circle text-center font-weight-bold ${pager.page == i ? 'bg-primary text-white' : 'text-dark bg-white shadow-sm'}" style="width:34px; height:34px; line-height:18px;" href="./myboard?page=${i}&search=${pager.search}">${i}</a>
 		                                    </li>
 		                                </c:forEach>
 		                            </c:when>
@@ -144,7 +144,7 @@
 								            <%-- 검색어가 없는데도 결과가 없는 경우 (실제 DB가 비었을 때) --%>
 								            <c:otherwise>
 								                <i class="fas fa-book-open fa-3x text-gray-300 mb-3"></i>
-								                <p class="text-gray-500">현재 등록된 판매 도서가 없습니다.</p>
+								                <p class="text-gray-500">현재 작성한 글이 없습니다.</p>
 								            </c:otherwise>
 								        </c:choose>
 								    </div>
@@ -152,7 +152,7 @@
 						 	   </c:choose>
 
                                 <li class="page-item ${pager.next ? '' : 'disabled'}">
-                                    <a class="page-link border-0 text-dark bg-light mx-1 rounded-circle text-center" style="width:34px; height:34px; line-height:20px;" href="./list?page=${pager.end + 1}&search=${pager.search}"><i class="fas fa-chevron-right small"></i></a>
+                                    <a class="page-link border-0 text-dark bg-light mx-1 rounded-circle text-center" style="width:34px; height:34px; line-height:20px;" href="./myboard?page=${pager.end + 1}&search=${pager.search}"><i class="fas fa-chevron-right small"></i></a>
                                 </li>
                             </ul>
                         </nav>

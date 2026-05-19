@@ -20,14 +20,33 @@
 		LEFT JOIN "TB_OLDBOOKFILE" F ON O."OLDBOOK_NUM" = F."OLDBOOK_NUM"
 		WHERE D."DEALBOARD_NUM" = #{dealboardNum} 
     </select>
+    
+    <select id="myboard" parameterType="Pager" resultMap="dealboardResult">
+	    SELECT * FROM "TB_DEALBOARD" D
+	    LEFT JOIN "TB_OLDBOOK" O ON D."OLDBOOK_NUM" = O."OLDBOOK_NUM"
+	    LEFT JOIN "TB_OLDBOOKFILE" F ON O."OLDBOOK_NUM" = F."OLDBOOK_NUM"
+	    WHERE D."USERNAME" = #{username}
+	    <if test="search != null and search != ''">
+	        AND (
+	            O."OLDBOOK_TITLE" LIKE '%' || #{search} || '%'
+	            OR
+	            O."OLDBOOK_AUTHOR" LIKE '%' || #{search} || '%'
+	        )
+	    </if>
+	    ORDER BY D."DEALBOARD_NUM" DESC
+	    LIMIT #{perPage} OFFSET #{startNum}
+	</select>
 
 	<select id="getTotalCount" parameterType="Pager" resultType="Long">
-		SELECT COUNT(*) FROM "TB_DEALBOARD"
-		<where>
-			<if test="search != null and search != ''">
-				AND "DEALBOARD_TITLE" LIKE '%' || #{search} || '%'
-			</if>
-		</where>
+		SELECT COUNT(*) 
+	    FROM "TB_DEALBOARD" D
+	    LEFT JOIN "TB_OLDBOOK" O ON D."OLDBOOK_NUM" = O."OLDBOOK_NUM"
+	    <where>
+	        <if test="search != null and search != ''">
+	            (D."DEALBOARD_TITLE" LIKE '%' || #{search} || '%' 
+	             OR O."OLDBOOK_AUTHOR" LIKE '%' || #{search} || '%')
+	        </if>
+	    </where>
 	</select>
 
 	<!-- 페이징 처리된 리스트 조회 -->

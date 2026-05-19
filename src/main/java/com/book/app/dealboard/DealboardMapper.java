@@ -16,6 +16,8 @@ public interface DealboardMapper {
 	
 	public DealboardDTO detail(DealboardDTO dealboardDTO) throws Exception;
 	
+	public List<DealboardDTO> myboard(Pager pager) throws Exception;
+	
 	public int createOldbook(OldbookDTO oldbookDTO) throws Exception;
 	
 	public int createOldbookFile(OldbookFileDTO oldbookFileDTO) throws Exception;

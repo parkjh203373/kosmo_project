@@ -135,6 +135,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow-lg border-0 rounded-lg mt-2">
                             <a class="dropdown-item py-2" href="/member/mypage"><i class="fas fa-user fa-sm mr-2 text-gray-400"></i> 마이페이지</a>
+                            <a class="dropdown-item py-2" href="/dealboard/myboard"><i class="fas fa-book-open fa-sm mr-2 text-gray-400"></i> 내가 작성한 글 목록</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item py-2 text-danger" href="#" data-toggle="modal" data-target="#logoutModal">
                                 <i class="fas fa-sign-out-alt fa-sm mr-2"></i> 로그아웃
