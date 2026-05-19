@@ -49,31 +49,31 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         // 1. 세션에 로그인 유저 정보 저장
         session.setAttribute("member", loginMember);
         
-        try {
-            // 2. 대여 및 연체 정보 조회 후 세션 저장
-            RentDTO rentDTO = new RentDTO();
-            rentDTO.setUsername(loginMember.getUsername());
-            
-            List<RentDTO> rentList = rentService.myRentList(rentDTO);
-            session.setAttribute("rentCount", rentList.size());
-            
-            List<RentDTO> lateList = rentService.lateRent(rentDTO);
-            session.setAttribute("lateList", lateList);        
-            session.setAttribute("lateCount", lateList.size());
-            System.out.println(lateList.size());
-            
-            // 3. 위시리스트 조회 후 세션 저장
-            WishlistDTO wishlistDTO = new WishlistDTO();
-            wishlistDTO.setUsername(loginMember.getUsername());
-            List<WishlistDTO> wishList = wishlistService.list(wishlistDTO, new Pager()); 
-            session.setAttribute("wishCount", wishList.size());
-            
-            List<DealboardDTO> soldList = dealboardService.getSoldList(loginMember);
-            session.setAttribute("soldList", soldList);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            // 2. 대여 및 연체 정보 조회 후 세션 저장
+//            RentDTO rentDTO = new RentDTO();
+//            rentDTO.setUsername(loginMember.getUsername());
+//            
+//            List<RentDTO> rentList = rentService.myRentList(rentDTO);
+//            session.setAttribute("rentCount", rentList.size());
+//            
+//            List<RentDTO> lateList = rentService.lateRent(rentDTO);
+//            session.setAttribute("lateList", lateList);        
+//            session.setAttribute("lateCount", lateList.size());
+//            System.out.println(lateList.size());
+//            
+//            // 3. 위시리스트 조회 후 세션 저장
+//            WishlistDTO wishlistDTO = new WishlistDTO();
+//            wishlistDTO.setUsername(loginMember.getUsername());
+//            List<WishlistDTO> wishList = wishlistService.list(wishlistDTO, new Pager()); 
+//            session.setAttribute("wishCount", wishList.size());
+//            
+//            List<DealboardDTO> soldList = dealboardService.getSoldList(loginMember);
+//            session.setAttribute("soldList", soldList);
+//            
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         		
 		String s = request.getParameter("rememberId");
 		try {
