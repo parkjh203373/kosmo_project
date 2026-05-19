@@ -218,13 +218,13 @@
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content border-0 shadow-lg" style="border-radius:20px;">
 				<div class="modal-header border-0 pt-4 px-4">
-					<h5 class="modal-title font-weight-bold text-dark"><i class="fas fa-pen-fancy mr-2 text-primary"></i>작성했던 소감 수정</h5>
+					<h5 class="modal-title font-weight-bold text-dark"><i class="fas fa-pen-fancy mr-2 text-primary"></i>리뷰 수정</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
 				</div>
 				<div class="modal-body px-4">
 					<div class="form-group mb-3">
-						<label class="font-weight-medium small text-secondary">별점 스케일 재조정</label> 
-						<select class="form-control border-0 bg-light" id="rating_update">
+						<label class="font-weight-medium small text-secondary">별점</label> 
+						<select class="form-control border-0 bg-light" id="rating_update" style="padding-top: 0; padding-bottom: 0;">
 							<option value="5">⭐⭐⭐⭐⭐</option>
 							<option value="4">⭐⭐⭐⭐</option>
 							<option value="3">⭐⭐⭐</option>
@@ -233,13 +233,13 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label class="font-weight-medium small text-secondary">텍스트 소감 문구 변경</label>
+						<label class="font-weight-medium small text-secondary">리뷰 내용</label>
 						<textarea class="form-control border-0 bg-light p-3" rows="4" id="contents_update" style="resize: none; border-radius:12px !important;"></textarea>
 					</div>
 				</div>
 				<div class="modal-footer border-0 pb-4 px-4 justify-content-end">
-					<button type="button" class="btn btn-link text-muted font-weight-bold text-decoration-none" data-dismiss="modal">작업 중단</button>
-					<button type="button" class="btn btn-primary px-4 font-weight-bold shadow-sm" id="update_save">동기화 저장</button>
+					<button type="button" class="btn btn-link text-muted font-weight-bold text-decoration-none" data-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-primary px-4 font-weight-bold shadow-sm" id="update_save">수정 완료</button>
 				</div>
 			</div>
 		</div>
