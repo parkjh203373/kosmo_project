@@ -149,10 +149,8 @@
 											id="deleteSelectedBtn">
 											<i class="fas fa-trash-alt mr-1"></i> 선택 삭제
 										</button>
-										<a href="./create"
-											class="btn btn-primary btn-sm px-3 shadow-sm"
-											onclick="return confirm('새 도서를 등록하시겠습니까?');"> <i
-											class="fas fa-plus mr-1"></i> 새 도서 추가
+										<a href="./create" class="btn btn-primary btn-sm px-3 shadow-sm">
+											<i class="fas fa-plus mr-1"></i> 새 도서 추가
 										</a>
 									</sec:authorize>
 								</div>
@@ -316,7 +314,6 @@
 	</div>
 	<c:import url="/WEB-INF/views/temp/footer_script.jsp"></c:import>
 	<script src="/js/book/bestseller.js"></script>
-
 	<script src="/js/book/listcheckbox.js"></script>
 </body>
 </html>

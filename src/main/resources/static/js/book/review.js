@@ -7,10 +7,12 @@ const wishBtnArea = document.getElementById("wishBtnArea");
 
 if (wishBtnArea) {
     wishBtnArea.addEventListener("click", (e) => {
-        
-        // 1. [찜하기] 버튼을 눌렀을 때
+
         const createBtn = e.target.closest("#create");
         if (createBtn) {
+			
+			if (!confirm('관심 도서목록에 추가하시겠습니까?')) return;
+			
             let pn = createBtn.getAttribute("data-pn");
             let p = new URLSearchParams();
             p.append('bookNum', pn);
@@ -22,13 +24,12 @@ if (wishBtnArea) {
                         if (confirm("관심 목록에 등록되었습니다. 이동하시겠습니까?")) {
                             location.href = "/wishlist/list";
                         } else {
-                            // 페이지 이동 안 하면 그 자리에서 바로 '관심도서 해제' 버튼으로 UI 전환
                             wishBtnArea.insertAdjacentHTML('afterbegin', `
                                 <button type="button" class="btn btn-link text-danger text-decoration-none small" id="deleteWishBtn" data-bn="${pn}">
                                     <i class="fas fa-heart-broken mr-1"></i> 관심도서 해제
                                 </button>
                             `);
-                            createBtn.remove(); // 기존 찜하기 버튼 제거
+                            createBtn.remove();
                         }
                     } else {
                         alert("로그인이 필요한 서비스입니다.");
@@ -39,7 +40,6 @@ if (wishBtnArea) {
             return;
         }
 
-        // 2. [관심도서 해제] 버튼을 눌렀을 때 (비동기 삭제 요청)
         const deleteWishBtn = e.target.closest("#deleteWishBtn");
         if (deleteWishBtn) {
             if (!confirm('관심 도서목록에서 제외할까요?')) return;
@@ -51,13 +51,12 @@ if (wishBtnArea) {
             fetch("/wishlist/delete", { method: "POST", body: p })
                 .then(r => {
                     alert("관심도서 목록에서 제외되었습니다.");
-                    // 성공 시 그 자리에서 바로 '찜하기' 버튼으로 UI 전환
                     wishBtnArea.insertAdjacentHTML('afterbegin', `
                         <button type="button" class="btn btn-light border btn-sm text-secondary px-3 py-2" id="create" data-pn="${bn}">
                             <i class="far fa-heart text-danger mr-1"></i> 찜하기
                         </button>
                     `);
-                    deleteWishBtn.remove(); // 기존 해제 버튼 제거
+                    deleteWishBtn.remove();
                 })
                 .catch(err => console.error("찜해제 실패:", err));
             return;

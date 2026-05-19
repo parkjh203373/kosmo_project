@@ -126,7 +126,7 @@
 											<a href="/wishlist/list" class="btn btn-outline-secondary px-3 py-2 ml-2">이전 목록</a>
 										</c:when>
 										<c:otherwise>
-											<a href="./list?page=${pager.page}&kind=${pager.kind}&search=${pager.search}" class="btn btn-outline-secondary px-3 py-2 ml-2">이전 목록</a>
+											<a href="./list?page=${pager.page}&kind=${pager.kind}&search=${pager.search}" class="btn btn-outline-secondary px-3 py-2 ml-2">목록으로</a>
 										</c:otherwise>
 									</c:choose>
 								</div>
@@ -139,7 +139,7 @@
 								            </button>
 								        </c:when>
 										<c:otherwise>
-											<button class="btn btn-light border btn-sm text-secondary px-3 py-2" id="create" data-pn="${d.bookNum}" onclick="return confirm('관심 목록에 추가하시겠습니까?');">
+											<button class="btn btn-light border btn-sm text-secondary px-3 py-2" id="create" data-pn="${d.bookNum}">
 												<i class="far fa-heart text-danger mr-1"></i> 찜하기
 											</button>
 										</c:otherwise>

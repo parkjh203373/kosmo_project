@@ -89,7 +89,11 @@
                                                             <img src="${r.bookDTO.bookImage}" class="img-fluid shadow-sm" style="max-height: 90px; border-radius: 6px; object-fit: cover;" alt="도서 표지">
                                                         </td>
                                                         <td class="align-middle text-left">
-                                                            <div class="font-weight-bold text-gray-900 mb-1" style="font-size: 1rem;">${r.bookDTO.bookTitle}</div>
+                                                            <div class="font-weight-bold text-gray-900 mb-1" style="font-size: 1rem;">
+	                                                            <a href="/book/detail?bookNum=${r.bookNum}&page=${pager.page}&kind=${pager.kind}&search=${pager.search}" class="book-title-link text-dark">
+										                        	${r.bookDTO.bookTitle}
+										                        </a>
+									                        </div>
                                                             <div class="small text-secondary"><i class="fas fa-pen text-xs mr-1"></i>${r.bookDTO.bookAuthor}</div>
                                                         </td>
                                                         <td class="align-middle text-center text-secondary font-weight-medium">

@@ -58,8 +58,8 @@
             "USERNAME"
         ) VALUES (
             DEFAULT,
-            CURRENT_TIMESTAMP - INTERVAL '12 days',
-            CURRENT_TIMESTAMP - INTERVAL '2 days',
+            CURRENT_TIMESTAMP,
+            CURRENT_TIMESTAMP + INTERVAL '10 days',
             #{bookNum},
             #{username}
         )

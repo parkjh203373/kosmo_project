@@ -6,6 +6,8 @@
 <!-- 기존 SB Admin 2 베이스 위에 커스텀 모던 스타일 덮어쓰기 -->
 <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 <style>
     /* 전체 테마 초기화 및 감성적인 무드 정립 */
     body {

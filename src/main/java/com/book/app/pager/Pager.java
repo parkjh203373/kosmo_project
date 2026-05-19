@@ -41,6 +41,14 @@ public class Pager {
 	public void makePageNum(Long totalCount) {
 		Long totalPage = (long)(Math.ceil((double)totalCount/getPerPage()));
 		
+		if (totalPage == 0) {
+	        this.start = 1L;
+	        this.end = 0L;
+	        this.pre = false;
+	        this.next = false;
+	        return;
+	    }
+		
 		Long perBlock = 5L;
 		Long totalBlock = totalPage/perBlock;
 		if(totalPage%perBlock != 0) {
