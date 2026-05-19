@@ -94,7 +94,7 @@
 						        <c:forEach items="${lateList}" var="l">
 						            <a class="dropdown-item d-flex align-items-center py-2" href="/rent/list">
 						                <div class="mr-3"><i class="fas fa-exclamation-circle text-danger"></i></div>
-						                <div class="small text-truncate">[연체] '${l.bookDTO.bookTitle}'</div>
+						                <div class="small text-truncate">[연체] '${l.bookDTO.bookTitle}' 도서가 연체되었습니다.<br>빠른 시일내에 반납해주세요.</div>
 						            </a>
 						        </c:forEach>
 						    </c:if>
