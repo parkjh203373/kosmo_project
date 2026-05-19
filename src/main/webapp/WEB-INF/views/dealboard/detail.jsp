@@ -85,9 +85,13 @@
                                     
                                     <div class="market-divider">
 									    <div class="small font-weight-bold mb-1" style="color: #718096;">판매자 연락처 (E-mail)</div>
-									    <div class="market-meta-value py-1" style="font-size: 1.05rem;">
-									        <i class="far fa-envelope mr-2 text-gray-400"></i>${dealboardDTO.memberEmail}
-									    </div>
+									    <div class="text-muted email-copy-btn" 
+										     id="emailAddress" 
+										     style="cursor: pointer;" 
+										     title="클릭하면 이메일 주소가 복사됩니다.">
+										    <i class="far fa-envelope mr-1"></i> 
+										    <span>${dealboardDTO.memberEmail}</span> 
+										</div>
 									</div>
                                 </div>
                             </div>
@@ -141,6 +145,7 @@
 
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script src="/js/pay/pay.js"></script>
+    <script src="/js/dealboard/detail.js"></script>
     <c:import url="/WEB-INF/views/temp/footer_script.jsp"></c:import>
 </body>
 </html>
