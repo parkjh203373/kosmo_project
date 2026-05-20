@@ -91,7 +91,7 @@
 				                    </div>
 				                    <h5 class="font-weight-bold mb-0 text-gray-900">도서 검색 및 대출</h5>
 				                </div>
-				                <p class="text-muted small flex-grow-1">도서관이 보유한 수많은 장서를 실시간으로 검색하고, 온라인 대출 가능 여부를 확인하세요.</p>
+				                <p class="text-muted small flex-grow-1">도서관이 보유한 수많은 도서를 실시간으로 검색하고, 온라인 대출 가능 여부를 확인하세요.</p>
 				                <div class="mt-3">
 				                    <a href="/book/list" class="btn btn-block text-white font-weight-bold py-2 stretch-link" style="background-color: #2a5c43; border-radius: 10px;">
 				                        도서관 둘러보기 <i class="fas fa-arrow-right ml-1 small"></i>
