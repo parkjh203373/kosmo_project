@@ -80,7 +80,7 @@
 										<span class="detail-meta-value">${d.bookPublisher}</span>
 									</div>
 									<div class="meta-divider d-flex">
-										<span class="detail-meta-label">발행일</span>
+										<span class="detail-meta-label">출간일</span>
 										<span class="detail-meta-value">${d.bookDate}</span>
 									</div>
 
@@ -96,7 +96,7 @@
 									</c:if>
 
 									<div class="mt-4 pt-2">
-										<h5 class="font-weight-bold text-dark mb-3">도서 소개서</h5>
+										<h5 class="font-weight-bold text-dark mb-3">도서 요약 및 소개글</h5>
 										<div class="text-secondary" style="white-space: pre-wrap; line-height: 1.8; font-size: 0.95rem;">${d.bookContents}</div>
 									</div>
 								</div>
@@ -107,9 +107,17 @@
 								<div>
 									<c:choose>
 										<c:when test="${d.bookStatus eq '대출가능'}">
-											<button type="button" class="btn btn-primary px-4 py-2 font-weight-bold shadow" id="rentBtn" data-bn="${d.bookNum}">
-												<i class="fas fa-bookmark mr-2"></i> 대출하기
-											</button>
+											<sec:authorize access="isAuthenticated()">
+									            <button type="button" class="btn btn-primary px-4 py-2 font-weight-bold shadow" id="rentBtn" data-bn="${d.bookNum}">
+									                <i class="fas fa-bookmark mr-2"></i> 대출하기
+									            </button>
+									        </sec:authorize>
+									        
+									        <sec:authorize access="isAnonymous()">
+									            <button type="button" class="btn btn-primary px-4 py-2 font-weight-bold shadow" onclick="if(confirm('대출 서비스는 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?')) { location.href='/member/login?target=' + encodeURIComponent(window.location.pathname + window.location.search); }">
+									                <i class="fas fa-bookmark mr-2"></i> 대출하기
+									            </button>
+									        </sec:authorize>
 										</c:when>
 										<c:when test="${d.bookStatus eq '대출중' and not empty member and d.rentDTO.username eq member.username}">
 											<button type="button" class="btn btn-warning px-4 py-2 text-white font-weight-bold shadow-sm return-btn" data-bn="${d.bookNum}">
@@ -139,9 +147,16 @@
 								            </button>
 								        </c:when>
 										<c:otherwise>
-											<button class="btn btn-light border btn-sm text-secondary px-3 py-2" id="create" data-pn="${d.bookNum}">
-												<i class="far fa-heart text-danger mr-1"></i> 찜하기
-											</button>
+											<sec:authorize access="isAuthenticated()">
+								                <button class="btn btn-light border btn-sm text-secondary px-3 py-2" id="create" data-pn="${d.bookNum}">
+								                    <i class="far fa-heart text-danger mr-1"></i> 찜하기
+								                </button>
+								            </sec:authorize>
+								            <sec:authorize access="isAnonymous()">
+								                <button type="button" class="btn btn-light border btn-sm text-secondary px-3 py-2" onclick="if(confirm('관심도서 등록은 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?')) { location.href='/member/login?target=' + encodeURIComponent(window.location.pathname + window.location.search); }">
+								                    <i class="far fa-heart text-danger mr-1"></i> 찜하기
+								                </button>
+								            </sec:authorize>
 										</c:otherwise>
 									</c:choose>
 

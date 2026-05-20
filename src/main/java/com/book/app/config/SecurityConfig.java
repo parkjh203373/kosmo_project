@@ -49,10 +49,9 @@ public class SecurityConfig {
 				auth
 				.requestMatchers("/book/create", "/book/update", "/book/delete", "/book/deleteAll")
 							.hasAnyRole("ADMIN", "MANAGER")
-				.requestMatchers("/book/list", "/book/detail", 
-						"/dealboard/create", "/dealboard/detail", "/dealboard/list", "/dealboard/update", "/dealboard/myboard",
+				.requestMatchers("/dealboard/detail", "/dealboard/create", "/dealboard/update", "/dealboard/myboard",
 						"/order/completed", "/order/fail",
-						"/rent/list", "/review/list", "/wishlist/list")
+						"/rent/list", "/rent/create", "/wishlist/list", "/wishlist/create")
 							.hasAnyRole("ADMIN", "MANAGER", "MEMBER")
 				.requestMatchers("/member/logout", "/member/mypage", "/member/update", "/member/delete").authenticated()
 				.requestMatchers("/member/login").permitAll()

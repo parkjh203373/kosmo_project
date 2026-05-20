@@ -92,6 +92,14 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			cookie.setPath("/");
 			response.addCookie(cookie);
 		}
+		
+		String targetUrl = request.getParameter("target");
+        
+        // 2. 만약 로그인 페이지 진입 시 target 파라미터를 넘겼다면 해당 주소로 리다이렉트
+        if (targetUrl != null && !targetUrl.isEmpty()) {
+            response.sendRedirect(targetUrl);
+            return;
+        }
 
 		// ⭐ 리다이렉트는 모든 로직이 정상적으로 끝난 '맨 마지막'에 딱 한 번만 호출합니다.
 		response.sendRedirect("/");

@@ -100,7 +100,7 @@
 							                    </div>
 							                    <div class="row">
 							                        <div class="form-group col-md-6 mb-3">
-							                            <label class="font-weight-bold small text-dark" for="bookDate">발행일</label>
+							                            <label class="font-weight-bold small text-dark" for="bookDate">출간일</label>
 							                            <input type="text" name="bookDate" id="bookDate" class="form-control bg-light border-0" readonly>
 							                        </div>
 							                        <div class="form-group col-md-6 mb-3">
@@ -115,13 +115,13 @@
 							            </div>
 							
 							            <div class="form-group mt-4">
-							                <label class="font-weight-bold small text-dark" for="bookContents">서적 요약 설명 및 본문 소개</label>
+							                <label class="font-weight-bold small text-dark" for="bookContents">도서 요약 및 소개글</label>
 							                <textarea name="bookContents" id="bookContents" class="form-control"></textarea>
 							            </div>
 							
 							            <div class="text-right mt-4 pt-2">
 							                <a href="./list" class="btn btn-link text-muted font-weight-bold text-decoration-none mr-2">돌아가기</a>
-							                <button type="submit" class="btn btn-primary px-5 shadow-sm font-weight-bold" id="submitBtn">도서 신규 등록</button>
+							                <button type="submit" class="btn btn-primary px-5 shadow-sm font-weight-bold" id="submitBtn">신규 도서 등록</button>
 							            </div>
 							        </form>
 							    </div>

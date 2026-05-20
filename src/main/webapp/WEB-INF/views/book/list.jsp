@@ -197,7 +197,7 @@
 											</sec:authorize>
 											<th class="text-center border-0 py-3" style="width: 140px;">표지</th>
 											<th class="border-0 py-3">도서 정보</th>
-											<th class="text-center border-0 py-3" style="width: 150px;">발행일</th>
+											<th class="text-center border-0 py-3" style="width: 150px;">출간일</th>
 											<th class="text-center border-0 py-3" style="width: 150px;">대출 상태</th>
 											<th class="text-center border-0 py-3" style="width: 120px;">상세 정보</th>
 										</tr>

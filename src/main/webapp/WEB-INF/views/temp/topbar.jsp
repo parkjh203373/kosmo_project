@@ -145,7 +145,8 @@
                 </c:if>
 
                 <c:if test="${empty member}">
-                    <li class="nav-item"><a href="/member/login" class="btn btn-link text-decoration-none text-gray-700 mr-2">로그인</a></li>
+                    <li class="nav-item"><a href="/member/login" class="btn btn-link text-decoration-none text-gray-700 mr-2"
+                    onclick="this.href='/member/login?target=' + encodeURIComponent(window.location.pathname + window.location.search);">로그인</a></li>
                     <li class="nav-item"><a href="/member/create" class="btn btn-primary px-3 shadow-sm">회원가입</a></li>
                 </c:if>
             </ul>

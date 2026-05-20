@@ -128,7 +128,7 @@
 													class="form-check-input-custom"></th>
 												<th class="text-center" style="width: 140px;">도서 표지</th>
 												<th>도서 제목/저자</th>
-												<th class="text-center" style="width: 150px;">출판일</th>
+												<th class="text-center" style="width: 150px;">출간일</th>
 												<th class="text-center" style="width: 150px;">대출 상태</th>
 												<th class="text-center" style="width: 120px;">상세 정보</th>
 											</tr>
