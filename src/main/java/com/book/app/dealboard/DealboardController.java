@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.book.app.member.MemberDTO;
 import com.book.app.pager.Pager;
@@ -69,10 +70,22 @@ public class DealboardController {
 	
 	@PostMapping("create")
 	public String create(OldbookDTO oldbookDTO, DealboardDTO dealboardDTO, 
-			@RequestParam("attach") MultipartFile attach, HttpSession session) throws Exception {
+			@RequestParam("attach") MultipartFile attach, HttpSession session,
+			RedirectAttributes redirectAttributes) throws Exception {
 	    
 	    MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 	    if(memberDTO == null) return "redirect:/member/login";
+	    
+	    if(oldbookDTO.getOldbookPrice() == null || oldbookDTO.getOldbookPrice() < 0) {
+	    	System.out.println("가격은 음수일 수 없습니다.");
+	    	
+	    	// 일회성 세션에 메시지를 담아 보냅니다 (새로고침하면 사라짐)
+	        redirectAttributes.addFlashAttribute("errorMessage", "금액은 0원 이상만 입력할 수 있습니다.");
+	        
+	        // 메인이 아닌, 원래 작성하던 등록 폼 페이지로 리다이렉트합니다.
+	        return "redirect:/dealboard/create";
+
+	    }
 	    
 	    dealboardDTO.setUsername(memberDTO.getUsername());
 	    dealboardDTO.setMemberEmail(memberDTO.getMemberEmail());

@@ -36,21 +36,6 @@
 	        padding: 10px 15px !important;
 	        cursor: pointer;
 	    }
-	
-	    /* 달력 아이콘 색상을 Forest Library 테마색(#2a5c43)으로 변경 */
-	    .modern-date-input::-webkit-calendar-picker-indicator {
-	        cursor: pointer;
-	        filter: invert(24%) sepia(15%) saturate(1633%) hue-rotate(101deg) brightness(92%) contrast(88%);
-	        opacity: 0.7;
-	    }
-	    .modern-date-input:focus {
-	        outline: none;
-	        box-shadow: 0 0 0 0.2rem rgba(42, 92, 67, 0.15) !important;
-	        background-color: #ffffff !important; /* 포커스 시 흰색으로 변경 */
-	    }
-	    .flatpickr-day.selected { background: #2a5c43 !important; border-color: #2a5c43 !important; }
-    	.flatpickr-calendar { border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
-    	}
     </style>
 </head>
 <body id="page-top">
@@ -88,7 +73,9 @@
                                             <div class="form-group col-md-4 mb-3">
                                                 <label for="oldbookPrice" class="font-weight-bold small text-dark">책정 가격</label>
                                                 <div class="input-group">
-                                                    <input type="number" class="form-control border-0 bg-light px-3 fixed-height-input" name="oldbookPrice" id="oldbookPrice" placeholder="원 단위 숫지만 입력" required>
+                                                    <input type="number" 
+                                                    	min="0"
+                                                     	class="form-control border-0 bg-light px-3 fixed-height-input" name="oldbookPrice" id="oldbookPrice" placeholder="원 단위 숫지만 입력" required>
                                                     <div class="input-group-append">
                                                         <span class="input-group-text border-0 bg-light font-weight-bold text-secondary">원</span>
                                                     </div>
@@ -109,7 +96,7 @@
 
                                         <div class="form-group mb-4">
                                             <label for="oldbookDate" class="font-weight-bold small text-dark">인쇄/출간 시점</label>
-                                            <input type="text" class="form-control modern-date-input fixed-height-input" name="oldbookDate" id="oldbookDate">
+                                            <input type="date" class="form-control modern-date-input fixed-height-input" name="oldbookDate" id="oldbookDate">
                                         </div>
 
                                         <div class="market-section-title"><i class="fas fa-camera mr-1"></i> 상품 실물 증명 사진</div>
@@ -134,7 +121,9 @@
 										</div>
 
 										<div class="text-right pt-2">
-                                            <a href="./list" class="btn btn-link text-muted font-weight-bold text-decoration-none mr-2">취소하고 돌아가기</a>
+                                            <button type="button" class="btn btn-link text-muted font-weight-bold text-decoration-none mr-2" data-toggle="modal" data-target="#cancelModal">
+											    취소하고 돌아가기
+											</button>
                                             <button type="submit" class="btn btn-primary px-5 font-weight-bold shadow-sm fixed-height-input" style="border-radius:10px; line-height:22px;">글 작성 완료</button>
                                         </div>
                                     </form>
@@ -147,17 +136,56 @@
             <c:import url="/WEB-INF/views/temp/footer.jsp"></c:import>
         </div>
     </div>
-    <c:import url="/WEB-INF/views/temp/footer_script.jsp"></c:import>
+    
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
-	<script>
-	    flatpickr("#oldbookDate", {
-	        locale: "ko", // 한국어 설정
-	        dateFormat: "Y-m-d", // 서버로 전송될 형식
-	        altInput: true,
-	        altFormat: "Y년 m월 d일", // 화면에 보여질 예쁜 형식
-	        disableMobile: true // 모바일에서도 이 예쁜 달력을 그대로 사용
-	    });
-	</script>
+	<!-- 취소 모달 -->
+	<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
+	    <div class="modal-dialog modal-dialog-centered" role="document">
+	        <div class="modal-content border-0 shadow">
+	            <div class="modal-header bg-light">
+	                <h5 class="modal-title font-weight-bold text-dark" id="cancelModalLabel">작성 취소</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                    <span aria-hidden="true">&times;</span>
+	                </button>
+	            </div>
+	            <div class="modal-body py-4 text-center">
+	                <i class="fas fa-exclamation-triangle text-warning fa-2x mb-3"></i>
+	                <p class="mb-0 font-weight-bold text-secondary">지금 취소하시면 입력하신 모든 내용이 사라집니다.<br>정말 판매 등록을 취소하시겠습니까?</p>
+	            </div>
+	            <div class="modal-footer border-0 bg-light">
+	                <button type="button" class="btn btn-secondary font-weight-bold" data-dismiss="modal">계속 작성하기</button>
+	                <a href="./list" class="btn btn-danger font-weight-bold px-4">작성 취소</a>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<!-- 에러 알림 모달 -->
+	<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+	    <div class="modal-dialog modal-dialog-centered" role="document">
+	        <div class="modal-content border-0 shadow">
+	            <div class="modal-header bg-danger text-white">
+	                <h5 class="modal-title font-weight-bold" id="errorModalLabel">입력 오류</h5>
+	                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+	                    <span aria-hidden="true">&times;</span>
+	                </button>
+	            </div>
+	            <div class="modal-body py-4 text-center">
+	                <i class="fas fa-exclamation-circle text-danger fa-2x mb-3"></i>
+	                <!-- 컨트롤러에서 보낸 에러메시지가 여기 출력됩니다 -->
+	                <p class="mb-0 font-weight-bold text-dark">${errorMessage}</p>
+	            </div>
+	            <input type="hidden" id="serverErrorMessage" value="${errorMessage}">
+	            
+	            <div class="modal-footer border-0 bg-light">
+	                <button type="button" class="btn btn-secondary font-weight-bold px-4" data-dismiss="modal">확인</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	<c:import url="/WEB-INF/views/temp/footer_script.jsp"></c:import>
+	<script src="/js/dealboard/create.js"></script>
 </body>
 </html>
