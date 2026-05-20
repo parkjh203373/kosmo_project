@@ -46,6 +46,8 @@ public class NotificationInterceptor implements HandlerInterceptor {
                 
                 List<DealboardDTO> soldList = dealboardService.getSoldList(loginMember);
                 
+                List<RentDTO> rentList = rentService.myRentList(rentDTO);
+                
                 WishlistDTO wishlistDTO = new WishlistDTO();
                 wishlistDTO.setUsername(loginMember.getUsername());
                 List<WishlistDTO> wishList = wishlistService.list(wishlistDTO, new Pager()); 
@@ -55,12 +57,14 @@ public class NotificationInterceptor implements HandlerInterceptor {
                 session.setAttribute("lateCount", lateList.size());
                 session.setAttribute("soldList", soldList);
                 session.setAttribute("wishCount", wishList.size());
+                session.setAttribute("rentCount", rentList.size());
 
                 // 3. 💡 ModelAndView에 직접 추가 (JSP에서 가장 확실하게 읽어오는 방법)
                 modelAndView.addObject("lateList", lateList);
                 modelAndView.addObject("lateCount", lateList.size());
                 modelAndView.addObject("soldList", soldList);
                 modelAndView.addObject("wishCount", wishList.size());
+                modelAndView.addObject("rentCount", rentList.size());
                 
             } catch (Exception e) {
                 e.printStackTrace();

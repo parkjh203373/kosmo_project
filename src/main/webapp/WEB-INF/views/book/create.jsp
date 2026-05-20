@@ -55,7 +55,7 @@
                                 <div class="card-body">
                                     <label class="font-weight-bold text-primary mb-2"><i class="fas fa-network-wired mr-1"></i> 네이버 도서 데이터베이스 검색 매핑</label>
                                     <div class="input-group">
-                                        <input type="text" id="apiSearch" class="form-control border-0 bg-light pl-3" placeholder="도서 제목 키워드를 기입해주세요.">
+                                        <input type="text" id="apiSearch" class="form-control border-0 bg-light pl-3" placeholder="도서 관련 키워드를 기입해주세요.">
                                         <div class="input-group-append">
                                             <button class="btn btn-primary px-4" type="button" id="apiSearchBtn">
                                                 <i class="fas fa-search mr-1"></i> 조회

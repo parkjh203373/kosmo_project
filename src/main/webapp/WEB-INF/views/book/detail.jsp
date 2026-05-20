@@ -143,7 +143,7 @@
 									<c:choose>
 										<c:when test="${isWish}">
 								            <button type="button" class="btn btn-link text-danger text-decoration-none small" id="deleteWishBtn" data-bn="${d.bookNum}">
-								                <i class="fas fa-heart-broken mr-1"></i> 관심도서 해제
+								                <i class="fas fa-heart-broken mr-1"></i> 관심 도서 해제
 								            </button>
 								        </c:when>
 										<c:otherwise>
@@ -153,7 +153,7 @@
 								                </button>
 								            </sec:authorize>
 								            <sec:authorize access="isAnonymous()">
-								                <button type="button" class="btn btn-light border btn-sm text-secondary px-3 py-2" onclick="if(confirm('관심도서 등록은 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?')) { location.href='/member/login?target=' + encodeURIComponent(window.location.pathname + window.location.search); }">
+								                <button type="button" class="btn btn-light border btn-sm text-secondary px-3 py-2" onclick="if(confirm('관심 도서 등록은 로그인이 필요합니다.\n로그인 페이지로 이동하시겠습니까?')) { location.href='/member/login?target=' + encodeURIComponent(window.location.pathname + window.location.search); }">
 								                    <i class="far fa-heart text-danger mr-1"></i> 찜하기
 								                </button>
 								            </sec:authorize>

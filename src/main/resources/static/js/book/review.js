@@ -11,7 +11,7 @@ if (wishBtnArea) {
         const createBtn = e.target.closest("#create");
         if (createBtn) {
 			
-			if (!confirm('관심 도서목록에 추가하시겠습니까?')) return;
+			if (!confirm('관심 도서 목록에 추가하시겠습니까?')) return;
 			
             let pn = createBtn.getAttribute("data-pn");
             let p = new URLSearchParams();
@@ -42,7 +42,7 @@ if (wishBtnArea) {
 
         const deleteWishBtn = e.target.closest("#deleteWishBtn");
         if (deleteWishBtn) {
-            if (!confirm('관심 도서목록에서 제외할까요?')) return;
+            if (!confirm('관심 도서 목록에서 제외할까요?')) return;
             
             let bn = deleteWishBtn.getAttribute("data-bn");
             let p = new URLSearchParams();
@@ -50,7 +50,7 @@ if (wishBtnArea) {
 
             fetch("/wishlist/delete", { method: "POST", body: p })
                 .then(r => {
-                    alert("관심도서 목록에서 제외되었습니다.");
+                    alert("관심 도서 목록에서 제외되었습니다.");
                     wishBtnArea.insertAdjacentHTML('afterbegin', `
                         <button type="button" class="btn btn-light border btn-sm text-secondary px-3 py-2" id="create" data-pn="${bn}">
                             <i class="far fa-heart text-danger mr-1"></i> 찜하기
