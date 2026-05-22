@@ -59,7 +59,7 @@
         <div class="text-center py-5 rounded-lg bg-white shadow-sm border border-dashed" style="border-radius: 12px; border-style: dashed !important; border-color: #e2e8f0 !important;">
             <i class="far fa-comment-dots fa-2x text-gray-300 mb-2"></i>
             <p class="text-muted small mb-0 font-weight-medium">아직 등록된 도서 리뷰가 존재하지 않습니다.</p>
-            <span class="text-xs text-light-muted">첫 번째 아카이브 감상평을 남겨보세요.</span>
+            <span class="text-xs text-light-muted">첫 번째 감상평을 남겨보세요.</span>
         </div>
     </c:otherwise>
 </c:choose>
